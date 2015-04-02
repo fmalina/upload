@@ -1,0 +1,13 @@
+<script>
+var ifr = $('iframe_form');
+ifr.style.display = 'block';
+</script>
+
+<form action="/upload" method="POST" enctype="multipart/form-data"
+    target="iframe" id="iframe_form">
+    <input  type="file" name="file" id="file" multiple="multiple">
+    <button type="submit">Start upload</button>
+    {% csrf_token %}
+</form>
+
+<iframe src="/upload" name="iframe" width=1 height=1 frameborder=0></iframe>

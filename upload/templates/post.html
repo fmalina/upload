@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block title %}Upload{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="/upload.css">
+<script src="/upload.js"></script>
+<script>
+Up.url = '{% if ad %}{{ ad.get_absolute_url }}{% endif %}/upload';
+Up.form_tpl = '{% spaceless %}{% with images.empty_form as i %}
+        {% include 'upload/image.html' %}
+        {% endwith %}{% endspaceless %}';
+window.onload=function(){Up.load();}
+</script>
+{% endblock %}
+{% block content %}
+<form action="#" method="post" enctype="multipart/form-data">
+    {{ form.as_p }}
+    {% include 'upload/form.html' %}
+    {% csrf_token %}
+    <div style="clear:both;height:30px"></div>
+    <button type="submit">Save</button>
+</form>
+{% endblock %}
