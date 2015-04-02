@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block title %}Index{% endblock %}
+{% block header %}{% endblock %}
+{% block content %}
+    <h1>Home</h1>
+    <ul>
+    {% for ad in ads %}
+        <li><a href="{{ ad.get_absolute_url }}">{{ ad.slug }}</a></li>
+    {% endfor %}
+    </ul>
+    <a href="{% url post %}">+ add another</a>
+{% endblock %}

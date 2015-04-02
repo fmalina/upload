@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block title %}Ad{% endblock %}
+{% block content %}
+    <h1>{{ ad.slug }}</h1>
+    <p><a href="{{ ad.get_absolute_url }}/edit">edit</a></p>
+    {% for img in images %}
+    <div style="float:left;width:170px">
+        <div style="float:left;width:160px;height:160px;overflow:hidden">
+            <img height="160" src="{{ img.url }}">
+        </div>
+        <small>{{ img.alt }} {{ img.fn }}</small>
+    </div>
+    {% endfor %}
+{% endblock %}
