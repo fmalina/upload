@@ -1,5 +1,7 @@
 from django.db.models import Model, CharField, ForeignKey, IntegerField
-import os, settings
+from django.conf import settings
+import os
+
 UPLOAD_ROOT = settings.MEDIA_ROOT[:-1]
 
 class User(Model): # user/site
