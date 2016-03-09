@@ -1,16 +1,20 @@
 from django.forms import ModelForm, FileField, HiddenInput, CharField
 from upload.models import Ad, File, UPLOAD_ROOT
-import os, os.path, Image
+import os
+import os.path
+from PIL import Image
 
 class AdForm(ModelForm):
     class Meta:
         model = Ad
+        exclude = []
 
 class FileForm(ModelForm):
     file_data = FileField(required=False)
     pos = CharField(required=False, widget=HiddenInput())
     class Meta:
         model = File
+        exclude = ['ad']
     
     def url(self):
         return self.instance.url()

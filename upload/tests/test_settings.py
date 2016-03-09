@@ -1,20 +1,17 @@
-DEBUG = True
-THUMBNAIL_DEBUG = DEBUG
+import os
 
 APP_ROOT = os.path.abspath(
     os.path.join(os.path.dirname(__file__), '..'))
 
+DEBUG = THUMBNAIL_DEBUG = True
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': 'upload.db',
     }
 }
-
-
 MEDIA_ROOT = APP_ROOT + 'static/'
 MEDIA_URL = 'static/'
-
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -43,5 +40,4 @@ ROOT_URLCONF = 'upload.urls'
 INSTALLED_APPS = (
     'upload',
 )
-
 SECRET_KEY = 'foobar'
