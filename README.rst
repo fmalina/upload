@@ -18,7 +18,7 @@ Uploaded files are grouped into collections, the collection model is swappable v
 upload.js builds on the following HTML5 demos:
 http://html5demos.com/dnd-upload
 http://html5demos.com/file-api
-upload.js uses the W3C File API. Repository contains backup of examples for article that initially inspired the development
+upload.js uses the W3C File API 
 https://dev.opera.com/articles/w3c-file-api/
 
 Installation (into a Django project)
