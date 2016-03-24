@@ -11,10 +11,11 @@ DATABASES = {
         'NAME': 'upload.db',
     }
 }
-MEDIA_ROOT = ''.join(APP_ROOT.rsplit('upload', 1)) + 'examples/media/'
-MEDIA_URL  = '/media/'
 STATIC_URL = '/static/'
+MEDIA_URL  = '/media/'
 STATIC_ROOT = APP_ROOT + STATIC_URL
+MEDIA_ROOT = STATIC_ROOT + 'media/'
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
