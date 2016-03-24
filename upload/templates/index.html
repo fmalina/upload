@@ -1,12 +1,12 @@
 {% extends 'base.html' %}
-{% block title %}Index{% endblock %}
+{% block title %}Uploads{% endblock %}
 {% block header %}{% endblock %}
 {% block content %}
-    <h1>Home</h1>
+    <h1>Uploads</h1>
     <ul>
-    {% for ad in ads %}
-        <li><a href="{{ ad.get_absolute_url }}">{{ ad.slug }}</a></li>
+    {% for col in collections %}
+        <li><a href="{{ col.get_absolute_url }}">#{{ col.pk }}</a></li>
     {% endfor %}
     </ul>
-    <a href="{% url post %}">+ add another</a>
+    <a href="{% url 'post' %}">+ upload collection</a>
 {% endblock %}

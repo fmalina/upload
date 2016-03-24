@@ -1,4 +1,4 @@
-import Image
+from PIL import Image
 
 def crop(left, top, width, height):
     img = Image.open('example.jpg')

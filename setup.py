@@ -9,7 +9,7 @@ setup(
     long_description=open('README.rst').read(),
     license='BSD License',
     platforms=['OS Independent'],
-    keywords='django, app, upload, photos, files, crop, gallery',
+    keywords='upload, photos, files, django, app, crop, gallery',
     author='fmalina',
     author_email='fmalina@gmail.com',
     url="https://github.com/fmalina/uploads",

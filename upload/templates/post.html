@@ -1,14 +1,15 @@
 {% extends 'base.html' %}
+{% load staticfiles %}
 {% block title %}Upload{% endblock %}
 {% block head %}
-<link rel="stylesheet" href="/upload.css">
-<script src="/upload.js"></script>
+<link rel="stylesheet" href="{% static 'upload/upload.css' %}">
+<script src="{% static 'upload/upload.js' %}"></script>
 <script>
-Up.url = '{% if ad %}{{ ad.get_absolute_url }}{% endif %}/upload';
+Up.url = '{% if col %}{{ col.get_absolute_url }}{% endif %}/upload';
 Up.form_tpl = '{% spaceless %}{% with images.empty_form as i %}
         {% include 'upload/image.html' %}
         {% endwith %}{% endspaceless %}';
-window.onload=function(){Up.load();}
+window.onload = function(){ Up.load(); }
 </script>
 {% endblock %}
 {% block content %}

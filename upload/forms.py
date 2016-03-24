@@ -1,24 +1,40 @@
-from django.forms import ModelForm, FileField, HiddenInput, CharField
-from upload.models import Ad, File, UPLOAD_ROOT
+from django.conf import settings
+from django import forms
+from upload.models import File, make_dir
+from upload.app_settings import UPLOAD
+from PIL import Image, ImageOps
+from PIL.ExifTags import TAGS
 import os
-import os.path
-from PIL import Image
 
-class AdForm(ModelForm):
-    class Meta:
-        model = Ad
-        exclude = []
+# soft rotation and flip codes
+TRANSPOSITION_CODES = {
+    0: [],
+    1: [],
+    2: [Image.FLIP_LEFT_RIGHT],
+    3: [Image.ROTATE_180],
+    4: [Image.FLIP_TOP_BOTTOM],
+    5: [Image.FLIP_TOP_BOTTOM, Image.ROTATE_270],
+    6: [Image.ROTATE_270],
+    7: [Image.FLIP_LEFT_RIGHT, Image.ROTATE_270],
+    8: [Image.ROTATE_90],
+}
 
-class FileForm(ModelForm):
-    file_data = FileField(required=False)
-    pos = CharField(required=False, widget=HiddenInput())
+
+class FileForm(forms.ModelForm):
+    file_data = forms.FileField(required=False)
+    pos = forms.CharField(required=False, initial=1, widget=forms.HiddenInput())
+
     class Meta:
         model = File
-        exclude = ['ad']
-    
+        exclude = ('ad',)
+        widgets = {'alt': forms.TextInput({'placeholder': 'Enter caption'})}
+
     def url(self):
         return self.instance.url()
-    
+
+    def path(self):
+        return self.instance.path()
+
     def save(self, ad, request):
         if self.is_valid():
             file_label = [x.id_for_label for x in self.visible_fields()
@@ -26,19 +42,21 @@ class FileForm(ModelForm):
             file_data = request.FILES.get(file_label[3:])
             f = self.cleaned_data.get('id')
             alt = self.cleaned_data.get('alt', '')
-            try: pos = int(self.cleaned_data.get('pos', ''))
-            except: pos = None
+            pos = self.cleaned_data.get('pos')
+            if not pos: # pos 0 sets the main image in ad.save()
+                pos = 1
             if f:
-                src = UPLOAD_ROOT + f.url()
+                src = UPLOAD['media_root'] + f.url()
                 f.ad = ad
-                dst = UPLOAD_ROOT + f.url()
+                dst = UPLOAD['media_root'] + f.url()
                 f.alt = alt
                 f.pos = pos
                 if src != dst: # move file from tmp to user folder
-                    try: os.makedirs(os.path.dirname(dst))
-                    except: pass
-                    try: os.rename(src, dst)
-                    except: pass
+                    make_dir(dst)
+                    try:
+                        os.rename(src, dst)
+                    except FileNotFoundError:
+                        pass
             elif file_data:
                 f = File(ad=ad, alt=alt, fn=file_data.name[:60])
                 f.save()
@@ -48,10 +66,10 @@ class FileForm(ModelForm):
                     return False
             return f
 
+
 def handle_file(data, file_obj, uid=False):
-    path = UPLOAD_ROOT + file_obj.url(uid)
-    try: os.makedirs(os.path.dirname(path))
-    except: pass
+    path = UPLOAD['media_root'] + file_obj.url(uid)
+    make_dir(path)
     f = open(path, 'wb+')
     try:
         for chunk in data.chunks():
@@ -59,13 +77,55 @@ def handle_file(data, file_obj, uid=False):
     except AttributeError: # no chunks
         f.write(data)
     f.close()
+    os.chmod(path, 0o777)
     try:
-        orig = Image.open(path)
-        x, y = orig.size
-        if x > 1024 or y > 768: # only resize images too large
-            orig.thumbnail((768, 1024), Image.ANTIALIAS)
-        orig.save(path)
-        return True
+        im = Image.open(path)
     except IOError:
         os.remove(path)
         return False
+
+    def fff(size): return Image.new('RGB', size, UPLOAD['fill_transparent'])
+
+    # add white background to semi-transparent images
+    if UPLOAD['fill_transparent'] and im.mode in ('RGBA', 'P'):
+        bg = fff(im.size)
+        im = Image.composite(im.convert('RGB'), bg, im.convert('RGBA'))
+    # process soft rotation
+    if im.mode == 'RGB':
+        orientation = 1
+        try: exif = im._getexif() or {}
+        except AttributeError: exif = {}
+        for k in exif.keys():
+            if k in TAGS.keys() and TAGS[k] == 'Orientation':
+                orientation = int(exif[k])
+        for transposition in TRANSPOSITION_CODES[orientation]:
+            im = im.transpose(transposition)
+    # convert all to RGB for JPEG
+    if im.mode != 'RGB':
+        im.convert('RGB')
+    # larger canvas for images too small
+    x, y = im.size
+    MIN = 180
+    if x < MIN or y < MIN:
+        w, h = x, y
+        if w < MIN: w = MIN
+        if h < MIN: h = MIN
+        x1 = w//2 - x//2
+        y1 = h//2 - y//2
+        im2 = fff((w, h))
+        im2.paste(im, (x1,y1,x1+x,y1+y))
+        im = im2
+    # downsize large images
+    down_to_x, down_to_y = UPLOAD['downsize_to']
+    if x > down_to_x or y > down_to_y:
+        im.thumbnail(UPLOAD['downsize_to'], Image.ANTIALIAS)
+    # crop off white edges
+    if x > MIN and y > MIN:
+        invert_im = ImageOps.invert(im)
+        im = im.crop(invert_im.getbbox())
+    im.save(path, 'JPEG')
+    return True
+
+
+class CropForm(forms.Form):
+    x,y,width,height = [forms.IntegerField(widget=forms.HiddenInput())] * 4

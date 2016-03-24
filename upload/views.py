@@ -1,58 +1,82 @@
-from django.shortcuts import render, redirect, get_object_or_404
-from django.forms.models import BaseInlineFormSet, inlineformset_factory as inline
+from django.shortcuts import get_object_or_404, render, redirect
 from django.http import HttpResponse
-from upload.models import Ad, User, File
-from upload.forms import AdForm, FileForm, handle_file
+from django.template.loader import render_to_string
+from upload.forms import handle_file, CropForm
+from upload.models import File, Collection
+from upload.utils import login_url
+from PIL import Image
 
-def index(request):
-    return render(request, 'index.html', {'ads': Ad.objects.all()})
 
-def ad(request, slug):
-    ad = get_object_or_404(Ad, slug=slug)
-    images = ad.file_set.order_by('no')
-    return render(request, 'ad.html', {'ad': ad, 'images': images})
-
-def file_set():
-    return inline(Ad, File, FileForm, BaseInlineFormSet, extra=4, can_delete=True, max_num=30)
-
-def post(request, slug=None):
-    ad = None; data = (None,)
-    if slug:
-        ad = get_object_or_404(Ad, slug=slug)
-    if request.POST and request.FILES:
-        data = (request.POST, request.FILES)
-    if request.POST:
-        data = (request.POST,)
-    form = AdForm(*data, instance=ad)
-    files = file_set()(*data, instance=ad)
-    if form.is_valid():
-        ad = form.save()
-        for file_form in files.forms:
-            f = file_form.save(ad, request)
-            if file_form.cleaned_data.get('DELETE', False):
-                f.delete()
-            elif f:
-                f.save()
-        return redirect(ad)
-    return render(request, 'post.html', {
-        'ad': ad,
-        'form': form,
-        'images': files
-    })
-
-def upload(request, slug=False):
+def upload(request, pk=False):
     data = request.FILES.get('file')
     res = 'error'
+    uid = False
     if data:
+        if request.user.is_authenticated():
+            uid = request.user.pk
         f = File(fn=data.name[:60])
-        if slug:
-            ad = get_object_or_404(Ad, slug=slug)
-            f.ad = ad
+        if pk:
+            col = get_object_or_404(Collection, pk=pk)
+            f.col = col
+            uid = col.user_id
+            # only collection owner or trusted staff users can upload
+            if not request.user.is_staff and not request.user.pk == col.user_id:
+                return HttpResponse('not permitted')
         f.save()
-        uid = False
-        # if request.user.loggedin():
-        #     uid = request.user.id
         y = handle_file(data, f, uid)
-        if y: res = "{'id':%s,'url':'%s'}" % (f.id, f.url(uid))
+        if y:
+            c = {'id': f.id, 'path': f.path(uid), 'crop': ''}
+            if f.col: c['crop'] = f.col.crop
+            res = render_to_string('upload/xhr.js', c)
         else: f.delete()
     return HttpResponse(res)
+
+
+def edit(request, pk, angle=0):
+    """
+    Handle cropping and rotation even before users signup.
+    """
+    f = get_object_or_404(File, pk=pk)
+    uid = False
+    if request.user.is_authenticated():
+        uid = request.user.pk
+    if f.col:
+        uid = f.col.user_id
+        if not request.user.is_authenticated():
+            return redirect(login_url(request.path_info))
+        # only collection owner or trusted staff users can edit
+        if not request.user.is_staff and not request.user.pk == uid:
+            return HttpResponse('not permitted')
+    p = f.path(uid)
+    try:
+        im = Image.open(p)
+    except IOError:
+        p = p.replace('tmp', str(request.user.pk))
+        im = Image.open(p)
+    # pass collection defined cropping onto thumbnail
+    # e.g. smart crop v. middle crop from top
+    crop=''
+    if f.col:
+        crop = f.col.crop()
+    if angle: # handle rotation
+        im.transpose({
+            '90': Image.ROTATE_90,
+            '270': Image.ROTATE_270
+        }[angle]).save(p)
+        return render(request, 'upload/reload-thumbnails.html', {
+            'img': f,
+            'user_id': uid, 
+            'crop': crop
+        })
+    else: # or handle cropping
+        form = CropForm(request.POST or None)
+        if form.is_valid():
+            d = form.cleaned_data
+            im.crop((d['x'], d['y'], d['x']+d['width'], d['y']+d['height'])).save(p)
+        return render(request, 'upload/crop.html', {
+            'img': f,
+            'img_url': f.url(uid),
+            'img_path': f.path(uid),
+            'crop': crop,
+            'form': form
+        })

@@ -1,0 +1,62 @@
+#droparea{display:none;text-align:center}
+#droparea #label{display:none}
+#add{margin:7px auto;width:230px}
+#add div{color:#666}
+#add{border:3px double #ddf0ff;cursor:default}
+#add,#droparea small{font-size:12px}
+#add div{background:#ddf0ff;padding:3px}
+#add div:hover{color:#333}
+
+/* mobile only */
+#up{margin-left:0}
+#up li{float:none}
+#up .upload-iOS4{font-size:12px;padding:10px;margin-bottom:10px;
+    background:#E0BB3E}
+#up .tools{left:10px}
+.upload-hint,#droparea{padding:0 10px 10px 10px}
+/* end */
+
+/* desktop only */
+@media (min-width: 48em) {
+#droparea{
+    border:2px dashed #ccc;padding:20px;width:526px;float:right;
+    font-size:20px;margin-right:10px;margin-bottom:10px;color:#999;
+    border-radius:4px
+}
+#droparea #label{display:block}
+#droparea.hover,
+#droparea:hover{border:2px dashed #999}
+}
+/* end */
+
+
+.tools-bg{opacity:.4;background:#fff;height:35px}
+.tools,.tools-bg{position:absolute;top:140px;left:0;width:182px}
+i.choose-cover{position:relative;padding-right:7px;opacity:.2;float:left}
+.tools a b,
+i.choose-cover{display:inline-block;background:url(./img/image-tools.png) no-repeat;
+    width:24px;height:24px}
+.tools .cover b,i.choose-cover{background-position:-34px 0}
+.tools{text-align:center;color:#000}
+.tools a b{margin:5px}
+.tools .r90 b{background-position:-68px 0}
+.tools .crop b{background-position:-98px 0}
+.tools a{opacity:.4}
+.tools a:hover{opacity:1}
+.tools .delete{position:absolute;right:7px;top:47px;color:gray}
+.tools .bubble .tip{bottom:-14px}
+.tools .cover{position:relative}
+.tools .crop{position:absolute;right:10px;top:0}
+.tools .main{display:inline;opacity:1}
+
+.photo-edit{float:left;position:relative;width:192px;height:215px}
+.photo-edit:hover a{display:inline;text-decoration:none}
+
+.photo{background:#fff url(./img/upload-spinner.gif) 50% 50% no-repeat;
+    width:182px;height:182px;text-align:center;overflow:hidden}
+.photo .img{height:180px;width:180px}
+.photo span{position:absolute;top:160px;left:10px;width:162px;
+    background:rgba(255,255,255,0.3);display:none}
+.photo span,.photo i{height:5px;border:1px solid #aaa}
+.photo i{border-width:0 1px 0 0;background:#ddf0ff;display:block;width:0}
+#w .caption input{width:146px;padding:4px 30px 4px 4px;font-size:12px}
