@@ -1,1 +1,2 @@
-[{"pk": 1, "model": "upload.user", "fields": {"slug": "Hello"}}, {"pk": 1, "model": "upload.ad", "fields": {"user": 1, "slug": "Gallery"}}]
+[{"pk": 1, "model": "upload.user", "fields": {"slug": "Hello"}},
+  {"pk": 1, "model": "upload.col", "fields": {"user": 1, "slug": "Gallery"}}]

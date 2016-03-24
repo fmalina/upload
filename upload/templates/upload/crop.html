@@ -1,0 +1,73 @@
+{% load thumbnail %}
+{% load staticfiles %}
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Crop</title>
+<style>
+body, div{margin:0;padding:0;outline:0}
+body{font:12px sans-serif}
+#w{margin:25px;text-align:center}
+#overlay{position:absolute;opacity:.5;background-color:#fff;overflow:hidden}
+#outline{position:absolute;opacity:.5;background:#fff url('{% static 'upload/img/image-crop-outline.gif' %}');overflow:hidden}
+#trigger{position:absolute;opacity:0 ;background-color:#000}
+.resize-handler{opacity:.5;position:absolute;background-color:#000;border:1px #fff solid;height:7px;width:7px;overflow:hidden}
+.image-decorator{background:#eee;border:1px solid #ddd;box-shadow:0 0 6px #ccc;display:inline-block;padding:5px;text-align:left}
+button{font-size:13px}
+.home-link{display:inline-block;margin-left:35px}
+</style>
+<script src="//code.jquery.com/jquery.min.js"></script>
+<script src="{% static 'upload/crop.js' %}"></script>
+<script>
+$(function(){  
+    $('#crop-me').imageCrop({onSelect: updateForm});
+});
+var areaExists = false;
+function updateForm(crop){
+    function update(name, value){
+        $('#id_'+name).val(parseInt(value, 10));
+    }
+    update('x', crop.areaX);
+    update('y', crop.areaY);
+    update('width', crop.areaWidth);
+    update('height', crop.areaHeight);
+    areaExists = crop.areaExists();
+}
+function validateForm(){
+    if(!areaExists){
+        alert('Please select an area first!');
+        return false;
+    }
+}
+function close_window(){
+    var original = $("a[href$='crop/{{ img.pk }}']", window.opener.document).parent().parent().find('img:first');
+    original.attr('src', original.attr('src') + '?' + Date.now());
+    window.close();
+}
+</script>
+</head>
+<body>
+<div id="w">
+    <form action="#" method="post" onsubmit="return validateForm();">
+        <p><noscript><b>This feature requires JavaScript.</b></noscript>
+           {% for hidden in form.hidden_fields %}{{hidden}}{% endfor %}
+           {% csrf_token %}
+           {{ form.errors }}
+        <p>Select area of the image that you wish to keep and&hellip;
+        <p><button type="submit">Crop image to selected area</button>
+        <p>Done cropping?
+            <button onclick="close_window();return false;">
+                Finish and Close</button>
+            <a href="/" class="home-link">Home &rarr;</a>
+    </form>
+    <div class="image-decorator">
+        <img id="crop-me" src="{{ img_url }}?{% now "U" %}" alt="">
+    </div>
+    {% thumbnail img_path 180x180 crop=crop as thumb %}
+    <p>Thumbnail: <br>
+        <img height="50" width="50"
+            src="{{ thumb.absolute_url }}?{% now "U" %}" alt="">
+</div>
+</body>
+</html>

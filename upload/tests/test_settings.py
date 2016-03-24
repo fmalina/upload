@@ -3,15 +3,18 @@ import os
 APP_ROOT = os.path.abspath(
     os.path.join(os.path.dirname(__file__), '..'))
 
-DEBUG = THUMBNAIL_DEBUG = True
+DEBUG = True
+THUMBNAIL_DEBUG = False
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': 'upload.db',
     }
 }
-MEDIA_ROOT = APP_ROOT + 'static/'
-MEDIA_URL = 'static/'
+MEDIA_ROOT = ''.join(APP_ROOT.rsplit('upload', 1)) + 'examples/media/'
+MEDIA_URL  = '/media/'
+STATIC_URL = '/static/'
+STATIC_ROOT = APP_ROOT + STATIC_URL
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -34,10 +37,24 @@ TEMPLATES = [
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
-    'upload.middleware.ServerError'
 )
-ROOT_URLCONF = 'upload.urls'
+ROOT_URLCONF = 'upload.tests.test_urls'
 INSTALLED_APPS = (
     'upload',
+    'easy_thumbnails',
+    'django.contrib.staticfiles',
+
+    # auth for collection models that relate to user
+    'django.contrib.auth',
+    'django.contrib.sessions',
+    'django.contrib.contenttypes',
 )
+THUMBNAIL_ALIASES = {
+    '': {
+        'large':  {'size': (400, 400), 'crop': True},
+        'medium': {'size': (180, 180), 'crop': True},
+        'small':  {'size': (100, 100), 'crop': True},
+        'tiny':   {'size': (50, 50),   'crop': True},
+    },
+}
 SECRET_KEY = 'foobar'

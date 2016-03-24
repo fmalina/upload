@@ -1,46 +1,63 @@
-from django.db.models import Model, CharField, ForeignKey, IntegerField
+from django.db import models
 from django.conf import settings
-import os
+from upload.utils import img_url
+from upload.app_settings import UPLOAD
+import os, os.path
 
-UPLOAD_ROOT = settings.MEDIA_ROOT[:-1]
 
-class User(Model): # user/site
-    slug = CharField(max_length=20, unique=True)
-    
-    def __unicode__(self):
-        return self.slug
+class File(models.Model):
+    col = models.ForeignKey(UPLOAD['collection_model'], blank=True, null=True)
+    no  = models.IntegerField('legacy #', blank=True, null=True, editable=False)
+    pos = models.IntegerField('order position', blank=True, null=True)
+    alt = models.CharField(max_length=60, blank=True)
+    fn  = models.CharField('original filename', max_length=60, blank=True, editable=False)
 
-class Ad(Model): # ad/page
-    user = ForeignKey(User)
-    slug = CharField(max_length=20, unique=True)
-    
-    def get_absolute_url(self):
-        return '/'+ self.slug
-
-class File(Model):
-    ad  = ForeignKey(Ad, blank=True, null=True)
-    no  = IntegerField(blank=True, null=True, editable=False) # old ID
-    pos = IntegerField(blank=True, null=True) # order position
-    alt = CharField('alternative text' , max_length=60, blank=True)
-    fn  = CharField('original filename', max_length=60, blank=True)
-    
     def url(self, uid=False):
-        folder = '/tmp'
-        if self.ad: uid = self.ad.user_id
-        if uid:
-            ext3_sub = uid / (32000-2) # subfolders limit workaround
-            folder = '/%s/%s' % (ext3_sub, uid)
+        if not uid and self.col:
+            uid = self.col.user_id
+        n = None
         if self.id:
             n = self.id
-            if self.no != None: n = self.no # legacy url
-            return folder + '/%s.jpg' % n
-        return ''
-    
+            if self.no != None: # legacy url
+                n = self.no
+        return img_url(n, uid)
+
+    def path(self, uid=False):
+        return UPLOAD['media_root'] + self.url(uid)
+
     def delete(self, *args, **kwargs):
-        path = UPLOAD_ROOT + self.url()
-        try: os.unlink(path)
-        except: pass
+        path = UPLOAD['media_root'] + self.url()
+        try:
+            os.unlink(path)
+        except FileNotFoundError:
+            pass
         super(File, self).delete(*args, **kwargs)
-    
+
+    def __str__(self):
+        return str(self.pk)
+
+    def get_absolute_url(self):
+        return self.url()
+
     class Meta:
-        db_table = 'images' # or 'files'
+        ordering = ['col', 'pos']
+
+
+class Collection(models.Model):
+    """Swappable using collection_model setting.
+    """
+    user = models.ForeignKey(settings.AUTH_USER_MODEL)
+
+    def crop(self):
+        return ''
+
+    def get_absolute_url(self):
+        return '/'+ self.pk
+
+
+def make_dir(path):
+    try:
+        dirname = os.path.dirname(path)
+        os.makedirs(dirname)
+    except FileExistsError:
+        pass

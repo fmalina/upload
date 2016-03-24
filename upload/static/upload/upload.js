@@ -1,5 +1,6 @@
 function ID(id){return document.getElementById(id);}
 function N1(t,e){return e.getElementsByTagName(t)[0];}
+
 var Up = {
 	tests: {
 		filereader: typeof FileReader != 'undefined',

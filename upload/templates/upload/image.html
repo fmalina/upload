@@ -1,10 +1,19 @@
+{% load thumbnail %}
 <div class="photo-edit">
     <div class="photo">
-        <img height="160" src="{{ i.url }}">
         <span><i></i></span>
+        {% thumbnail i.path 180x180 crop=col.crop as thumb %}
+        <img class="img" height="160" src="{{ thumb.absolute_url }}">
     </div>
-    {{ i.alt }}
-    <label title="delete image">{{ i.DELETE }} &times;</label>
+    <div class="tools-bg"></div>
+    <div class="tools{% if not i.id.value %} hide{% endif %}">
+        <a target="tools" href="/rotate/{{ i.id.value }}/270" class="rotate r90-" title="rotate clockwise"><b></b></a>
+        <a target="tools" href="#now" class="cover{% if i.pos.value == 0 %} main{% endif %}" title="Set as main image."><b></b></a>
+        <a target="tools" href="/rotate/{{ i.id.value }}/90" class="rotate r90" title="rotate anti-clockwise"><b></b></a>
+        <a target="crop{{ i.id.value }}" href="/crop/{{ i.id.value }}" class="crop" title="Crop image"><b></b></a>
+        <label class="delete" title="Mark for deletion.">&times; {{ i.DELETE }}</label>
+    </div>
+    <div class="caption">{{ i.alt }}</div>
     {{ i.pos }}
     {{ i.id }}
 </div>

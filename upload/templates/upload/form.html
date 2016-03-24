@@ -1,3 +1,21 @@
+{% load staticfiles %}
+<div id="up">
+<div id="droparea">
+    <div id="label">
+        <img src="{% static 'upload/img/upload-image.png' %}"
+            width="32" height="32"
+            alt="" style="position:relative;left:15px">
+        <img src="{% static 'upload/img/upload-arrow.png' %}"
+            width="24" height="24"
+            alt="" style="position:relative;left:-36px;top:10px">
+        Drop your photos <!--item--> here<br>
+        <small>or if you prefer</small>
+    </div>
+    <div id="add"><div>+ choose photos from your device</div></div>
+</div>
+
+<div id="drop"></div>
+
 {% for i in images %}
     {% if i.instance.pk %}
         {% include 'upload/image.html' %}
@@ -12,14 +30,9 @@
     {% endif %}
 {% endfor %}
 
-<div id="drop">
-    <div id="droparea">
-        <img src="/i/upload-image.png" width="32" height="32" alt="" style="position:relative;left:15px">
-        <img src="/i/upload-arrow.png" width="24" height="24" alt="" style="position:relative;left:-36px;top:10px">
-        <p>Drop your photos <!--item--> here</p>
-    </div>
-    <button id="add" type="submit">Add your photos&hellip;</button>
-</div>
-<input  type="file" name="file" id="file" multiple="multiple" style="display:none">
+<input type="file" name="file" id="file" multiple="multiple" 
+    style="display:none">
 
 {{ images.management_form }}
+
+</div>
