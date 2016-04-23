@@ -5,6 +5,7 @@ HTML5 upload with photo rotate/crop tools and Django backend
     :target: https://travis-ci.org/fmalina/upload
 
 A reusable Django app to work with photo and file uploads.
+Extracted from FlatmateRooms photo upload feature https://www.FlatmateRooms.co.uk/post (please don't save if testing)
 
 - contains native JavaScript multifile drag and drop upload UI with instant thumbnails and progress bars, see upload/static/upload.js
 - python/PIL backend for upload, cropping and rotation of photos
