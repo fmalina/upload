@@ -27,8 +27,8 @@ class Migration(migrations.Migration):
             name='File',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('no', models.IntegerField(blank=True, editable=False, null=True)),
-                ('pos', models.IntegerField(blank=True, null=True)),
+                ('no', models.IntegerField(blank=True, editable=False, null=True, verbose_name='legacy #')),
+                ('pos', models.IntegerField(blank=True, null=True, verbose_name='order position')),
                 ('alt', models.CharField(blank=True, max_length=60)),
                 ('fn', models.CharField(blank=True, editable=False, max_length=60, verbose_name='original filename')),
                 ('col', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='upload.Collection')),
