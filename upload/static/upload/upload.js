@@ -113,8 +113,13 @@ var Up = {
 	}
 }
 
-// UI: jQuery dependent
+function supportsFileInput(){
+	var test = document.createElement("input");
+	test.setAttribute("type", "file");
+	return test.disabled === false;
+}
 
+// UI: jQuery dependent
 function tooltip(e, id, message, confirm, x, y){
 	var ok = '';
 	if(confirm){
