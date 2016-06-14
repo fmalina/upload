@@ -1,6 +1,5 @@
 function ID(id){return document.getElementById(id);}
 function N1(t,e){return e.getElementsByTagName(t)[0];}
-
 var Up = {
 	tests: {
 		filereader: typeof FileReader != 'undefined',
@@ -17,16 +16,25 @@ var Up = {
 			id = 'id_file_set-' + total.value + '-',
 			tmp = document.createElement('div');
 		tmp.innerHTML = form; form = tmp.firstChild; form.id = id;
-		drop.parentNode.insertBefore(form, drop);
-		total.value = parseInt(total.value) + 1;
+		drop.parentNode.insertBefore(form, drop.nextSibling);
+		total.value = parseInt(total.value, 10) + 1;
 		return id;
 	},
 	fill_form: function(id, xhr_response){
-		console.log(xhr_response);
 		var data = eval('(' + xhr_response + ')'); // safe source
-		var img = N1('img', ID(id));
+		var box = ID(id);
+		var img = N1('img', box);
 		img.src = data.url;
 		ID(id+'id').value = data.id;
+		var tools = box.getElementsByTagName('a');
+		var toolbox = box.querySelector('.tools');
+		toolbox.className = toolbox.className.replace(' hide', ''); // show tools
+		for(var i=0; i<tools.length; i++){
+			var e = tools[i];
+			if(e.href.indexOf('None') > -1){
+				e.href = e.href.replace('None', data.id);
+			};
+		}
 	},
 	post: function(i, data){
 		return function(){
@@ -34,10 +42,16 @@ var Up = {
 			var id = Up.add_form();
 			xhr.onreadystatechange = function(){
 				if(xhr.readyState==4){
-					Up.fill_form(id, xhr.responseText);
+					if(xhr.responseText=='error'){
+						var box = ID(id);
+						box.parentNode.removeChild(box);
+						alert('Upload a valid image. The file you uploaded was either not an image or corrupted. Check our FAQ for hints.');
+					} else {
+						Up.fill_form(id, xhr.responseText);
+					}
 				}
 			};
-			// Progress bar shows how much we've got
+			// Progress bar shows how much we got
 			var bar = N1('span', ID(id));
 			var got = N1('i', bar);
 			bar.style.display = 'block';
@@ -75,8 +89,7 @@ var Up = {
 	},
 	load: function(){
 		var d = ID('droparea'),
-			file = ID('file'),
-			add = ID('add');
+			file = ID('file');
 		if(Up.tests.dnd && Up.tests.filereader){
 			d.style.display = 'block';
 			d.ondragover = function( ){this.className='hover';return false;}
@@ -87,10 +100,9 @@ var Up = {
 			}
 		}
 		if(Up.tests.filereader){
-			add.style.display = 'block';
 			var rm = document.getElementsByClassName('default-upload');
 			for(var i=rm.length;i--;){rm[i].parentNode.removeChild(rm[i]);}
-			add.onclick = d.onclick = function(e){
+			d.onclick = function(e){
 				e.preventDefault();
 				file.click();
 			}
@@ -100,3 +112,53 @@ var Up = {
 		}
 	}
 }
+
+// UI: jQuery dependent
+
+function tooltip(e, id, message, confirm, x, y){
+	var ok = '';
+	if(confirm){
+		ok="<br><a href='#oknow' onclick=\"$('."+id+"').fadeOut('fast');\">"+confirm+"</a>";
+	}
+	e.append("<div class='bubble "+id+"'>"+message+ok+"<i class='tip'></i></div>");
+	$('.'+id).css({
+		left: e.position().left + x + 'px',
+		top: e.position().top - y + 'px'
+	});
+}
+
+$(function(){
+	// upload
+	function addTooltip(e, x, y){
+		tooltip(e, "tooltip", e.attr('title'), false, x, y);}
+	function rmTooltip(e){e.find(".bubble:last").remove();}
+	$(document).on({
+	    mouseenter: function(){addTooltip($(this), -72, 73)},
+	    mouseleave: function(){rmTooltip($(this))}
+	}, '.cover');
+	$(document).on({
+	    mouseenter: function(){addTooltip($(this), -152, 84)},
+	    mouseleave: function(){rmTooltip($(this))}
+	}, '.delete');
+	$(document).on('click', '.rotate', function(e){
+		e.preventDefault();
+		var e=$(this);
+		var i = e.parent().parent().find('.img')[0];
+		$.get(e.attr('href'), function(){
+			i.style.opacity = '0';
+			bg = i.src;
+			i.src = bg + '?';
+			$(i).animate({opacity: 1}, 400);
+		});
+	});
+	$(document).on('click', '.cover', function(e){
+		e.preventDefault();
+		var e=$(this);
+		var p = e.parents('.photo-edit');
+		var pos = 'input[name$="pos"]';
+		$('input[name$="pos"]').val('1');
+		$('.cover').removeClass('main');
+		p.find('input[name$="pos"]').val('0');
+		e.addClass('main');
+	});
+});
