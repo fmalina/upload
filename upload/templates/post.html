@@ -3,14 +3,9 @@
 {% block title %}Upload{% endblock %}
 {% block head %}
 <link rel="stylesheet" href="{% static 'upload/upload.css' %}">
+<script src="//code.jquery.com/jquery.min.js"></script>
 <script src="{% static 'upload/upload.js' %}"></script>
-<script>
-Up.url = '{% if col %}{{ col.get_absolute_url }}{% endif %}/upload';
-Up.form_tpl = '{% spaceless %}{% with images.empty_form as i %}
-        {% include 'upload/image.html' %}
-        {% endwith %}{% endspaceless %}';
-window.onload = function(){ Up.load(); }
-</script>
+<script>{% include 'upload/init.html.js' %}</script>
 {% endblock %}
 {% block content %}
 <form action="#" method="post" enctype="multipart/form-data">
