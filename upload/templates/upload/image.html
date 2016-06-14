@@ -7,6 +7,7 @@
     </div>
     <div class="tools-bg"></div>
     <div class="tools{% if not i.id.value %} hide{% endif %}">
+        {# Don't break these long lines, they must go in Up.form_tpl spaceless #}
         <a target="tools" href="/rotate/{{ i.id.value }}/270" class="rotate r90-" title="rotate clockwise"><b></b></a>
         <a target="tools" href="#now" class="cover{% if i.pos.value == 0 %} main{% endif %}" title="Set as main image."><b></b></a>
         <a target="tools" href="/rotate/{{ i.id.value }}/90" class="rotate r90" title="rotate anti-clockwise"><b></b></a>
