@@ -10,7 +10,7 @@ Speed tips:
 
 $ ./manage.py sync_uploads [START_PK]
 """
-from django.core.management.base import NoArgsCommand
+from django.core.management.base import BaseCommand
 from dashboard.management.commands import spoonfeed
 from upload.models import File, make_dir
 from django.conf import settings
@@ -21,10 +21,10 @@ import time
 import os
 import os.path
 
-def download(file):
-    """Download files from live server, delete recerds of those that 404.
+
+def download(url, file):
+    """Handle downloading of images from any URL, delete file recerds when 404.
     """
-    url = 'https://www.' + settings.DOMAIN.partition('.')[2] + file.url()
     try:
         print(url)
         return urllib.request.urlopen(url, timeout=15).read()
@@ -36,19 +36,23 @@ def download(file):
         print(e.args, url)
     return ''
 
-def get_missing(file):
+
+def get_missing(file, url=None):
     """Check file exists, download if not.
     """
+    if not url:
+        url = 'https://www.' + settings.DOMAIN.partition('.')[2] + file.url()
     path = file.path()
     if file.ad_id and not os.path.exists(path):
         make_dir(path)
-        data = download(file)
+        data = download(url, file)
         if data:
             f = open(path, 'wb')
             f.write(data)
             f.close()
 
-class Command(NoArgsCommand):
+
+class Command(BaseCommand):
     def handle(self, *args, **options):
         start=0
         if args:
