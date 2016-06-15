@@ -12,7 +12,7 @@ setup(
     keywords='upload, photos, files, django, app, crop, gallery',
     author='fmalina',
     author_email='fmalina@gmail.com',
-    url="https://github.com/fmalina/uploads",
+    url="https://github.com/fmalina/upload",
     packages=find_packages(),
     include_package_data=True,
     install_requires=open('requirements.txt').read().split(),
