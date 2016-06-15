@@ -2,9 +2,11 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.http import HttpResponse
 from django.template.loader import render_to_string
 from upload.forms import handle_file, CropForm
-from upload.models import File, Collection
-from upload.utils import login_url
+from upload.models import File
+from upload.utils import get_collection_model, login_url
 from PIL import Image
+
+Collection = get_collection_model()
 
 
 def upload(request, pk=False):
