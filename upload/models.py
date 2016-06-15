@@ -1,12 +1,12 @@
 from django.db import models
 from django.conf import settings
 from upload.utils import img_url
-from upload.app_settings import UPLOAD
+from upload import app_settings
 import os, os.path
 
 
 class File(models.Model):
-    col = models.ForeignKey(UPLOAD['collection_model'], blank=True, null=True)
+    col = models.ForeignKey(app_settings.UPLOAD_COLLECTION_MODEL, blank=True, null=True)
     no  = models.IntegerField('legacy #', blank=True, null=True, editable=False)
     pos = models.IntegerField('order position', blank=True, null=True)
     alt = models.CharField(max_length=60, blank=True)
@@ -23,10 +23,10 @@ class File(models.Model):
         return img_url(n, uid)
 
     def path(self, uid=False):
-        return UPLOAD['media_root'] + self.url(uid)
+        return app_settings.UPLOAD_MEDIA_ROOT + self.url(uid)
 
     def delete(self, *args, **kwargs):
-        path = UPLOAD['media_root'] + self.url()
+        path = app_settings.UPLOAD_MEDIA_ROOT + self.url()
         try:
             os.unlink(path)
         except FileNotFoundError:
