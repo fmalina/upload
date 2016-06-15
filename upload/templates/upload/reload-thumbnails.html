@@ -5,14 +5,13 @@ Image is now rotated in the background.
 You can close this window now and save your work to see the result.
 <!--
 Reloading thumbnails:
-{% thumbnail 'x' 400x400 crop=crop as thumb1 %}{{ thumb1.absolute_url }} large
-{% thumbnail 'x' 180x180 crop=crop as thumb2 %}{{ thumb2.absolute_url }} medium
-{% thumbnail 'x' 100x100 crop=crop as thumb3 %}{{ thumb3.absolute_url }} small
-{% thumbnail 'x' 50x50   crop=crop as thumb4 %}{{ thumb4.absolute_url }} tiny
+{% thumbnail img.path 400x400 crop=crop as thumb1 %}{{ thumb1.absolute_url }} large
+{% thumbnail img.path 180x180 crop=crop as thumb2 %}{{ thumb2.absolute_url }} medium
+{% thumbnail img.path 100x100 crop=crop as thumb3 %}{{ thumb3.absolute_url }} small
+{% thumbnail img.path 50x50   crop=crop as thumb4 %}{{ thumb4.absolute_url }} tiny
 
-Rewrite to use THUMBNAIL_ALIASES:
-{% for size, crop in thumb_aliases %}
-{% endfor %}
+TODO: rewrite to use THUMBNAIL_ALIASES
+{#% for size, crop in thumb_aliases %}{% endfor %#}
 -->
 </body>
 <html>
