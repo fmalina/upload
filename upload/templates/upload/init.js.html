@@ -1,3 +1,7 @@
+{% load staticfiles %}
+<link rel="stylesheet" href="{% static 'upload/upload.css' %}">
+<script src="{% static 'upload/upload.js' %}"></script>
+<script>
 // upload
 Up.url = '{% if col %}/{{ col.pk }}{% endif %}/upload';
 Up.form_tpl = '{% spaceless %}{% with images.empty_form as i %}
@@ -16,3 +20,4 @@ $(function(){
 	}
 	Up.load();
 });
+</script>

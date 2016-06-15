@@ -1,11 +1,8 @@
 {% extends 'base.html' %}
-{% load staticfiles %}
 {% block title %}Upload{% endblock %}
 {% block head %}
-<link rel="stylesheet" href="{% static 'upload/upload.css' %}">
 <script src="//code.jquery.com/jquery.min.js"></script>
-<script src="{% static 'upload/upload.js' %}"></script>
-<script>{% include 'upload/init.html.js' %}</script>
+{% include 'upload/init.js.html' %}
 {% endblock %}
 {% block content %}
 <form action="#" method="post" enctype="multipart/form-data">
