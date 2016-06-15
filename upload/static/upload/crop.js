@@ -18,6 +18,8 @@
 		var op = defaultOptions;
 		setOptions(customOptions);
 		var $image = $(object);
+		var $holder = $('<div />').css({position: 'relative'}).width($image.width()).height($image.height());
+		$image.wrap($holder).css({position: 'absolute'});
 		var $overlay = $('<div id="overlay" />').width($image.width()).height($image.height()).insertAfter($image);
 		var $trigger = $('<div id="trigger" />').width($image.width()).height($image.height()).insertAfter($overlay);
 		var $outline = $('<div id="outline" />').insertAfter($trigger);
