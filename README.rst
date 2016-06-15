@@ -46,7 +46,7 @@ settings.py:
 
 ::
 
-    UPLOAD['collection_model'] = 'yourcastleapp.Castle'
+    UPLOAD_COLLECTION_MODEL = 'yourcastleapp.Castle'
 
 Add the ``upload`` URLs to your ``urls.py``
 

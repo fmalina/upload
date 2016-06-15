@@ -1,7 +1,7 @@
 from django.conf import settings
 from django import forms
 from upload.models import File, make_dir
-from upload.app_settings import UPLOAD
+from upload import app_settings
 from PIL import Image, ImageOps
 from PIL.ExifTags import TAGS
 import os
@@ -46,9 +46,9 @@ class FileForm(forms.ModelForm):
             if not pos: # pos 0 sets the main image in ad.save()
                 pos = 1
             if f:
-                src = UPLOAD['media_root'] + f.url()
+                src = app_settings.UPLOAD_MEDIA_ROOT + f.url()
                 f.ad = ad
-                dst = UPLOAD['media_root'] + f.url()
+                dst = app_settings.UPLOAD_MEDIA_ROOT + f.url()
                 f.alt = alt
                 f.pos = pos
                 if src != dst: # move file from tmp to user folder
@@ -68,7 +68,7 @@ class FileForm(forms.ModelForm):
 
 
 def handle_file(data, file_obj, uid=False):
-    path = UPLOAD['media_root'] + file_obj.url(uid)
+    path = app_settings.UPLOAD_MEDIA_ROOT + file_obj.url(uid)
     make_dir(path)
     f = open(path, 'wb+')
     try:
@@ -84,10 +84,10 @@ def handle_file(data, file_obj, uid=False):
         os.remove(path)
         return False
 
-    def fff(size): return Image.new('RGB', size, UPLOAD['fill_transparent'])
+    def fff(size): return Image.new('RGB', size, app_settings.UPLOAD_FILL_ALPHA)
 
     # add white background to semi-transparent images
-    if UPLOAD['fill_transparent'] and im.mode in ('RGBA', 'P'):
+    if app_settings.UPLOAD_FILL_ALPHA and im.mode in ('RGBA', 'P'):
         bg = fff(im.size)
         im = Image.composite(im.convert('RGB'), bg, im.convert('RGBA'))
     # process soft rotation
@@ -116,9 +116,9 @@ def handle_file(data, file_obj, uid=False):
         im2.paste(im, (x1,y1,x1+x,y1+y))
         im = im2
     # downsize large images
-    down_to_x, down_to_y = UPLOAD['downsize_to']
+    down_to_x, down_to_y = app_settings.UPLOAD_DOWNSIZE_TO
     if x > down_to_x or y > down_to_y:
-        im.thumbnail(UPLOAD['downsize_to'], Image.ANTIALIAS)
+        im.thumbnail(app_settings.UPLOAD_DOWNSIZE_TO, Image.ANTIALIAS)
     # crop off white edges
     if x > MIN and y > MIN:
         invert_im = ImageOps.invert(im)
