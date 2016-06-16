@@ -120,31 +120,8 @@ function supportsFileInput(){
 }
 
 // UI: jQuery dependent
-function tooltip(e, id, message, confirm, x, y){
-	var ok = '';
-	if(confirm){
-		ok="<br><a href='#oknow' onclick=\"$('."+id+"').fadeOut('fast');\">"+confirm+"</a>";
-	}
-	e.append("<div class='bubble "+id+"'>"+message+ok+"<i class='tip'></i></div>");
-	$('.'+id).css({
-		left: e.position().left + x + 'px',
-		top: e.position().top - y + 'px'
-	});
-}
 
 $(function(){
-	// upload
-	function addTooltip(e, x, y){
-		tooltip(e, "tooltip", e.attr('title'), false, x, y);}
-	function rmTooltip(e){e.find(".bubble:last").remove();}
-	$(document).on({
-	    mouseenter: function(){addTooltip($(this), -72, 73)},
-	    mouseleave: function(){rmTooltip($(this))}
-	}, '.cover');
-	$(document).on({
-	    mouseenter: function(){addTooltip($(this), -152, 84)},
-	    mouseleave: function(){rmTooltip($(this))}
-	}, '.delete');
 	$(document).on('click', '.rotate', function(e){
 		e.preventDefault();
 		var e=$(this);
