@@ -43,7 +43,7 @@ def get_missing(file, url=None):
     if not url:
         url = 'https://www.' + settings.DOMAIN.partition('.')[2] + file.url()
     path = file.path()
-    if file.ad_id and not os.path.exists(path):
+    if file.col_id and not os.path.exists(path):
         make_dir(path)
         data = download(url, file)
         if data:
