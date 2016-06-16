@@ -21,7 +21,7 @@ def load_image(a):
     ad = a.user.ad_set.first()
 
     if ad and not ad.file_set.filter(alt='me'):
-        f = File(fn='', alt='me', pos=99, ad=ad)
+        f = File(fn='', alt='me', pos=99, col=ad)
         f.save()
         get_missing(f, url=url)
         print(f.url())
