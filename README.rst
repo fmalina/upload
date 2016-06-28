@@ -66,6 +66,11 @@ Create your tables
 
 Usage
 -----
+
+Integration
+~~~~~~~~~~~
+See ``tests/test_urls.py`` and ``test_views.py`` for simple integration. An important view to reuse or use as inspiration in a custom integration is ``views_post.FilesEditView``.
+
 Setup a collection
 ~~~~~~~~~~~~~~~~~~
 This app supports multiple collections (or your custom model) with
@@ -86,7 +91,7 @@ Included is also a backup management tool to sync/download publicly uploaded fil
 
 Planned features
 ----------------
-Current storage layout presumes collections to be related to users, which will be addressed in the next update.
+Current storage layout presumes collections to be related to users, which may be addressed if required.
 
 Contribute
 ----------
