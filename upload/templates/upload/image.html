@@ -6,14 +6,16 @@
         <img class="img" height="160" src="{{ thumb.absolute_url }}">
     </div>
     <div class="tools-bg"></div>
-    <div class="tools{% if not i.id.value %} hide{% endif %}">
+    {% with pk=i.id.value|default_if_none:0 %}
+    <div class="tools{% if not pk %} hide{% endif %}">
         {# Don't break these long lines, they must go in Up.form_tpl spaceless #}
-        <a target="tools" href="/rotate/{{ i.id.value }}/270" class="rotate r90-" title="rotate clockwise"><b></b></a>
+        <a target="tools" href="{% url 'rotate' 270 pk %}" class="rotate r90-" title="rotate clockwise"><b></b></a>
         <a target="tools" href="#now" class="cover{% if i.pos.value == 0 %} main{% endif %}" title="Set as main image."><b></b></a>
-        <a target="tools" href="/rotate/{{ i.id.value }}/90" class="rotate r90" title="rotate anti-clockwise"><b></b></a>
-        <a target="crop{{ i.id.value }}" href="/crop/{{ i.id.value }}" class="crop" title="Crop image"><b></b></a>
+        <a target="tools" href="{% url 'rotate' 90 pk %}" class="rotate r90" title="rotate anti-clockwise"><b></b></a>
+        <a target="crop{{ pk }}" href="{% url 'crop' pk %}" class="crop" title="Crop image"><b></b></a>
         <label class="delete" title="Mark for deletion.">&times; {{ i.DELETE }}</label>
     </div>
+    {% endwith %}
     <div class="caption">{{ i.alt }}</div>
     {{ i.pos }}
     {{ i.id }}

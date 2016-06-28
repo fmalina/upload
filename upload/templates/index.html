@@ -4,7 +4,7 @@
 {% block content %}
     <h1>Uploads</h1>
     <ul>
-    {% for col in collections %}
+    {% for col in list %}
         <li><a href="{{ col.get_absolute_url }}">#{{ col.pk }}</a></li>
     {% endfor %}
     </ul>

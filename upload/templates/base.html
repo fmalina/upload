@@ -4,13 +4,17 @@
 <meta charset="utf-8">
 <title>{% block title %}{% endblock %}</title>
 <style>
-body{font-family:sans-serif}
+body{font:.8em sans-serif;color:#333;}
 #c,#h{width:680px;margin:0 auto}
 </style>
 {% block head %}{% endblock %}
 </head>
     <body>
-        <div id="h">{% block header %}<a href='/'>&larr; home</a>{% endblock %}</div>
+        <div id="h">
+            {% block header %}
+            <p><a href='/'>&larr; home</a>
+            {% endblock %}
+        </div>
         <div id="c">{% block content %}{% endblock %}</div>
     </body>
 </html>

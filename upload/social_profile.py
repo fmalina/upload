@@ -1,34 +1,39 @@
+"""Django allauth integration that can download user's profile image
+from Google and Facebook and save it on their first collection.
+"""
 from allauth.socialaccount.models import SocialAccount
 from upload.models import File
 from upload.management.commands.sync_uploads import get_missing
 
+FB_API = 'http://graph.facebook.com/'
+GOOGLE_BLANKMAN_URLPART = '-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA'
 
-def load_image(a):
+def load_image(account):
     """Load social media profile image.
     """
+    a = account
     print(a.user.username.upper())
 
     if a.provider=='google':
         url = a.extra_data['picture']
-        # handle empty
-        if not url or '-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA' in url:
+        if not url or GOOGLE_BLANKMAN_URLPART in url:
             return
 
     if a.provider=='facebook':
-        url = 'http://graph.facebook.com/%s/picture?height=500' % a.extra_data['id']
+        url = FB_API + '%s/picture?height=500' % a.extra_data['id']
 
-    # Download image and save it on the advert.
-    ad = a.user.ad_set.first()
+    # TODO: hardcoded ad_set to use get_collection_model
+    col = a.user.ad_set.first()
 
-    if ad and not ad.file_set.filter(alt='me'):
-        f = File(fn='', alt='me', pos=99, col=ad)
+    if col and not col.file_set.filter(alt='me'):
+        f = File(fn='', alt='me', pos=99, col=col)
         f.save()
         get_missing(f, url=url)
         print(f.url())
-        ad.save(staff=True)
-    return ad
+        col.save(staff=True)
+    return col
 
 
 def bulk_load():
-    for a in SocialAccount.objects.all():
-        load_image(a)
+    for account in SocialAccount.objects.all():
+        load_image(account)
