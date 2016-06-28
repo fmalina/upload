@@ -5,7 +5,12 @@ var Up = {
 		filereader: typeof FileReader != 'undefined',
 		dnd: 'draggable' in document.createElement('span'),
 		formdata: !!window.FormData,
-		progress: "upload" in new XMLHttpRequest
+		progress: "upload" in new XMLHttpRequest,
+		fileinput: function(){
+			var test = document.createElement("input");
+			test.setAttribute("type", "file");
+			return test.disabled === false;
+		}
 	},
 	url: '',
 	form_tpl: '',
@@ -45,13 +50,13 @@ var Up = {
 					if(xhr.responseText=='error'){
 						var box = ID(id);
 						box.parentNode.removeChild(box);
-						alert('Upload a valid image. The file you uploaded was either not an image or corrupted. Check our FAQ for hints.');
+						alert('Upload a valid image. The file uploaded was either not an image or corrupted. See FAQ for hints.');
 					} else {
 						Up.fill_form(id, xhr.responseText);
 					}
 				}
 			};
-			// Progress bar shows how much we got
+			// Progress bar
 			var bar = N1('span', ID(id));
 			var got = N1('i', bar);
 			bar.style.display = 'block';
@@ -99,9 +104,11 @@ var Up = {
 				Up.read(e.dataTransfer.files);
 			}
 		}
-		if(Up.tests.filereader){
+		if(Up.tests.filereader || !Up.tests.fileinput()){
 			var rm = document.getElementsByClassName('default-upload');
 			for(var i=rm.length;i--;){rm[i].parentNode.removeChild(rm[i]);}
+		}
+		if(Up.tests.filereader){
 			d.onclick = function(e){
 				e.preventDefault();
 				file.click();
@@ -113,20 +120,12 @@ var Up = {
 	}
 }
 
-function supportsFileInput(){
-	var test = document.createElement("input");
-	test.setAttribute("type", "file");
-	return test.disabled === false;
-}
-
 // UI: jQuery dependent
-
 $(function(){
 	$(document).on('click', '.rotate', function(e){
 		e.preventDefault();
-		var e=$(this);
-		var i = e.parent().parent().find('.img')[0];
-		$.get(e.attr('href'), function(){
+		var i = $(this).parent().parent().find('.img')[0];
+		$.get($(this).attr('href'), function(){
 			i.style.opacity = '0';
 			bg = i.src;
 			i.src = bg + '?';
@@ -135,12 +134,11 @@ $(function(){
 	});
 	$(document).on('click', '.cover', function(e){
 		e.preventDefault();
-		var e=$(this);
-		var p = e.parents('.photo-edit');
+		var p = $(this).parents('.photo-edit');
 		var pos = 'input[name$="pos"]';
-		$('input[name$="pos"]').val('1');
+		$(pos).val('1');
 		$('.cover').removeClass('main');
-		p.find('input[name$="pos"]').val('0');
-		e.addClass('main');
+		p.find(pos).val('0');
+		$(this).addClass('main');
 	});
 });

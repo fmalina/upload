@@ -54,7 +54,7 @@ Add the ``upload`` URLs to your ``urls.py``
 
     urlpatterns = [
         ...
-        url('', include('upload.urls')),
+        url(r'^upload/', include('upload.urls')),
     ]
 
 Create your tables

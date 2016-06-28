@@ -1,9 +1,9 @@
 {% extends 'base.html' %}
-{% block title %}Collection{% endblock %}
+{% block title %}Album{% endblock %}
 {% block content %}
-    <h1>Collection #{{ col.pk }}</h1>
-    <p><a href="{{ col.get_absolute_url }}/edit">edit</a></p>
-    {% for img in images %}
+    <h1>Album #{{ album.pk }}</h1>
+    <p><a href="{{ album.get_absolute_url }}/edit">edit</a></p>
+    {% for img in album.file_set.all %}
     <div style="float:left;width:170px">
         <div style="float:left;width:160px;height:160px;overflow:hidden">
             <img height="160" src="{{ img.url }}">

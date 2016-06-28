@@ -2,11 +2,11 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.http import HttpResponse
 from django.template.loader import render_to_string
 from upload.forms import handle_file, CropForm
-from upload.models import File
-from upload.utils import get_collection_model, login_url
+from upload.models import File, get_collection_model
+from upload.utils import login_url
 from PIL import Image
 
-Collection = get_collection_model()
+Col = get_collection_model()
 
 
 def upload(request, pk=False):
@@ -18,7 +18,7 @@ def upload(request, pk=False):
             uid = request.user.pk
         f = File(fn=data.name[:60])
         if pk:
-            col = get_object_or_404(Collection, pk=pk)
+            col = get_object_or_404(Col, pk=pk)
             f.col = col
             uid = col.user_id
             # only collection owner or trusted staff users can upload
@@ -74,7 +74,10 @@ def edit(request, pk, angle=0):
         form = CropForm(request.POST or None)
         if form.is_valid():
             d = form.cleaned_data
-            im.crop((d['x'], d['y'], d['x']+d['width'], d['y']+d['height'])).save(p)
+            # get starting position and cutout size 
+            x, y, w, h = d['x'], d['y'], d['x']+d['width'], d['y']+d['height']
+            # crop image and save
+            im.crop((x, y, w, h)).save(p)
         return render(request, 'upload/crop.html', {
             'img': f,
             'img_url': f.url(uid),
