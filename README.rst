@@ -67,10 +67,6 @@ Create your tables
 Usage
 -----
 
-Integration
-~~~~~~~~~~~
-See ``tests/test_urls.py`` and ``test_views.py`` for simple integration. An important view to reuse or use as inspiration in a custom integration is ``views_post.FilesEditView``.
-
 Setup a collection
 ~~~~~~~~~~~~~~~~~~
 This app supports multiple collections (or your custom model) with
@@ -88,6 +84,10 @@ Upload shines best for sites that need user uploaded photo galleries.
 It will automatically shard the storage folder so as to not hit ext3 subfolder limit (~32000 folders).
 
 Included is also a backup management tool to sync/download publicly uploaded files from server to a local machine.
+
+Integration
+~~~~~~~~~~~
+Simple integration works out of the box. Just link ``<a href="{% url 'upload_col_edit' pk=org.pk %}">Upload</a>`` from your editing interface. ``org`` being an instance of your collection model. An important view to reuse or use as inspiration in a custom integration is ``views_post.FilesEditView``.
 
 Planned features
 ----------------
