@@ -1,26 +1,37 @@
 function ID(id){return document.getElementById(id);}
 function N1(t,e){return e.getElementsByTagName(t)[0];}
+
 var Up = {
+	// configurable URL of the file upload handler
+	url: '',
+	// configurable HTML template to render each uploaded file
+	form_tpl: '',
+	// device and browser capability tests
 	tests: {
+		// is filereader supported
 		filereader: typeof FileReader != 'undefined',
+		// is drag and drop supported
 		dnd: 'draggable' in document.createElement('span'),
 		formdata: !!window.FormData,
+		// will progress bars work
 		progress: "upload" in new XMLHttpRequest,
+		// is file input supported at all (not on < iOS4)
 		fileinput: function(){
 			var test = document.createElement("input");
 			test.setAttribute("type", "file");
 			return test.disabled === false;
 		}
 	},
-	url: '',
-	form_tpl: '',
+	// handle adding file forms to a formset
 	add_form: function(i){
 		var drop = ID('drop'),
 			total = ID('id_file_set-TOTAL_FORMS');
 		var form = Up.form_tpl.replace(/__prefix__/g, total.value),
 			id = 'id_file_set-' + total.value + '-',
 			tmp = document.createElement('div');
-		tmp.innerHTML = form; form = tmp.firstChild; form.id = id;
+		tmp.innerHTML = form;
+		form = tmp.firstChild;
+		form.id = id;
 		drop.parentNode.insertBefore(form, drop.nextSibling);
 		total.value = parseInt(total.value, 10) + 1;
 		return id;
@@ -33,11 +44,12 @@ var Up = {
 		ID(id+'id').value = data.id;
 		var tools = box.getElementsByTagName('a');
 		var toolbox = box.querySelector('.tools');
-		toolbox.className = toolbox.className.replace(' hide', ''); // show tools
+		// show tools
+		toolbox.className = toolbox.className.replace(' hide', '');
 		for(var i=0; i<tools.length; i++){
 			var e = tools[i];
-			if(e.href.indexOf('None') > -1){
-				e.href = e.href.replace('None', data.id);
+			if(e.href.indexOf('/0') > -1){
+				e.href = e.href.replace('/0', '/'+data.id);
 			};
 		}
 	},
@@ -50,7 +62,9 @@ var Up = {
 					if(xhr.responseText=='error'){
 						var box = ID(id);
 						box.parentNode.removeChild(box);
-						alert('Upload a valid image. The file uploaded was either not an image or corrupted. See FAQ for hints.');
+						alert('Upload a valid image.\
+						The file uploaded was either not an image or corrupted.\
+						See FAQ for hints.');
 					} else {
 						Up.fill_form(id, xhr.responseText);
 					}
