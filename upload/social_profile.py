@@ -3,12 +3,12 @@ from Google and Facebook and save it on their first collection.
 """
 from allauth.socialaccount.models import SocialAccount
 from upload.models import File
-from upload.management.commands.sync_uploads import get_missing
+from upload.utils.download import get_missing_file
 
 FB_API = 'http://graph.facebook.com/'
 GOOGLE_BLANKMAN_URLPART = '-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA'
 
-def load_image(account):
+def load_profile_image(account):
     """Load social media profile image.
     """
     a = account
@@ -28,7 +28,7 @@ def load_image(account):
     if col and not col.file_set.filter(alt='me'):
         f = File(fn='', alt='me', pos=99, col=col)
         f.save()
-        get_missing(f, url=url)
+        get_missing_file(f, url)
         print(f.url())
         col.save(staff=True)
     return col
@@ -36,4 +36,4 @@ def load_image(account):
 
 def bulk_load():
     for account in SocialAccount.objects.all():
-        load_image(account)
+        load_profile_image(account)

@@ -1,7 +1,7 @@
 from django.db import models
 from django.apps import apps
 from django.conf import settings
-from upload.utils import img_url
+from upload.utils.storage import img_url
 from upload import app_settings
 import os, os.path
 

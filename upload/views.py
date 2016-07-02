@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from django.template.loader import render_to_string
 from upload.forms import handle_file, CropForm
 from upload.models import File, get_collection_model
-from upload.utils import login_url
+from upload.utils.auth import login_url
 from PIL import Image
 
 Col = get_collection_model()
