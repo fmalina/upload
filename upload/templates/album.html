@@ -1,14 +1,21 @@
 {% extends 'base.html' %}
-{% block title %}Album{% endblock %}
+{% load thumbnail %}
+{% load upload_tags %}
+{% block title %}Album #{{ album.pk }}{% endblock %}
+{% block extrastyles %}
+.gallery{float:left;padding-right:1em}
+.gallery a{float:left;overflow:hidden}
+{% endblock %}
 {% block content %}
     <h1>Album #{{ album.pk }}</h1>
-    <p><a href="{{ album.get_absolute_url }}/edit">edit</a></p>
+    <p><a href="{% url 'upload_col_edit' album.pk %}">edit</a></p>
     {% for img in album.file_set.all %}
-    <div style="float:left;width:170px">
-        <div style="float:left;width:160px;height:160px;overflow:hidden">
-            <img height="160" src="{{ img.url }}">
-        </div>
-        <small>{{ img.alt }} {{ img.fn }}</small>
+    <div class="gallery">
+        <a href="{{ img.url }}" title="{{ img.fn }}">
+            {% thumbnail img.path 180x180 crop=album.crop as thumb %}
+            <img class="img" src="{{ thumb.path|absolute_url }}"><br>
+            <small>{{ img.alt }}</small>
+        </a>
     </div>
     {% endfor %}
 {% endblock %}

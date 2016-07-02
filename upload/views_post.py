@@ -9,6 +9,10 @@ from upload import app_settings
 
 
 class ColForm(ModelForm):
+    def __init__(self, user, *args, **kwargs):
+        self.user = user
+        super(ColForm, self).__init__(*args, **kwargs)
+
     class Meta:
         model = get_collection_model()
         exclude = ['user']
@@ -31,11 +35,13 @@ class FilesEditView(DetailView):
         if request.FILES:
             data.append(request.FILES)
 
-        form = self.col_form(*data, instance=col)
+        form = self.col_form(request.user, *data, instance=col)
         files = self.file_set()(*data, instance=col)
 
         if form.is_valid():
-            col = form.save()
+            col = form.save(commit=False)
+            col.user = request.user
+            col.save()
             for file_form in files.forms:
                 f = file_form.save(col, request)
                 if file_form.cleaned_data.get('DELETE', False):
@@ -49,7 +55,7 @@ class FilesEditView(DetailView):
         if pk:
             col = self.get_object()
 
-        form = self.col_form(instance=col)
+        form = self.col_form(request.user, instance=col)
         files = self.file_set()(instance=col)
 
         return render(request, self.template_name, {

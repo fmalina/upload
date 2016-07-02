@@ -60,10 +60,10 @@ class Collection(models.Model):
         E.g.: .crop() can return "smart" for landscapes or ",0" for mugshots.
         See cropping options docs of the thumbnailing app.
         """
-        return ''
+        return 'smart'
 
     def get_absolute_url(self):
-        return '/'+ self.pk
+        return '/%s' % self.pk
 
 def get_collection_model():
     """
