@@ -5,8 +5,8 @@
     <h1>Uploads</h1>
     <ul>
     {% for col in list %}
-        <li><a href="{{ col.get_absolute_url }}">#{{ col.pk }}</a></li>
+        <li><a href="{{ col.get_absolute_url }}">album #{{ col.pk }}</a></li>
     {% endfor %}
     </ul>
-    <a href="{% url 'upload_col' %}">+ upload collection</a>
+    <a href="{% url 'upload_col' %}">+ upload album</a>
 {% endblock %}

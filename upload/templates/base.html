@@ -6,6 +6,7 @@
 <style>
 body{font:.8em sans-serif;color:#333;}
 #c,#h{width:680px;margin:0 auto}
+{% block extrastyles %}{% endblock %}
 </style>
 {% block head %}{% endblock %}
 </head>
@@ -14,6 +15,7 @@ body{font:.8em sans-serif;color:#333;}
             {% block header %}
             <p><a href='/'>&larr; home</a>
             {% endblock %}
+            <p>Loggedin as: {{ request.user.username }}
         </div>
         <div id="c">{% block content %}{% endblock %}</div>
     </body>

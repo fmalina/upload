@@ -1,9 +1,10 @@
 {% load thumbnail %}
+{% load upload_tags %}
 <div class="photo-edit">
     <div class="photo">
         <span><i></i></span>
         {% thumbnail i.path 180x180 crop=col.crop as thumb %}
-        <img class="img" height="160" src="{{ thumb.absolute_url }}">
+        <img class="img" height="160" src="{{ thumb.path|absolute_url }}">
     </div>
     <div class="tools-bg"></div>
     {% with pk=i.id.value|default_if_none:0 %}

@@ -62,9 +62,8 @@ var Up = {
 					if(xhr.responseText=='error'){
 						var box = ID(id);
 						box.parentNode.removeChild(box);
-						alert('Upload a valid image.\
-						The file uploaded was either not an image or corrupted.\
-						See FAQ for hints.');
+						alert('Upload a valid image. The file uploaded was '+
+						'either not an image or corrupted. See FAQ for hints.');
 					} else {
 						Up.fill_form(id, xhr.responseText);
 					}
