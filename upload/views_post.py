@@ -7,6 +7,8 @@ from upload.forms import FileForm
 from upload.models import File, get_collection_model
 from upload import app_settings
 
+Col = get_collection_model()
+
 
 class ColForm(ModelForm):
     def __init__(self, user, *args, **kwargs):
@@ -14,12 +16,12 @@ class ColForm(ModelForm):
         super(ColForm, self).__init__(*args, **kwargs)
 
     class Meta:
-        model = get_collection_model()
-        exclude = ['user']
+        model = Col
+        fields = []
 
 
 class FilesEditView(DetailView):
-    model = get_collection_model()
+    model = Col
     template_name = "upload/post.html"
     col_form = ColForm
 
