@@ -12,7 +12,7 @@ DATABASES = {
     }
 }
 STATIC_URL = '/static/'
-MEDIA_URL  = '/media/'
+MEDIA_URL = '/media/'
 STATIC_ROOT = APP_ROOT + STATIC_URL
 MEDIA_ROOT = STATIC_ROOT + 'media/'
 

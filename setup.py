@@ -5,7 +5,8 @@ import upload as app
 setup(
     name="upload",
     version=app.__version__,
-    description='HTML5 Upload library with django backend and image manipulation tools',
+    description='HTML5 Upload library with django backend and image\
+    manipulation tools',
     long_description=open('README.rst').read(),
     license='BSD License',
     platforms=['OS Independent'],

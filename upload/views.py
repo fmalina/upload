@@ -22,15 +22,18 @@ def upload(request, pk=False):
             f.col = col
             uid = col.user_id
             # only collection owner or trusted staff users can upload
-            if not request.user.is_staff and not request.user.pk == col.user_id:
+            if not request.user.is_staff\
+            and not request.user.pk == col.user_id:
                 return HttpResponse('not permitted')
         f.save()
         y = handle_file(data, f, uid)
         if y:
             c = {'id': f.id, 'path': f.path(uid), 'crop': ''}
-            if f.col: c['crop'] = f.col.crop
+            if f.col:
+                c['crop'] = f.col.crop
             res = render_to_string('upload/xhr.js', c)
-        else: f.delete()
+        else:
+            f.delete()
     return HttpResponse(res)
 
 
@@ -57,24 +60,24 @@ def edit(request, pk, angle=0):
         im = Image.open(p)
     # pass collection defined cropping onto thumbnail
     # e.g. smart crop v. middle crop from top
-    crop=''
+    crop = ''
     if f.col:
         crop = f.col.crop()
-    if angle: # handle rotation
+    if angle:  # handle rotation
         im.transpose({
             '90': Image.ROTATE_90,
             '270': Image.ROTATE_270
         }[angle]).save(p)
         return render(request, 'upload/reload-thumbnails.html', {
             'img': f,
-            'user_id': uid, 
+            'user_id': uid,
             'crop': crop
         })
-    else: # or handle cropping
+    else:  # or handle cropping
         form = CropForm(request.POST or None)
         if form.is_valid():
             d = form.cleaned_data
-            # get starting position and cutout size 
+            # get starting position and cutout size
             x, y, w, h = d['x'], d['y'], d['x']+d['width'], d['y']+d['height']
             # crop image and save
             im.crop((x, y, w, h)).save(p)

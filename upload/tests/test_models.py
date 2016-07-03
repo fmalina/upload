@@ -1,7 +1,6 @@
 from django.test import TestCase
 from django.contrib.auth.models import User
-from upload.models import File
-from upload.models import get_collection_model
+from upload.models import File, get_collection_model
 
 Col = get_collection_model()
 
@@ -25,5 +24,5 @@ class FileTestCase(TestCase):
         f = File.objects.first()
         self.assertEqual(f.pk, 1)
         self.assertEqual(f.alt, 'Frank')
-        #print(f.path())
-        #self.assertTrue(f.path().endswith('upload/static/media/0/1/1.jpg'))
+        # print(f.path())
+        # self.assertTrue(f.path().endswith('upload/static/media/0/1/1.jpg'))
