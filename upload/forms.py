@@ -67,8 +67,8 @@ class FileForm(forms.ModelForm):
             return f
 
 
-def handle_file(data, file_obj, uid=False):
-    path = file_obj.path(uid)
+def handle_file(data, file_obj):
+    path = file_obj.path()
     make_dir(path)
     f = open(path, 'wb+')
     try:

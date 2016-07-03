@@ -11,10 +11,6 @@ Col = get_collection_model()
 
 
 class ColForm(ModelForm):
-    def __init__(self, user, *args, **kwargs):
-        self.user = user
-        super(ColForm, self).__init__(*args, **kwargs)
-
     class Meta:
         model = Col
         fields = []
@@ -37,7 +33,7 @@ class FilesEditView(DetailView):
         if request.FILES:
             data.append(request.FILES)
 
-        form = self.col_form(request.user, *data, instance=col)
+        form = self.col_form(*data, instance=col)
         files = self.file_set()(*data, instance=col)
 
         if form.is_valid():
@@ -57,7 +53,7 @@ class FilesEditView(DetailView):
         if pk:
             col = self.get_object()
 
-        form = self.col_form(request.user, instance=col)
+        form = self.col_form(instance=col)
         files = self.file_set()(instance=col)
 
         return render(request, self.template_name, {

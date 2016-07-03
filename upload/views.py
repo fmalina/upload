@@ -3,7 +3,6 @@ from django.http import HttpResponse
 from django.template.loader import render_to_string
 from upload.forms import handle_file, CropForm
 from upload.models import File, get_collection_model
-from upload.utils.auth import login_url
 from PIL import Image
 
 Col = get_collection_model()
@@ -12,23 +11,17 @@ Col = get_collection_model()
 def upload(request, pk=False):
     data = request.FILES.get('file')
     res = 'error'
-    uid = False
     if data:
-        if request.user.is_authenticated():
-            uid = request.user.pk
         f = File(fn=data.name[:60])
         if pk:
             col = get_object_or_404(Col, pk=pk)
             f.col = col
-            uid = col.user_id
-            # only collection owner or trusted staff users can upload
-            if not request.user.is_staff\
-            and not request.user.pk == col.user_id:
+            if not col.is_editable_by(request.user):
                 return HttpResponse('not permitted')
         f.save()
-        y = handle_file(data, f, uid)
+        y = handle_file(data, f)
         if y:
-            c = {'id': f.id, 'path': f.path(uid), 'crop': ''}
+            c = {'id': f.id, 'path': f.path(), 'crop': ''}
             if f.col:
                 c['crop'] = f.col.crop
             res = render_to_string('upload/xhr.js', c)
@@ -38,25 +31,17 @@ def upload(request, pk=False):
 
 
 def edit(request, pk, angle=0):
-    """
-    Handle cropping and rotation even before users signup.
+    """ Handle cropping and rotation even before signup.
     """
     f = get_object_or_404(File, pk=pk)
-    uid = False
-    if request.user.is_authenticated():
-        uid = request.user.pk
     if f.col:
-        uid = f.col.user_id
-        if not request.user.is_authenticated():
-            return redirect(login_url(request.path_info))
-        # only collection owner or trusted staff users can edit
-        if not request.user.is_staff and not request.user.pk == uid:
+        if not f.col.is_editable_by(request.user):
             return HttpResponse('not permitted')
-    p = f.path(uid)
+    p = f.path()
     try:
         im = Image.open(p)
     except IOError:
-        p = p.replace('tmp', str(request.user.pk))
+        p = p.replace('tmp', str(f.col_id))
         im = Image.open(p)
     # pass collection defined cropping onto thumbnail
     # e.g. smart crop v. middle crop from top
@@ -70,7 +55,6 @@ def edit(request, pk, angle=0):
         }[angle]).save(p)
         return render(request, 'upload/reload-thumbnails.html', {
             'img': f,
-            'user_id': uid,
             'crop': crop
         })
     else:  # or handle cropping
@@ -83,8 +67,6 @@ def edit(request, pk, angle=0):
             im.crop((x, y, w, h)).save(p)
         return render(request, 'upload/crop.html', {
             'img': f,
-            'img_url': f.url(uid),
-            'img_path': f.path(uid),
             'crop': crop,
             'form': form
         })
