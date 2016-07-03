@@ -52,7 +52,7 @@ INSTALLED_APPS = (
     'easy_thumbnails',
     'django.contrib.staticfiles',
 
-    # auth for collection models that relate to user
+    # auth (for user uploaded collections)
     'django.contrib.auth',
     'django.contrib.sessions',
     'django.contrib.contenttypes',

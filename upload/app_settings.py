@@ -1,6 +1,6 @@
 from django.conf import settings
 
-# custom model that collects user uploaded albums, file collections
+# custom model that collects uploaded albums, file collections
 UPLOAD_COLLECTION_MODEL = getattr(settings, 'UPLOAD_COLLECTION_MODEL',
                                             'upload.Collection')
 # root path where files get uploaded on the server, excluding MEDIA_URL

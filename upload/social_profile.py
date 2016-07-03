@@ -1,4 +1,4 @@
-"""Django allauth integration that can download user's profile image
+"""Django allauth integration that can download social profile image
 from Google and Facebook and save it on their first collection.
 """
 from allauth.socialaccount.models import SocialAccount
