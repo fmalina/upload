@@ -1,4 +1,5 @@
 from django.conf import settings
+from upload import app_settings
 
 
 def ext3_shard(uid):
@@ -17,5 +18,5 @@ def img_url(n, uid):
 
 def img_path(n, uid):
     if n != None:
-        return settings.STATIC_ROOT + img_url(n, uid)
+        return app_settings.UPLOAD_ROOT + img_url(n, uid)
     return ''

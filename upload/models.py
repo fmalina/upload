@@ -27,10 +27,10 @@ class File(models.Model):
         return img_url(n, uid)
 
     def path(self, uid=False):
-        return app_settings.UPLOAD_MEDIA_ROOT + self.url(uid)
+        return app_settings.UPLOAD_ROOT + self.url(uid)
 
     def delete(self, *args, **kwargs):
-        path = app_settings.UPLOAD_MEDIA_ROOT + self.url()
+        path = app_settings.UPLOAD_ROOT + self.url()
         try:
             os.unlink(path)
         except FileNotFoundError:
@@ -64,6 +64,7 @@ class Collection(models.Model):
 
     def get_absolute_url(self):
         return '/%s' % self.pk
+
 
 def get_collection_model():
     """
