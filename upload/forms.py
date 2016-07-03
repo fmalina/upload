@@ -46,9 +46,9 @@ class FileForm(forms.ModelForm):
             if not pos:  # pos 0 sets the main image in col.save()
                 pos = 1
             if f:
-                src = app_settings.UPLOAD_ROOT + f.url()
+                src = f.path()
                 f.col = col
-                dst = app_settings.UPLOAD_ROOT + f.url()
+                dst = f.path()
                 f.alt = alt
                 f.pos = pos
                 if src != dst:  # move file from tmp to collection folder
@@ -68,7 +68,7 @@ class FileForm(forms.ModelForm):
 
 
 def handle_file(data, file_obj, uid=False):
-    path = app_settings.UPLOAD_ROOT + file_obj.url(uid)
+    path = file_obj.path(uid)
     make_dir(path)
     f = open(path, 'wb+')
     try:
