@@ -1,10 +1,20 @@
 from django.db import models
 from django.apps import apps
 from django.conf import settings
-from upload.utils.storage import img_url
 from upload import app_settings
 import os.path
 import os
+
+
+def img_url(file_id, uid):
+    folder = 'tmp'
+    if uid:
+        # ext3 subfolders limit workaround
+        ext3_shard = int(uid) // (32000-2)
+        folder = '%s/%s' % (ext3_shard, uid)
+    if file_id is not None:
+        return settings.MEDIA_URL + folder + '/%s.jpg' % file_id
+    return ''
 
 
 class File(models.Model):
