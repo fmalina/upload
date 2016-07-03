@@ -1,6 +1,14 @@
+// Utilities
 function ID(id){return document.getElementById(id);}
 function N1(t,e){return e.getElementsByTagName(t)[0];}
+function addEvent(element, eventName, fn) {
+    if (element.addEventListener)
+        element.addEventListener(eventName, fn, false);
+    else if (element.attachEvent)
+        element.attachEvent('on' + eventName, fn);
+}
 
+// Upload class
 var Up = {
 	// configurable URL of the file upload handler
 	url: '',
@@ -96,7 +104,7 @@ var Up = {
 			if(Up.tests.formdata){
 				var data = new FormData();
 				var token = 'csrfmiddlewaretoken';
-				data.append(token, document.forms[0][token].value);
+				data.append(token, 					document.forms.namedItem('upload_form')[token].value);
 				data.append('file', files[i]);
 				qs[i] = Up.post(i, data);
 			}
@@ -133,7 +141,7 @@ var Up = {
 	}
 }
 
-// UI: jQuery dependent
+// UI jQuery dependent
 $(function(){
 	$(document).on('click', '.rotate', function(e){
 		e.preventDefault();
