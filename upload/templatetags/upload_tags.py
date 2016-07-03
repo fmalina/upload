@@ -6,4 +6,4 @@ register = Library()
 
 @register.filter
 def absolute_url(path):
-    return path.replace(app_settings.UPLOAD_MEDIA_ROOT, '/')
+    return path.replace(app_settings.UPLOAD_ROOT, '/')
