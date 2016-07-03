@@ -34,7 +34,7 @@ class File(models.Model):
         return app_settings.UPLOAD_ROOT + self.url(uid)
 
     def delete(self, *args, **kwargs):
-        path = app_settings.UPLOAD_ROOT + self.url()
+        path = self.path()
         try:
             os.unlink(path)
         except FileNotFoundError:

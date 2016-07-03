@@ -14,9 +14,3 @@ def img_url(n, uid):
     if n is not None:
         return folder + '/%s.jpg' % n
     return ''
-
-
-def img_path(n, uid):
-    if n is not None:
-        return app_settings.UPLOAD_ROOT + img_url(n, uid)
-    return ''
