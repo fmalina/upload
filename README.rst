@@ -79,7 +79,7 @@ Files can have alternative description and are orderable (TODO, jQuery UI demo).
 
 Remarks
 -------
-Upload shines best for sites that need user uploaded photo galleries.
+Upload shines best for sites that need ability to upload photo galleries.
 
 It will automatically shard the storage folder so as to not hit ext3 subfolder limit (~32000 folders).
 

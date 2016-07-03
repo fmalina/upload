@@ -51,7 +51,7 @@ class FileForm(forms.ModelForm):
                 dst = app_settings.UPLOAD_ROOT + f.url()
                 f.alt = alt
                 f.pos = pos
-                if src != dst:  # move file from tmp to user folder
+                if src != dst:  # move file from tmp to collection folder
                     make_dir(dst)
                     try:
                         os.rename(src, dst)
