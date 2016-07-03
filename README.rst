@@ -5,16 +5,21 @@ HTML5 upload with photo rotate/crop tools and Django backend
     :target: https://travis-ci.org/fmalina/upload
 
 A reusable Django app to work with photo and file uploads.
-Extracted from FlatmateRooms photo upload feature https://www.FlatmateRooms.co.uk/post (please don't save if testing)
+Extracted from FlatmateRooms photo upload feature
+https://www.FlatmateRooms.co.uk/post (please don't save if testing)
 
-- contains native JavaScript multifile drag and drop upload UI with instant thumbnails and progress bars, see `upload/static/upload.js <https://github.com/fmalina/upload/blob/master/upload/static/upload/upload.js>`_
+- contains native JavaScript multifile drag and drop upload UI with instant
+thumbnails and progress bars, see
+`upload/static/upload.js <https://github.com/fmalina/upload/blob/master/upload/static/upload/upload.js>`_
 - python/PIL backend for upload, cropping and rotation of photos
 - seamless integration into Django projects
 - image cropping UI (uses jQuery)
 
-Thumbnails are generated using python PIL/Pillow using easy-thumbnails or compatible thumbnailing application such as sorl-thumbnails.
+Thumbnails are generated using python PIL/Pillow using easy-thumbnails or
+compatible thumbnailing application such as sorl-thumbnails.
 
-Uploaded files are grouped into collections, the collection model is swappable via settings, so uploaded files can be grouped to a Page, Gallery or RealityListing.
+Uploaded files are grouped into collections, the collection model is swappable
+via settings, so uploaded files can be grouped to a Page, Gallery, Listing etc.
 
 upload.js builds on the following HTML5 demos:
 http://html5demos.com/dnd-upload
@@ -81,20 +86,26 @@ Remarks
 -------
 Upload shines best for sites that need ability to upload photo galleries.
 
-It will automatically shard the storage folder so as to not hit ext3 subfolder limit (~32000 folders).
+It will automatically shard the storage folder so as to not hit ext3 subfolder
+limit (~32000 folders).
 
-Included is also a backup management tool to sync/download publicly uploaded files from server to a local machine.
+Included is also a backup management tool to sync/download publicly uploaded
+files from server to a local machine.
 
 Integration
 ~~~~~~~~~~~
-Simple integration works out of the box. Just link ``<a href="{% url 'upload_col_edit' pk=org.pk %}">Upload</a>`` from your editing interface. ``org`` being an instance of your collection model. An important view to reuse or use as inspiration in a custom integration is ``views_post.FilesEditView``.
-
-Planned features
-----------------
-Current storage layout presumes collections to be related to users, which may be addressed if required.
+Simple integration works out of the box. Just link
+``<a href="{% url 'upload_col_edit' pk=org.pk %}">Upload</a>``
+from your editing interface. ``org`` being an instance of your collection model.
+An important view to reuse or use as inspiration in a custom integration is
+``views_post.FilesEditView``.
 
 Contribute
 ----------
-Fork it and send your pull request. File and issue. Mention on your blog, tweet, status update. Tell your dev friends and mention when complaining to sites that have poor upload features.
+Fork it and send your pull request. File and issue. Mention on your blog,
+tweet, status update. Tell your dev friends and mention when complaining
+to sites that have poor upload features.
 
-Flask reusability rewrite would be a welcome contribution, if you need another server backend such as for MongoDB or PHP please fork off and let me know how you get on.
+Flask reusability rewrite would be a welcome contribution, if you need another
+server backend such as for MongoDB or PHP please fork off and let me know
+how you get on.

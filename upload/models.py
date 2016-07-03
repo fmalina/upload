@@ -6,17 +6,6 @@ import os.path
 import os
 
 
-def img_url(file_id, uid):
-    folder = 'tmp'
-    if uid:
-        # ext3 subfolders limit workaround
-        ext3_shard = int(uid) // (32000-2)
-        folder = '%s/%s' % (ext3_shard, uid)
-    if file_id is not None:
-        return settings.MEDIA_URL + folder + '/%s.jpg' % file_id
-    return ''
-
-
 class File(models.Model):
     """ Single file, its original filename, collection, order position in it
     and it's short text alternative.
@@ -30,18 +19,16 @@ class File(models.Model):
     fn = models.CharField('original filename', max_length=60,
                           blank=True, editable=False)
 
-    def url(self, uid=False):
-        if not uid and self.col:
-            uid = self.col.user_id
-        n = None
-        if self.id:
-            n = self.id
-            if self.no is not None:  # legacy url
-                n = self.no
-        return img_url(n, uid)
+    def url(self):
+        folder = 'tmp'
+        if self.col_id:
+            # ext3 subfolders limit workaround
+            ext3_shard = int(self.col_id) // (32000-2)
+            folder = '%s/%s' % (ext3_shard, self.col_id)
+        return settings.MEDIA_URL + folder + '/%s.jpg' % self.pk
 
-    def path(self, uid=False):
-        return app_settings.UPLOAD_ROOT + self.url(uid)
+    def path(self):
+        return app_settings.UPLOAD_ROOT + self.url()
 
     def delete(self, *args, **kwargs):
         path = self.path()
@@ -67,6 +54,14 @@ class Collection(models.Model):
     such as Article, Album, Gallery, Pics, Photos, FilesFolder.
     """
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
+
+    def is_editable_by(self, user):
+        """Permission check that each collection_model has to implement.
+        Here only collection owner or trusted staff users can upload and edit.
+        """
+        if user.pk == self.user_id or user.is_staff:
+            return True
+        return False
 
     def crop(self):
         """One can define conditional thumbnail cropping rules
