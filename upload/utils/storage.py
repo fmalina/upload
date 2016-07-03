@@ -11,12 +11,12 @@ def img_url(n, uid):
     folder = settings.MEDIA_URL+'tmp'
     if uid:
         folder = settings.MEDIA_URL+'%s/%s' % (ext3_shard(uid), uid)
-    if n != None:
+    if n is not None:
         return folder + '/%s.jpg' % n
     return ''
 
 
 def img_path(n, uid):
-    if n != None:
+    if n is not None:
         return app_settings.UPLOAD_ROOT + img_url(n, uid)
     return ''

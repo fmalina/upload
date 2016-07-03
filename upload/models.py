@@ -3,18 +3,22 @@ from django.apps import apps
 from django.conf import settings
 from upload.utils.storage import img_url
 from upload import app_settings
-import os, os.path
+import os.path
+import os
 
 
 class File(models.Model):
     """ Single file, its original filename, collection, order position in it
     and it's short text alternative.
     """
-    col = models.ForeignKey(app_settings.UPLOAD_COLLECTION_MODEL, blank=True, null=True)
-    no  = models.IntegerField('legacy #', blank=True, null=True, editable=False)
+    col = models.ForeignKey(app_settings.UPLOAD_COLLECTION_MODEL,
+                            blank=True, null=True)
+    no = models.IntegerField('legacy #',
+                             blank=True, null=True, editable=False)
     pos = models.IntegerField('order position', blank=True, null=True)
     alt = models.CharField(max_length=60, blank=True)
-    fn  = models.CharField('original filename', max_length=60, blank=True, editable=False)
+    fn = models.CharField('original filename', max_length=60,
+                          blank=True, editable=False)
 
     def url(self, uid=False):
         if not uid and self.col:
@@ -22,7 +26,7 @@ class File(models.Model):
         n = None
         if self.id:
             n = self.id
-            if self.no != None: # legacy url
+            if self.no is not None:  # legacy url
                 n = self.no
         return img_url(n, uid)
 
@@ -76,7 +80,8 @@ def get_collection_model():
     except ValueError:
         raise ImproperlyConfigured("UPLOAD_COLLECTION_MODEL must be of the"
                                    " form 'app_label.model_name'")
-    collection_model = apps.get_model(app_label=app_label, model_name=model_name)
+    collection_model = apps.get_model(app_label=app_label,
+                                      model_name=model_name)
     if collection_model is None:
         raise ImproperlyConfigured("UPLOAD_COLLECTION_MODEL refers to"
                                    " model '%s' that has not been installed"
@@ -90,4 +95,3 @@ def make_dir(path):
         os.makedirs(dirname)
     except FileExistsError:
         pass
-

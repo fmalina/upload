@@ -8,18 +8,19 @@ from upload.utils.download import get_missing_file
 FB_API = 'http://graph.facebook.com/'
 GOOGLE_BLANKMAN_URLPART = '-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA'
 
+
 def load_profile_image(account):
     """Load social media profile image.
     """
     a = account
     print(a.user.username.upper())
 
-    if a.provider=='google':
+    if a.provider == 'google':
         url = a.extra_data['picture']
         if not url or GOOGLE_BLANKMAN_URLPART in url:
             return
 
-    if a.provider=='facebook':
+    if a.provider == 'facebook':
         url = FB_API + '%s/picture?height=500' % a.extra_data['id']
 
     # TODO: hardcoded ad_set to use get_collection_model

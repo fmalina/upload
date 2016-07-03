@@ -38,12 +38,12 @@ class FileForm(forms.ModelForm):
     def save(self, col, request):
         if self.is_valid():
             file_label = [x.id_for_label for x in self.visible_fields()
-                       if x.id_for_label.endswith('file_data')][0]
+                          if x.id_for_label.endswith('file_data')][0]
             file_data = request.FILES.get(file_label[3:])
             f = self.cleaned_data.get('id')
             alt = self.cleaned_data.get('alt', '')
             pos = self.cleaned_data.get('pos')
-            if not pos: # pos 0 sets the main image in col.save()
+            if not pos:  # pos 0 sets the main image in col.save()
                 pos = 1
             if f:
                 src = app_settings.UPLOAD_ROOT + f.url()
@@ -51,7 +51,7 @@ class FileForm(forms.ModelForm):
                 dst = app_settings.UPLOAD_ROOT + f.url()
                 f.alt = alt
                 f.pos = pos
-                if src != dst: # move file from tmp to user folder
+                if src != dst:  # move file from tmp to user folder
                     make_dir(dst)
                     try:
                         os.rename(src, dst)
@@ -74,7 +74,7 @@ def handle_file(data, file_obj, uid=False):
     try:
         for chunk in data.chunks():
             f.write(chunk)
-    except AttributeError: # no chunks
+    except AttributeError:  # no chunks
         f.write(data)
     f.close()
     os.chmod(path, 0o777)
@@ -93,8 +93,10 @@ def handle_file(data, file_obj, uid=False):
     # process soft rotation
     if im.mode == 'RGB':
         orientation = 1
-        try: exif = im._getexif() or {}
-        except AttributeError: exif = {}
+        try:
+            exif = im._getexif() or {}
+        except AttributeError:
+            exif = {}
         for k in exif.keys():
             if k in TAGS.keys() and TAGS[k] == 'Orientation':
                 orientation = int(exif[k])
@@ -113,7 +115,7 @@ def handle_file(data, file_obj, uid=False):
         x1 = w//2 - x//2
         y1 = h//2 - y//2
         im2 = fff((w, h))
-        im2.paste(im, (x1,y1,x1+x,y1+y))
+        im2.paste(im, (x1, y1, x1+x, y1+y))
         im = im2
     # downsize large images
     down_to_x, down_to_y = app_settings.UPLOAD_DOWNSIZE_TO
@@ -128,4 +130,4 @@ def handle_file(data, file_obj, uid=False):
 
 
 class CropForm(forms.Form):
-    x,y,width,height = [forms.IntegerField(widget=forms.HiddenInput())] * 4
+    x, y, width, height = [forms.IntegerField(widget=forms.HiddenInput())] * 4
