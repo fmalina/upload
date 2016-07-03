@@ -8,5 +8,5 @@ Up.form_tpl = '{% spaceless %}{% with images.empty_form as i %}
 		{% include 'upload/image.html' %}
 		{% endwith %}{% endspaceless %}';
 
-window.onload = Up.load;
+addEvent(window, 'load', Up.load);
 </script>
