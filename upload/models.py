@@ -64,8 +64,8 @@ class Collection(models.Model):
         return False
 
     def crop(self):
-        """One can define conditional thumbnail cropping rules
-        in their swappable collection_model based on type of collection.
+        """Thumbnail cropping rules each collection_model needs in place.
+        One can define conditional rules based on type of collection.
         E.g.: .crop() can return "smart" for landscapes or ",0" for mugshots.
         See cropping options docs of the thumbnailing app.
         """
