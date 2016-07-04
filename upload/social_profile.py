@@ -2,8 +2,10 @@
 from Google and Facebook and save it on their first collection.
 """
 from allauth.socialaccount.models import SocialAccount
-from upload.models import File
+from upload.models import File, get_collection_model
 from upload.utils.download import get_missing_file
+
+Col = get_collection_model()
 
 FB_API = 'http://graph.facebook.com/'
 GOOGLE_BLANKMAN_URLPART = '-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA'
@@ -23,9 +25,7 @@ def load_profile_image(account):
     if a.provider == 'facebook':
         url = FB_API + '%s/picture?height=500' % a.extra_data['id']
 
-    # TODO: hardcoded ad_set to use get_collection_model
-    col = a.user.ad_set.first()
-
+    col = Col.objects.filter(user=a.user).first()
     if col and not col.file_set.filter(alt='me'):
         f = File(fn='', alt='me', pos=99, col=col)
         f.save()
