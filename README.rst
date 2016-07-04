@@ -8,9 +8,7 @@ A reusable Django app to work with photo and file uploads.
 Extracted from FlatmateRooms photo upload feature
 https://www.FlatmateRooms.co.uk/post (please don't save if testing)
 
-- contains native JavaScript multifile drag and drop upload UI with instant
-thumbnails and progress bars, see
-`upload/static/upload.js <https://github.com/fmalina/upload/blob/master/upload/static/upload/upload.js>`_
+- contains native JavaScript multifile drag and drop upload UI with instant thumbnails and progress bars, see `upload/static/upload.js <https://github.com/fmalina/upload/blob/master/upload/static/upload/upload.js>`_
 - python/PIL backend for upload, cropping and rotation of photos
 - seamless integration into Django projects
 - image cropping UI (uses jQuery)
