@@ -3,8 +3,8 @@ from django.conf import settings
 # custom model that collects uploaded albums, file collections
 UPLOAD_COLLECTION_MODEL = getattr(settings, 'UPLOAD_COLLECTION_MODEL',
                                             'upload.Collection')
-# root path where files get uploaded on the server, excluding MEDIA_URL
-UPLOAD_ROOT = getattr(settings, 'UPLOAD_ROOT', settings.STATIC_ROOT)
+# root path where files get uploaded on the server
+UPLOAD_ROOT = getattr(settings, 'UPLOAD_ROOT', settings.MEDIA_ROOT)
 
 # downsize large images to this size
 UPLOAD_DOWNSIZE_TO = getattr(settings, 'UPLOAD_DOWNSIZE_TO', (1024, 768))
