@@ -19,16 +19,19 @@ class File(models.Model):
     fn = models.CharField('original filename', max_length=60,
                           blank=True, editable=False)
 
-    def url(self):
+    def base_path(self):
         folder = 'tmp'
         if self.col_id:
             # ext3 subfolders limit workaround
             ext3_shard = int(self.col_id) // (32000-2)
             folder = '%s/%s' % (ext3_shard, self.col_id)
-        return settings.MEDIA_URL + folder + '/%s.jpg' % self.pk
+        return folder + '/%s.jpg' % self.pk
 
     def path(self):
-        return app_settings.UPLOAD_ROOT + self.url()
+        return app_settings.UPLOAD_ROOT + self.base_path()
+    
+    def url(self):
+        return settings.MEDIA_URL + self.base_path()
 
     def delete(self, *args, **kwargs):
         path = self.path()
