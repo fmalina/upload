@@ -18,6 +18,6 @@ def index(request):
 
 def album(request, pk):
     alb = get_object_or_404(Col, pk=pk)
-    return render(request, 'album.html', {
+    return render(request, 'upload/photos/album.html', {
         'album': alb
     })

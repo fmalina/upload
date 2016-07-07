@@ -65,6 +65,8 @@ def edit(request, pk, angle=0):
             x, y, w, h = d['x'], d['y'], d['x']+d['width'], d['y']+d['height']
             # crop image and save
             im.crop((x, y, w, h)).save(p)
+            f.w, f.h = w, h
+            f.save()
         return render(request, 'upload/crop.html', {
             'img': f,
             'crop': crop,
