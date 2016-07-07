@@ -15,6 +15,8 @@ class File(models.Model):
     no = models.IntegerField('legacy #',
                              blank=True, null=True, editable=False)
     pos = models.IntegerField('order position', blank=True, null=True)
+    w = models.IntegerField('width', blank=True, null=True)
+    h = models.IntegerField('height', blank=True, null=True)
     alt = models.CharField(max_length=60, blank=True)
     fn = models.CharField('original filename', max_length=60,
                           blank=True, editable=False)

@@ -126,7 +126,9 @@ def handle_file(data, file_obj):
         invert_im = ImageOps.invert(im)
         im = im.crop(invert_im.getbbox())
     im.save(path, 'JPEG')
-    return True
+    file_obj.w, file_obj.h = im.size
+    file_obj.save()
+    return im
 
 
 class CropForm(forms.Form):

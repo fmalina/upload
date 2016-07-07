@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load thumbnail %}
+{% load upload_tags %}
+{% block title %}Album #{{ album.pk }}{% endblock %}
+
+{% block head %}
+{% include "upload/photos/head.html" %}
+{% endblock %}
+
+{% block extrastyles %}
+figure{float:left;padding-right:1em;margin:0}
+{% endblock %}
+
+{% block content %}
+    <h1>Album #{{ album.pk }}</h1>
+    <p><a href="{% url 'upload_col_edit' album.pk %}">edit</a></p>
+    
+    <div class="my-gallery" itemscope itemtype="http://schema.org/ImageGallery">
+    {% for img in album.file_set.all %}
+        <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
+            <a href="{{ img.url }}" title="{{ img.fn }}" itemprop="contentUrl" data-size="{{ img.w }}x{{ img.h }}">
+                {% thumbnail img.path 180x180 crop=album.crop as thumb %}
+                <img src="{{ thumb.path|absolute_url }}" itemprop="thumbnail" alt="{{ img.alt }}" />
+            </a>
+            <figcaption itemprop="caption description">{{ img.alt }}</figcaption>
+        </figure>
+    {% endfor %}
+    </div>
+
+    {% include "upload/photos/ui.html" %}
+{% endblock %}
