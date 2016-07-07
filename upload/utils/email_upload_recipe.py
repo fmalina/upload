@@ -52,7 +52,7 @@ def email_upload(msg):
         for r in alt_blacklist:
             f.alt = f.alt.replace(r, '')
         f.save()
-        y = handle_file(data, f, col.user_id)
+        y = handle_file(data, f)
         if y:
             send.email(user, 'Picture uploaded',
                 'uploaded', {'col': col, 'img': f})
