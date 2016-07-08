@@ -1,7 +1,7 @@
 from django.shortcuts import get_object_or_404, render, redirect
 from django.http import HttpResponse
 from django.template.loader import render_to_string
-from upload.forms import handle_file, CropForm
+from upload.forms import handle_file, save_sizes, CropForm
 from upload.models import File, get_collection_model
 from PIL import Image
 
@@ -53,6 +53,7 @@ def edit(request, pk, angle=0):
             '90': Image.ROTATE_90,
             '270': Image.ROTATE_270
         }[angle]).save(p)
+        save_sizes(f, im)
         return render(request, 'upload/reload-thumbnails.html', {
             'img': f,
             'crop': crop
@@ -65,8 +66,7 @@ def edit(request, pk, angle=0):
             x, y, w, h = d['x'], d['y'], d['x']+d['width'], d['y']+d['height']
             # crop image and save
             im.crop((x, y, w, h)).save(p)
-            f.w, f.h = w, h
-            f.save()
+            save_sizes(f, im)
         return render(request, 'upload/crop.html', {
             'img': f,
             'crop': crop,
