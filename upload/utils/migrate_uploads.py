@@ -22,7 +22,7 @@ def from_path(f):
     n = f.id
     if f.no is not None:  # legacy url
         n = f.no
-    return app_settings.UPLOAD_ROOT + settings.MEDIA_URL +
+    return app_settings.UPLOAD_ROOT + settings.MEDIA_URL +\
            folder + '%s.jpg' % n
 
 
