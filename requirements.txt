@@ -1,3 +1,2 @@
 django
 easy-thumbnails
-django-allauth # social profile image upload
