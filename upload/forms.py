@@ -67,6 +67,11 @@ class FileForm(forms.ModelForm):
             return f
 
 
+def save_sizes(f, im):
+    f.w, f.h = im.size
+    f.save()
+
+
 def handle_file(data, file_obj):
     path = file_obj.path()
     make_dir(path)
@@ -126,8 +131,7 @@ def handle_file(data, file_obj):
         invert_im = ImageOps.invert(im)
         im = im.crop(invert_im.getbbox())
     im.save(path, 'JPEG')
-    file_obj.w, file_obj.h = im.size
-    file_obj.save()
+    save_sizes(file_obj, im)
     return im
 
 
