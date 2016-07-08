@@ -3,5 +3,4 @@ include README.rst
 include requirements.txt
 graft upload
 recursive-include upload/templates *
-recursive-include upload/fixtures *
 recursive-include upload/static *
