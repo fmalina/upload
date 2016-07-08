@@ -53,7 +53,7 @@ def edit(request, pk, angle=0):
             '90': Image.ROTATE_90,
             '270': Image.ROTATE_270
         }[angle]).save(p)
-        save_sizes(f, im)
+        save_sizes(f)
         return render(request, 'upload/reload-thumbnails.html', {
             'img': f,
             'crop': crop
@@ -66,7 +66,7 @@ def edit(request, pk, angle=0):
             x, y, w, h = d['x'], d['y'], d['x']+d['width'], d['y']+d['height']
             # crop image and save
             im.crop((x, y, w, h)).save(p)
-            save_sizes(f, im)
+            save_sizes(f)
         return render(request, 'upload/crop.html', {
             'img': f,
             'crop': crop,
