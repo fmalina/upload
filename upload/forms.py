@@ -2,6 +2,7 @@ from django.conf import settings
 from django import forms
 from upload.models import File, make_dir
 from upload import app_settings
+from upload.utils.imaging import autocrop
 from PIL import Image, ImageOps
 from PIL.ExifTags import TAGS
 import os
@@ -127,10 +128,9 @@ def handle_file(data, file_obj):
     down_to_x, down_to_y = app_settings.UPLOAD_DOWNSIZE_TO
     if x > down_to_x or y > down_to_y:
         im.thumbnail(app_settings.UPLOAD_DOWNSIZE_TO, Image.ANTIALIAS)
-    # crop off white edges
+    # autocrop
     if x > MIN and y > MIN:
-        invert_im = ImageOps.invert(im)
-        im = im.crop(invert_im.getbbox())
+        im = autocrop(im)
     im.save(path, 'JPEG')
     save_sizes(file_obj)
     return im
