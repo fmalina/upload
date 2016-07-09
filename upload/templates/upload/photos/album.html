@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% block title %}Album #{{ album.pk }}{% endblock %}
+{% block title %}Album #{{ col.pk }}{% endblock %}
 {% block head %}
 {% include "upload/photos/head.html" %}
 {% endblock %}
@@ -8,7 +8,7 @@ figure{float:left;padding-right:1em;margin:0}
 {% endblock %}
 
 {% block content %}
-    <h1>Album #{{ album.pk }}</h1>
-    <p><a href="{% url 'upload_col_edit' album.pk %}">edit</a></p>
+    <h1>Album #{{ col.pk }}</h1>
+    <p><a href="{% url 'upload_col_edit' col.pk %}">edit</a></p>
     {% include "upload/photos/gallery.html" %}
 {% endblock %}
