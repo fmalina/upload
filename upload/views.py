@@ -3,6 +3,8 @@ from django.http import HttpResponse
 from django.template.loader import render_to_string
 from upload.forms import handle_file, save_sizes, CropForm
 from upload.models import File, get_collection_model
+from upload.utils.imaging import meets_min_size
+from upload import app_settings
 from PIL import Image
 
 Col = get_collection_model()
@@ -10,7 +12,6 @@ Col = get_collection_model()
 
 def upload(request, pk=False):
     data = request.FILES.get('file')
-    res = 'error'
     if data:
         f = File(fn=data.name[:60])
         if pk:
@@ -19,15 +20,19 @@ def upload(request, pk=False):
             if not col.is_editable_by(request.user):
                 return HttpResponse('not permitted')
         f.save()
-        y = handle_file(data, f)
-        if y:
+        im = handle_file(data, f)
+        if not im:
+            f.delete()
+        else:
             c = {'id': f.id, 'path': f.path(), 'crop': ''}
             if f.col:
                 c['crop'] = f.col.crop
-            res = render_to_string('upload/xhr.js', c)
-        else:
-            f.delete()
-    return HttpResponse(res)
+            if not meets_min_size(im, app_settings.UPLOAD_MIN_SIZE):
+                f.delete()
+                return HttpResponse('small')
+            ok = render_to_string('upload/xhr.js', c)
+            return HttpResponse(ok)
+    return HttpResponse('error')
 
 
 def edit(request, pk, angle=0):

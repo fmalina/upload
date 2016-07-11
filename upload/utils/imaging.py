@@ -15,7 +15,7 @@ def autocrop(im, fuzz=0.5):
         return im.crop(bbox)
 
 
-def check_min_size(im, min_size):
+def meets_min_size(im, min_size):
     width, height = im.size
     if width < min_size or height < min_size:
         return False
