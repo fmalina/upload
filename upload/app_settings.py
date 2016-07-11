@@ -8,6 +8,8 @@ UPLOAD_ROOT = getattr(settings, 'UPLOAD_ROOT', settings.MEDIA_ROOT)
 
 # downsize large images to this size
 UPLOAD_DOWNSIZE_TO = getattr(settings, 'UPLOAD_DOWNSIZE_TO', (1024, 768))
+# minimum acceptable image width and height
+UPLOAD_MIN_SIZE = getattr(settings, 'UPLOAD_MIN_SIZE', 320)
 # fill transparency of uploaded images to this RGB color, white by default
 UPLOAD_FILL_ALPHA = getattr(settings, 'UPLOAD_FILL_ALPHA', (255, 255, 255))
 # email upload features

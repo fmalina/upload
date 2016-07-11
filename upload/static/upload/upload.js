@@ -67,11 +67,15 @@ var Up = {
 			var id = Up.add_form();
 			xhr.onreadystatechange = function(){
 				if(xhr.readyState==4){
-					if(xhr.responseText=='error'){
+					if(xhr.responseText=='error' || xhr.responseText=='small'){
 						var box = ID(id);
 						box.parentNode.removeChild(box);
+					}
+					if(xhr.responseText=='error'){
 						alert('Upload a valid image. The file uploaded was '+
 						'either not an image or corrupted. See FAQ for hints.');
+					} else if(xhr.responseText=='small'){
+						alert('Too small. Upload a larger image.');
 					} else {
 						Up.fill_form(id, xhr.responseText);
 					}
