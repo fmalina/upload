@@ -1,6 +1,7 @@
 {% load staticfiles %}
 <link rel="stylesheet" href="{% static 'upload/upload.css' %}">
 <script src="{% static 'upload/upload.js' %}"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/Sortable/1.4.2/Sortable.min.js"></script>
 <script>
 // upload
 Up.url = '{% if col %}{% url 'upload_edit' col.pk %}{% else %}{% url 'upload' %}{% endif %}';
@@ -9,4 +10,5 @@ Up.form_tpl = '{% spaceless %}{% with images.empty_form as i %}
 		{% endwith %}{% endspaceless %}';
 
 addEvent(window, 'load', Up.load);
+addEvent(window, 'load', sortable_uploads);
 </script>

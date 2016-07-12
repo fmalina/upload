@@ -26,7 +26,7 @@ i.choose-cover{display:inline-block;background:url(./img/image-tools.png) no-rep
 .tools .crop{position:absolute;right:10px;top:0}
 .tools .main{display:inline;opacity:1}
 
-.photo-edit{float:left;position:relative;width:192px;height:215px}
+.photo-edit{float:left;position:relative;width:192px;height:215px;cursor:move}
 .photo-edit:hover a{display:inline;text-decoration:none}
 .photo-edit .caption input{width:146px;padding:4px 30px 4px 4px;font-size:12px}
 .photo{background:#fff url(./img/upload-spinner.gif) 50% 50% no-repeat;

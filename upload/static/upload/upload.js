@@ -145,6 +145,21 @@ var Up = {
 	}
 }
 
+
+function sortable_uploads(){
+    var list = ID("sortable");
+    Sortable.create(list, {
+        draggable: '.photo-edit',
+        onUpdate: function(evt){
+            var inputs = document.querySelectorAll('input[name$="pos"]');
+			for(var i=inputs.length; i--;){
+				inputs[i].value = i;
+			}
+        }
+    });
+}
+
+
 // UI jQuery dependent
 $(function(){
 	$(document).on('click', '.rotate', function(e){
