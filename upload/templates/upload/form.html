@@ -16,6 +16,7 @@
 
 <div id="drop"></div>
 
+<div id="sortable">
 {% for i in images %}
     {% if i.instance.pk %}
         {% include 'upload/image.html' %}
@@ -29,6 +30,7 @@
         <p class="default-upload">Max. 4 images at a time, add more later.</p>
     {% endif %}
 {% endfor %}
+</div>
 
 <input type="file" name="file" id="file" multiple="multiple" 
     style="display:none">
