@@ -1,12 +1,6 @@
 // Utilities
 function ID(id){return document.getElementById(id);}
 function N1(t,e){return e.getElementsByTagName(t)[0];}
-function addEvent(element, eventName, fn) {
-    if (element.addEventListener)
-        element.addEventListener(eventName, fn, false);
-    else if (element.attachEvent)
-        element.attachEvent('on' + eventName, fn);
-}
 
 // Upload class
 var Up = {
