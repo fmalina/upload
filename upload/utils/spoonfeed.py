@@ -8,7 +8,10 @@ def spoonfeed(qs, func, chunk=1000, start=0):
 
     >>> spoonfeed(Spam.objects.all(), nom_nom)
     """
-    while start < qs.order_by('pk').last().pk:
+    end = qs.order_by('pk').last()
+    if not end:
+        return
+    while start < end.pk:
         for o in qs.filter(pk__gt=start, pk__lte=start+chunk):
             func(o)
         start += chunk
