@@ -41,10 +41,10 @@
 <p class="upload-hint clear">
     <span class="script"><i class="choose-cover"></i>
         Uploaded? Pick the best shot to represent your posting.
-    </span><br>
+    </span>
     {% if upload_imap_enabled %}
         Trouble uploading? Email photos to
-        <a href="mailto:{{ upload_email }}">{{ upload_email }}</a>.
+        <a href="mailto:{{ upload_imap_email }}">{{ upload_imap_email }}</a>
         from your registered email address after saving.
     {% endif %}
 </p>
