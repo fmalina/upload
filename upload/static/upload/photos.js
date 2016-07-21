@@ -203,5 +203,5 @@ var initPhotoSwipeFromDOM = function(gallerySelector) {
 
 // execute above function
 window.addEventListener('load', function(){
-	initPhotoSwipeFromDOM('.my-gallery');
+	initPhotoSwipeFromDOM('.image_gallery');
 }, false);

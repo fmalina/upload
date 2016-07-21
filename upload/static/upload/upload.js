@@ -45,7 +45,7 @@ var Up = {
 		img.src = data.url;
 		ID(id+'id').value = data.id;
 		var tools = box.getElementsByTagName('a');
-		var toolbox = box.querySelector('.tools');
+		var toolbox = box.querySelector('.upload__tools');
 		// show tools
 		toolbox.className = toolbox.className.replace(' hide', '');
 		for(var i=0; i<tools.length; i++){
@@ -124,7 +124,7 @@ var Up = {
 			}
 		}
 		if(Up.tests.filereader || !Up.tests.fileinput()){
-			var rm = document.getElementsByClassName('default-upload');
+			var rm = document.getElementsByClassName('upload__fallback');
 			for(var i=rm.length;i--;){rm[i].parentNode.removeChild(rm[i]);}
 		}
 		if(Up.tests.filereader){
@@ -143,7 +143,7 @@ var Up = {
 function sortable_uploads(){
     var list = ID("sortable");
     Sortable.create(list, {
-        draggable: '.photo-edit',
+        draggable: '.upload__image',
         onUpdate: function(evt){
             var inputs = document.querySelectorAll('input[name$="pos"]');
 			for(var i=inputs.length; i--;){
@@ -156,7 +156,7 @@ function sortable_uploads(){
 
 // UI jQuery dependent
 $(function(){
-	$(document).on('click', '.rotate', function(e){
+	$(document).on('click', '.upload .rotate', function(e){
 		e.preventDefault();
 		var i = $(this).parent().parent().find('.img')[0];
 		$.get($(this).attr('href'), function(){
@@ -166,13 +166,13 @@ $(function(){
 			$(i).animate({opacity: 1}, 400);
 		});
 	});
-	$(document).on('click', '.cover', function(e){
+	$(document).on('click', '.upload .cover', function(e){
 		e.preventDefault();
-		var p = $(this).parents('.photo-edit');
+		var p = $(this).parents('.upload__image');
 		var pos = 'input[name$="pos"]';
 		$(pos).val('1');
-		$('.cover').removeClass('main');
+		$('.upload .cover span').removeClass('upload__tools__main');
 		p.find(pos).val('0');
-		$(this).addClass('main');
+		$(this).find('span').addClass('upload__tools__main');
 	});
 });
