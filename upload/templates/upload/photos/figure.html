@@ -5,6 +5,7 @@
 		{% thumbnail img.path size crop=col.crop as t %}
 		<img src="{{ t.url|fixurl }}" itemprop="thumbnail"
 			width="{{ t.width }}" height="{{ t.height }}" alt="{{ img.alt }}" />
-	</a>
+	</a>{% if img.alt %}
 	<figcaption itemprop="caption description">{{ img.alt }}</figcaption>
+	{% endif %}
 </figure>
