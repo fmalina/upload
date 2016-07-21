@@ -2,7 +2,7 @@
 {% load upload_tags %}
 <div class="upload__image">
     {% thumbnail i.path 180x180 crop=col.crop as thumb %}
-    <img class="upload__image__thumb" src="{{ thumb.path|absolute_url }}">
+    <img class="upload__image__thumb" src="{{ thumb.url|fixurl }}">
     <div class="upload__tools__bg"></div>
     {% with pk=i.id.value|default_if_none:0 %}
     <div class="upload__tools{% if not pk %} hide{% endif %}">
