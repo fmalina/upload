@@ -1,0 +1,9 @@
+{% load thumbnail %}
+{% load upload_tags %}
+<figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
+	<a href="{{ img.url }}" itemprop="contentUrl" data-size="{{ img.w }}x{{ img.h }}">
+		{% thumbnail img.path size crop=col.crop as thumb %}
+		<img src="{{ thumb.path|absolute_url }}" itemprop="thumbnail" alt="{{ img.alt }}" />
+	</a>
+	<figcaption itemprop="caption description">{{ img.alt }}</figcaption>
+</figure>
