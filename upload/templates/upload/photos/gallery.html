@@ -1,5 +1,5 @@
 {% if photos %}
-	<div class="my-gallery" itemscope itemtype="http://schema.org/ImageGallery">
+	<div class="image_gallery" itemscope itemtype="http://schema.org/ImageGallery">
 	{% for img in photos %}
 	{% with '180x180' as size %}
 		{% include 'upload/photos/figure.html' %}

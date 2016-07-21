@@ -1,59 +1,59 @@
-#droparea{display:none;text-align:center}
-#droparea #label{display:none}
-#add{margin:7px auto;width:230px}
-#add div{color:#666}
-#add{border:3px double #ddf0ff;cursor:default}
-#add,#droparea small{font-size:12px}
-#add div{background:#ddf0ff;padding:3px}
-#add div:hover{color:#333}
+.upload__droparea{display:none;text-align:center}
+.upload__droparea__label{display:none}
+.upload__add{margin:7px auto;width:230px}
+.upload__add div{color:#666}
+.upload__add{border:3px double #ddf0ff;cursor:default}
+.upload__add,
+.upload__droparea small{font-size:12px}
+.upload__add div{background:#ddf0ff;padding:3px}
+.upload__add div:hover{color:#333}
+.upload__tools__bg{opacity:.4;background:#fff;height:35px}
+.upload__tools,
+.upload__tools__bg{position:absolute;top:140px;left:0;width:182px}
+.upload__hint__icon{position:relative;padding-right:7px;opacity:.2;float:left}
+.upload__tools span,
+.upload__hint__icon{display:inline-block;width:24px;height:24px;
+	background-image:url(./img/image-tools.png);
+	background-repeat:no-repeat;}
+.upload__hint__icon,
+.upload__tools__cover{background-position:-34px 0}
+.upload__tools__rotate__270{background-position:0 0}
+.upload__tools__rotate__90{background-position:-68px 0}
+.upload__tools__crop{background-position:-98px 0}
+.upload__tools{text-align:center;color:#000}
+.upload__tools span{margin:5px;opacity:.4}
+.upload__tools a:hover span{opacity:1}
+.upload__tools__delete{position:absolute;right:7px;top:47px;color:gray}
+.upload__tools__cover{position:relative}
+.upload__tools__crop{position:absolute;right:10px;top:0}
+.upload__tools__main{display:inline;opacity:1 !important}
+.upload__hint{clear:both;padding:10px 0}
 
-.tools-bg{opacity:.4;background:#fff;height:35px}
-.tools,.tools-bg{position:absolute;top:140px;left:0;width:182px}
-i.choose-cover{position:relative;padding-right:7px;opacity:.2;float:left}
-.tools a b,
-i.choose-cover{display:inline-block;background:url(./img/image-tools.png) no-repeat;
-    width:24px;height:24px}
-.tools .cover b,i.choose-cover{background-position:-34px 0}
-.tools{text-align:center;color:#000}
-.tools a b{margin:5px}
-.tools .r90 b{background-position:-68px 0}
-.tools .crop b{background-position:-98px 0}
-.tools a{opacity:.4}
-.tools a:hover{opacity:1}
-.tools .delete{position:absolute;right:7px;top:47px;color:gray}
-.tools .bubble .tip{bottom:-14px}
-.tools .cover{position:relative}
-.tools .crop{position:absolute;right:10px;top:0}
-.tools .main{display:inline;opacity:1}
-
-.photo-edit{float:left;position:relative;width:192px;height:215px;cursor:move}
-.photo-edit:hover a{display:inline;text-decoration:none}
-.photo-edit .caption input{width:146px;padding:4px 30px 4px 4px;font-size:12px}
-.photo{background:#fff url(./img/upload-spinner.gif) 50% 50% no-repeat;
-    width:182px;height:182px;text-align:center;overflow:hidden}
-.photo .img{height:180px;width:180px}
-.photo span{position:absolute;top:160px;left:10px;width:162px;
-    background:rgba(255,255,255,0.3);display:none}
-.photo span,.photo i{height:5px;border:1px solid #aaa}
-.photo i{border-width:0 1px 0 0;background:#ddf0ff;display:block;width:0}
-.upload-hint{clear:both;padding:10px 0}
+.upload__image{float:left;position:relative;
+	width:192px;height:215px;cursor:move}
+.upload__image:hover a{display:inline;text-decoration:none}
+.upload__image__caption input{width:146px;
+	padding:4px 30px 4px 4px;margin:0;font-size:12px}
+.upload__image__thumb{
+	background:#fff url(./img/upload-spinner.gif) 50% 50% no-repeat;
+	width:182px;height:182px;text-align:center;overflow:hidden}
 
 /* mobile only */
 @media (max-width: 48em) {
-	#up{margin-left:0}
-	#up li{float:none}
-	#up .tools{left:10px}
-	.upload-hint,#droparea{padding:10px}
+	.upload{margin-left:0}
+	.upload li{float:none}
+	.upload__tools{left:10px}
+	.upload__hint,
+	.upload__droparea{padding:10px}
 }
 
 /* desktop only */
 @media (min-width: 48em) {
-	#droparea{
-		border:2px dashed #ccc;padding:20px;
+	.upload__droparea{
+		border:2px dashed #ccc;border-radius:4px;padding:20px;
 		font-size:20px;margin-right:10px;margin-bottom:10px;color:#999;
-		border-radius:4px
 	}
-	#droparea #label{display:block}
-	#droparea.hover,
-	#droparea:hover{border:2px dashed #999}
+	.upload__droparea__label{display:block}
+	.upload__droparea.hover,
+	.upload__droparea:hover{border:2px dashed #999}
 }

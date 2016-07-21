@@ -1,23 +1,20 @@
 {% load thumbnail %}
 {% load upload_tags %}
-<div class="photo-edit">
-    <div class="photo">
-        <span><i></i></span>
-        {% thumbnail i.path 180x180 crop=col.crop as thumb %}
-        <img class="img" height="160" src="{{ thumb.path|absolute_url }}">
-    </div>
-    <div class="tools-bg"></div>
+<div class="upload__image">
+    {% thumbnail i.path 180x180 crop=col.crop as thumb %}
+    <img class="upload__image__thumb" src="{{ thumb.path|absolute_url }}">
+    <div class="upload__tools__bg"></div>
     {% with pk=i.id.value|default_if_none:0 %}
-    <div class="tools{% if not pk %} hide{% endif %}">
+    <div class="upload__tools{% if not pk %} hide{% endif %}">
         {# These long lines must go in Up.form_tpl spaceless. Don't break up! #}
-        <a target="tools" href="{% url 'rotate' 270 pk %}" class="rotate r90-" title="rotate clockwise"><b></b></a>
-        <a target="tools" href="#now" class="cover{% if i.pos.value == 0 %} main{% endif %}" title="Set as main image."><b></b></a>
-        <a target="tools" href="{% url 'rotate' 90 pk %}" class="rotate r90" title="rotate anti-clockwise"><b></b></a>
-        <a target="crop{{ pk }}" href="{% url 'crop' pk %}" class="crop" title="Crop image"><b></b></a>
-        <label class="delete" title="Mark for deletion.">&times; {{ i.DELETE }}</label>
+        <a target="tools" href="{% url 'rotate' 270 pk %}" class="rotate" title="rotate clockwise"><span class="upload__tools__rotate__270"></span></a>
+        <a target="tools" href="#now" class="cover" title="Set as main image."><span class="upload__tools__cover{% if i.pos.value == 0 %} upload__tools__main{% endif %}"></span></a>
+        <a target="tools" href="{% url 'rotate' 90 pk %}" class="rotate" title="rotate anti-clockwise"><span class="upload__tools__rotate__90"></span></a>
+        <a target="crop{{ pk }}" href="{% url 'crop' pk %}" title="Crop image"><span class="upload__tools__crop"></span></a>
+        <label class="upload__tools__delete" title="Mark for deletion.">&times; {{ i.DELETE }}</label>
     </div>
     {% endwith %}
-    <div class="caption">{{ i.alt }}</div>
+    <div class="upload__image__caption">{{ i.alt }}</div>
     {{ i.pos }}
     {{ i.id }}
 </div>

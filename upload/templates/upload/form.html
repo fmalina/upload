@@ -1,50 +1,53 @@
 {% load staticfiles %}
-<div id="up">
-<div id="droparea">
-    <div id="label">
-        <img src="{% static 'upload/img/upload-image.png' %}"
-            width="32" height="32"
-            alt="" style="position:relative;left:15px">
-        <img src="{% static 'upload/img/upload-arrow.png' %}"
-            width="24" height="24"
-            alt="" style="position:relative;left:-36px;top:10px">
-        Drop your photos <!--item--> here<br>
-        <small>or if you prefer</small>
-    </div>
-    <div id="add"><div>+ choose photos from your device</div></div>
+<div id="up" class="upload">
+	<div id="droparea" class="upload__droparea">
+		<div class="upload__droparea__label">
+			<img src="{% static 'upload/img/upload-image.png' %}"
+				width="32" height="32"
+				alt="" style="position:relative;left:15px">
+			<img src="{% static 'upload/img/upload-arrow.png' %}"
+				width="24" height="24"
+				alt="" style="position:relative;left:-36px;top:10px">
+			Drop your photos <!--item--> here<br>
+			<small>or if you prefer</small>
+		</div>
+		<div id="add" class="upload__add">
+			<div>+ choose photos from your device</div>
+		</div>
+	</div>
+
+	<div id="drop"></div>
+
+	<div id="sortable">
+	{% for i in images %}
+		{% if i.instance.pk %}
+			{% include 'upload/image.html' %}
+		{% else %}
+			<div class="upload__fallback">
+				{{ i.file_data }}<br>
+				{{ i.alt }}
+			</div>
+		{% endif %}
+		{% if forloop.last %}
+			<p class="upload__fallback">Max. 4 images at a time,
+				add more later.</p>
+		{% endif %}
+	{% endfor %}
+	</div>
+
+	<input type="file" name="file" id="file" multiple="multiple" 
+		style="display:none">
+
+	{{ images.management_form }}
 </div>
 
-<div id="drop"></div>
-
-<div id="sortable">
-{% for i in images %}
-    {% if i.instance.pk %}
-        {% include 'upload/image.html' %}
-    {% else %}
-        <div class="default-upload">
-            {{ i.file_data }}<br>
-            {{ i.alt }}
-        </div>
-    {% endif %}
-    {% if forloop.last %}
-        <p class="default-upload">Max. 4 images at a time, add more later.</p>
-    {% endif %}
-{% endfor %}
-</div>
-
-<input type="file" name="file" id="file" multiple="multiple" 
-    style="display:none">
-
-{{ images.management_form }}
-</div>
-
-<p class="upload-hint clear">
-    <span class="script"><i class="choose-cover"></i>
-        Uploaded? Pick the best shot to represent your posting.
-    </span>
-    {% if upload_imap_enabled %}
-        Trouble uploading? Email photos to
-        <a href="mailto:{{ upload_imap_email }}">{{ upload_imap_email }}</a>
-        from your registered email address after saving.
-    {% endif %}
+<p class="upload__hint clear">
+	<span class="script"><i class="upload__hint__icon"></i>
+		Uploaded? Pick the best shot to represent your posting.
+	</span>
+	{% if upload_imap_enabled %}
+		Trouble uploading? Email photos to
+		<a href="mailto:{{ upload_imap_email }}">{{ upload_imap_email }}</a>
+		from your registered email address after saving.
+	{% endif %}
 </p>
