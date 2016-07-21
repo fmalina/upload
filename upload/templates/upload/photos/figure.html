@@ -3,7 +3,7 @@
 <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
 	<a href="{{ img.url }}" itemprop="contentUrl" data-size="{{ img.w }}x{{ img.h }}">
 		{% thumbnail img.path size crop=col.crop as t %}
-		<img src="{{ t.path|absolute_url }}" itemprop="thumbnail"
+		<img src="{{ t.url|fixurl }}" itemprop="thumbnail"
 			width="{{ t.width }}" height="{{ t.height }}" alt="{{ img.alt }}" />
 	</a>
 	<figcaption itemprop="caption description">{{ img.alt }}</figcaption>
