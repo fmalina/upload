@@ -9,15 +9,16 @@ Extracted from FlatmateRooms photo upload feature
 https://www.FlatmateRooms.co.uk/post (please don't save if testing)
 
 - contains native JavaScript multifile drag and drop upload UI with instant thumbnails and progress bars, see `upload/static/upload.js <https://github.com/fmalina/upload/blob/master/upload/static/upload/upload.js>`_
-- python/PIL backend for upload, cropping and rotation of photos
+- python/PIL backend for upload, cropping, autocrop and rotation of photos
 - seamless integration into Django projects
 - image cropping UI (uses jQuery)
 
 Thumbnails are generated using python PIL/Pillow using easy-thumbnails or
 compatible thumbnailing application such as sorl-thumbnails.
 
-Uploaded files are grouped into collections, the collection model is swappable
-via settings, so uploaded files can be grouped to a Page, Gallery, Listing etc.
+Uploaded files are grouped into sortable collections, the collection model
+is swappable via settings, so uploaded files can be grouped to a Page, Gallery,
+Listing etc.
 
 upload.js builds on the following HTML5 demos:
 http://html5demos.com/dnd-upload
@@ -78,7 +79,7 @@ multiple files in each collection.
 Add files
 ~~~~~~~~~
 Drag and drop upload photos and files into your application.
-Files can have alternative description and are orderable (TODO, jQuery UI demo).
+Files can have alternative description and are orderable.
 
 Remarks
 -------
