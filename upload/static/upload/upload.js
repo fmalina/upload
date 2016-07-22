@@ -154,6 +154,15 @@ function sortable_uploads(){
 }
 
 
+// Fire upload, when DOM ready
+document.addEventListener('readystatechange', function(){
+    if(document.readyState === 'complete'){
+		Up.load(); // Fire
+		sortable_uploads();
+	}
+}, false);
+
+
 // UI jQuery dependent
 $(function(){
 	$(document).on('click', '.upload .rotate', function(e){
