@@ -116,9 +116,16 @@ var Up = {
 			file = ID('file');
 		if(Up.tests.dnd && Up.tests.filereader){
 			d.style.display = 'block';
-			d.ondragover = function( ){this.className='hover';return false;}
-			d.ondragend  = function( ){this.className='';     return false;}
-			d.ondrop     = function(e){this.className='';
+			d.ondragover = function( ){
+				this.className='upload__droparea hover';
+				return false;
+			}
+			d.ondragend  = function( ){
+				this.className='upload__droparea';
+				return false;
+			}
+			d.ondrop = function(e){
+				this.className='upload__droparea';
 				e.preventDefault();
 				Up.read(e.dataTransfer.files);
 			}

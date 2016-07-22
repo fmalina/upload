@@ -34,9 +34,17 @@
 .upload__image:hover a{display:inline;text-decoration:none}
 .upload__image__caption input{width:146px;
 	padding:4px 30px 4px 4px;margin:0;font-size:12px}
-.upload__image__thumb{
+.upload__image__wrap{
 	background:#fff url(./img/upload-spinner.gif) 50% 50% no-repeat;
 	width:182px;height:182px;text-align:center;overflow:hidden}
+
+.upload__progress_bar{position:absolute;top:130px;left:10px;width:162px;
+	    background:rgba(255,255,255,0.3);display:none}
+.upload__progress_bar,
+.upload__progress_bar i{height:5px;border:1px solid #aaa}
+.upload__progress_bar i{border-width:0 1px 0 0;
+	background:#ddf0ff;display:block;width:0}
+
 
 /* mobile only */
 @media (max-width: 48em) {
