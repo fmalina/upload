@@ -174,7 +174,7 @@ document.addEventListener('readystatechange', function(){
 $(function(){
 	$(document).on('click', '.upload .rotate', function(e){
 		e.preventDefault();
-		var i = $(this).parent().parent().find('.img')[0];
+		var i = $(this).parent().parent().find('.upload__image__thumb')[0];
 		$.get($(this).attr('href'), function(){
 			i.style.opacity = '0';
 			bg = i.src;
