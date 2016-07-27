@@ -3,14 +3,6 @@
 {% block head %}
 {% include "upload/photos/head.html" %}
 {% endblock %}
-{% block extrastyles %}
-figure{float:left;padding:0 .5em .3em 0;margin:0}
-.pswp__bg{background:rgba(255,255,255,.9) !important}
-.pswp__img{box-shadow:0 0 10px 0 rgba(0,0,0,.9)}
-.pswp__top-bar,
-.pswp__button::before{background-color:rgba(0,0,0,.6) !important}
-{% endblock %}
-
 {% block content %}
     <h1>Album #{{ col.pk }}</h1>
     <p><a href="{% url 'upload_col_edit' col.pk %}">edit</a></p>
