@@ -91,7 +91,8 @@ def handle_file(data, file_obj):
         os.remove(path)
         return False
 
-    def fff(size): return Image.new('RGB', size, app_settings.UPLOAD_FILL_ALPHA)
+    def fff(size):
+        return Image.new('RGB', size, app_settings.UPLOAD_FILL_ALPHA)
 
     # add white background to semi-transparent images
     if app_settings.UPLOAD_FILL_ALPHA and im.mode in ('RGBA', 'P'):

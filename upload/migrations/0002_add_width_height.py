@@ -15,11 +15,13 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='file',
             name='h',
-            field=models.IntegerField(blank=True, null=True, verbose_name='height'),
+            field=models.IntegerField(blank=True, null=True,
+                                      verbose_name='height'),
         ),
         migrations.AddField(
             model_name='file',
             name='w',
-            field=models.IntegerField(blank=True, null=True, verbose_name='width'),
+            field=models.IntegerField(blank=True, null=True,
+                                      verbose_name='width'),
         ),
     ]
