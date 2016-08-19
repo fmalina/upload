@@ -4,7 +4,7 @@
 <script src="{% static 'upload/upload.js' %}"></script>
 <script>
 // config
-Up.url = '{% if col %}{% url 'upload_edit' col.pk %}{% else %}{% url 'upload' %}{% endif %}';
+Up.url = '{% if col %}{% url 'xhr_up_col' col.pk %}{% else %}{% url 'xhr_up' %}{% endif %}';
 Up.form_tpl = '{% spaceless %}{% with images.empty_form as i %}
 		{% include 'upload/image.html' %}
 		{% endwith %}{% endspaceless %}';
