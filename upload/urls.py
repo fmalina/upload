@@ -5,21 +5,18 @@ from upload.views_post import FilesEditView
 urlpatterns = [
     # XHR handler to upload files
     url(r'^$',
-        upload,
-        name='upload'),
+        upload, name='xhr_up'),
     # XHR handler for files in existing collection
     url(r'^(?P<pk>[0-9]+)$',
-        upload,
-        name='upload_edit'),
+        upload, name='xhr_up_col'),
 
     # Post collection
     url(r'^post$',
-        FilesEditView.as_view(),
-        name="upload_col"),
+        FilesEditView.as_view(), name="upload_col"),
+
     # Edit existing collection
     url(r'^(?P<pk>[0-9]+)/edit$',
-        FilesEditView.as_view(),
-        name='upload_col_edit'),
+        FilesEditView.as_view(), name='upload_col_edit'),
 
     # Crop and rotate images
     url(r'^crop/(?P<pk>[0-9]+)$', edit, name='crop'),
