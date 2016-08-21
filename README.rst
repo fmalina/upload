@@ -100,11 +100,14 @@ Integration
 | ``<a href="{% url 'upload_col_edit' pk=instance.pk %}">Upload</a>``
 | from your editing interface. ``instance`` being one of your collection model.
 
+
 | To upload files for any model taking advantage of generic foreign key, link:
 | ``<a href="{% url 'upload_gfk_edit' app_label model(lower) object_id %}">``
 
+
 | Therefore a profile picture upload link might look like so:
 | ``<a href="{% url 'upload_gfk_edit' 'auth' 'user' request.user.pk %}">..</a>``
+
 
 An important view to reuse or use as inspiration in a custom integration is
 ``views_post.FilesEditView``.
