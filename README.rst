@@ -3,7 +3,6 @@ HTML5 upload with photo rotate/crop tools and Django backend
 
 .. image:: https://travis-ci.org/fmalina/upload.svg?branch=master
     :target: https://travis-ci.org/fmalina/upload
-.. |br| raw:: html
 
 A reusable Django app to work with photo and file uploads.
 Extracted from FlatmateRooms photo upload feature
