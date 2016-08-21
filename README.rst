@@ -99,15 +99,23 @@ Integration
 ~~~~~~~~~~~
 Simple integration works out of the box.
 
-To upload files to collections, link: |br|
-``<a href="{% url 'upload_col_edit' pk=instance.pk %}">Upload</a>`` |br|
-from your editing interface. ``instance`` being one of your collection model.
+To upload files to your collection from your editing interface, link:
 
-To upload files for any model taking advantage of generic foreign key, link: |br|
-``<a href="{% url 'upload_gfk_edit' app_label model(lower) object_id %}">``
+::
 
-Therefore a profile picture upload link might look like so: |br|
-``<a href="{% url 'upload_gfk_edit' 'auth' 'user' request.user.pk %}">..</a>``
+    <a href="{% url 'upload_col_edit' pk=collection.pk %}">Upload</a>
+
+To upload files for any model taking advantage of generic foreign key, link:
+
+::
+
+    <a href="{% url 'upload_gfk_edit' app_label model(lower) object_id %}">
+
+Therefore a profile picture upload link might look like so:
+
+::
+
+    <a href="{% url 'upload_gfk_edit' 'auth' 'user' request.user.pk %}">..</a>
 
 An important view to reuse or use as inspiration in a custom integration is
 ``views_post.FilesEditView``.
