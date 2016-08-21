@@ -1,3 +1,5 @@
+{% load thumbnail %}
+{% load upload_tags %}
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,7 +17,11 @@ body{font:.8em sans-serif;color:#333;}
             {% block header %}
             <p><a href='/'>&larr; home</a>
             {% endblock %}
-            <p>Loggedin as: {{ request.user.username }}
+            <p>Loggedin as: {{ request.user.username }}<br>
+            <a href="{% url 'upload_gfk_edit' 'auth' 'user' request.user.pk %}">
+                {% thumbnail img.path 50x50 crop=",0" as i %}
+                <img src="{{ i.url|fixurl }}" alt=""><br>
+                Update profile photo</a>
         </div>
         <div id="c">{% block content %}{% endblock %}</div>
     </body>

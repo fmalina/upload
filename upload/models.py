@@ -1,6 +1,8 @@
 from django.db import models
 from django.apps import apps
 from django.conf import settings
+from django.contrib.contenttypes.fields import GenericForeignKey
+from django.contrib.contenttypes.models import ContentType
 from upload import app_settings
 import os.path
 import os
@@ -20,6 +22,12 @@ class File(models.Model):
     alt = models.CharField(max_length=60, blank=True)
     fn = models.CharField('original filename', max_length=60,
                           blank=True, editable=False)
+
+    # generic foreign key allows to associate uploads with any content object
+    # nullable to support uploads before collection instance is saved
+    content_type = models.ForeignKey(ContentType, blank=True, null=True)
+    object_id = models.PositiveIntegerField(blank=True, null=True)
+    content_object = GenericForeignKey()
 
     def base_path(self):
         folder = 'tmp'
@@ -97,6 +105,13 @@ def get_collection_model():
                                    " model '%s' that has not been installed"
                                    % UPLOAD_COLLECTION_MODEL)
     return collection_model
+
+
+def get_content_object(app_label, model, object_id):
+    if app_label and model and object_id:
+        content_type = ContentType.objects.get(app_label=app_label, model=model)
+        return content_type.get_object_for_this_type(pk=object_id)
+    return
 
 
 def make_dir(path):

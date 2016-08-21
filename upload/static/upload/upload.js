@@ -27,9 +27,14 @@ var Up = {
 	// handle adding file forms to a formset
 	add_form: function(i){
 		var drop = ID('drop'),
-			total = ID('id_file_set-TOTAL_FORMS');
+				prefix = 'id_file_set-',
+				total = ID(prefix+'TOTAL_FORMS');
+			if(!total){  // generic foreign key
+				prefix = 'id_upload-file-content_type-object_id-';
+				total = ID(prefix+'TOTAL_FORMS');
+			}
 		var form = Up.form_tpl.replace(/__prefix__/g, total.value),
-			id = 'id_file_set-' + total.value + '-',
+			id = prefix + total.value + '-',
 			tmp = document.createElement('div');
 		tmp.innerHTML = form;
 		form = tmp.firstChild;
