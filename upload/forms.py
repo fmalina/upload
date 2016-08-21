@@ -27,7 +27,7 @@ class FileForm(forms.ModelForm):
 
     class Meta:
         model = File
-        exclude = ('col',)
+        exclude = ('col', 'content_type', 'object_id')
         widgets = {'alt': forms.TextInput({'placeholder': 'Enter caption'})}
 
     def url(self):

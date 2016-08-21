@@ -2,7 +2,7 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.http import HttpResponse
 from django.template.loader import render_to_string
 from upload.forms import handle_file, save_sizes, CropForm
-from upload.models import File, get_collection_model
+from upload.models import File, get_collection_model, get_content_object
 from upload.utils.imaging import meets_min_size
 from upload import app_settings
 from PIL import Image
@@ -10,15 +10,18 @@ from PIL import Image
 Col = get_collection_model()
 
 
-def upload(request, pk=False):
+def upload(request, pk=None, app_label=None, model=None, object_id=None):
     data = request.FILES.get('file')
     if data:
         f = File(fn=data.name[:60])
+        col = None
         if pk:
             col = get_object_or_404(Col, pk=pk)
             f.col = col
             if not col.is_editable_by(request.user):
                 return HttpResponse('not permitted')
+        obj = get_content_object(app_label, model, object_id)
+        f.content_object = obj or col
         f.save()
         im = handle_file(data, f)
         if not im:
