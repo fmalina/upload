@@ -24,10 +24,11 @@ class File(models.Model):
                           blank=True, editable=False)
 
     # generic foreign key allows to associate uploads with any content object
-    # nullable to support uploads before collection instance is saved
+    content_object = GenericForeignKey()
+    # nullable to support XHR uploads before collection instance is saved
     content_type = models.ForeignKey(ContentType, blank=True, null=True)
     object_id = models.PositiveIntegerField(blank=True, null=True)
-    content_object = GenericForeignKey()
+
 
     def base_path(self):
         folder = 'tmp'
