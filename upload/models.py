@@ -3,6 +3,7 @@ from django.apps import apps
 from django.conf import settings
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
+from django.shortcuts import get_object_or_404
 from upload import app_settings
 import os.path
 import os
@@ -109,8 +110,11 @@ def get_collection_model():
 
 
 def get_content_object(app_label, model, object_id):
+    """For use in views
+    """
     if app_label and model and object_id:
-        content_type = ContentType.objects.get(app_label=app_label, model=model)
+        content_type = get_object_or_404(ContentType, app_label=app_label,
+                                                      model=model)
         return content_type.get_object_for_this_type(pk=object_id)
     return
 
