@@ -32,7 +32,7 @@
 .upload__image{float:left;position:relative;
 	width:192px;height:215px;cursor:move}
 .upload__image:hover a{display:inline;text-decoration:none}
-.upload__image__caption input{width:146px;
+.upload__image__caption input[type=text]{width:146px;
 	padding:4px 30px 4px 4px;margin:0;font-size:12px}
 .upload__image__wrap{
 	background:#fff url(./img/upload-spinner.gif) 50% 50% no-repeat;
