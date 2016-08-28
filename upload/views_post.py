@@ -75,6 +75,7 @@ class FilesEditView(DetailView):
             'col': col,
             'form': form,
             'images': files,
+            'instance': obj,
             'xhr_upload_url': url,
             'upload_imap_enabled': app_settings.UPLOAD_IMAP_ENABLED,
             'upload_imap_email': app_settings.UPLOAD_IMAP_EMAIL
