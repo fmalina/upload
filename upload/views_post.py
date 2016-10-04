@@ -65,7 +65,7 @@ class FilesEditView(DetailView):
         if not col and not obj:
             url = reverse('xhr_up')
         elif col:
-            url = reverse('xhr_up_col', kwargs={'pk': col.pk}) 
+            url = reverse('xhr_up_col', kwargs={'pk': col.pk})
         elif obj:
             url = reverse('xhr_up_gfk', kwargs={'app_label': app_label,
                                                 'model': model,

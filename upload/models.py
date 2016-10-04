@@ -41,7 +41,7 @@ class File(models.Model):
 
     def path(self):
         return app_settings.UPLOAD_ROOT + self.base_path()
-    
+
     def url(self):
         return settings.MEDIA_URL + self.base_path()
 
