@@ -6,8 +6,11 @@ from django.db import migrations, models
 from django.db.models import deletion
 from upload import app_settings
 
+CUSTOM_COLLECTION = app_settings.UPLOAD_COLLECTION_MODEL != 'upload.Collection'
+
 initial_operations = []
-if app_settings.UPLOAD_COLLECTION_MODEL == 'upload.Collection':
+
+if True: #  if not CUSTOM_COLLECTION? (DB table is still needed for tests)
     initial_operations = [
         migrations.CreateModel(
             name='Collection',
@@ -24,6 +27,9 @@ class Migration(migrations.Migration):
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
+    if CUSTOM_COLLECTION:
+        app_name = app_settings.UPLOAD_COLLECTION_MODEL.split('.')[0]
+        dependencies += [(app_name, '__first__')]
 
     operations = initial_operations + [
         migrations.CreateModel(
