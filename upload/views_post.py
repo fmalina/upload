@@ -31,14 +31,13 @@ class FilesEditView(DetailView):
     def post(self, request, pk=None, app_label=None, model=None, object_id=None):
         col = self.get_object() if pk else None
         obj = get_content_object(app_label, model, object_id)
-        instance = obj or col
 
         data = [request.POST]
         if request.FILES:
             data.append(request.FILES)
 
         form = self.col_form(*data, instance=col)
-        files = self.file_set(generic=bool(obj))(*data, instance=instance)
+        files = self.file_set(generic=bool(obj))(*data, instance=obj or col)
 
         if form.is_valid():
             if not obj:
@@ -50,9 +49,9 @@ class FilesEditView(DetailView):
                 if file_form.cleaned_data.get('DELETE', False):
                     f.delete()
                 elif f:
-                    f.content_object = instance
+                    f.content_object = obj or col
                     f.save()
-            return redirect(instance)
+            return redirect(obj or col)
         return
 
     def get(self, request, pk=None, app_label=None, model=None, object_id=None):
