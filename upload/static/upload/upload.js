@@ -26,7 +26,7 @@ var Up = {
 	},
 	// handle adding file forms to a formset
 	add_form: function(i){
-		var drop = ID('drop'),
+		var list = ID('upload_list'),
 				prefix = 'id_file_set-',
 				total = ID(prefix+'TOTAL_FORMS');
 			if(!total){  // generic foreign key
@@ -39,8 +39,9 @@ var Up = {
 		tmp.innerHTML = form;
 		form = tmp.firstChild;
 		form.id = id;
-		drop.parentNode.insertBefore(form, drop.nextSibling);
+		list.appendChild(form);
 		total.value = parseInt(total.value, 10) + 1;
+		sortable_uploads();
 		return id;
 	},
 	fill_form: function(id, xhr_response){
@@ -153,7 +154,7 @@ var Up = {
 
 
 function sortable_uploads(){
-    var list = ID("sortable");
+    var list = ID("upload_list");
     Sortable.create(list, {
         draggable: '.upload__image',
         onUpdate: function(evt){
