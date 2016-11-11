@@ -121,10 +121,6 @@ An important view to reuse or use as inspiration in a custom integration is
 
 Contribute
 ----------
-Fork it and send your pull request. File and issue. Mention on your blog,
-tweet, status update. Tell your dev friends and mention when complaining
-to sites that have poor upload features.
+File issues. Fork and send pull requests. Tell developers implementing uploads.
 
-Flask reusability rewrite would be a welcome contribution, if you need another
-server backend such as for MongoDB or PHP please fork off and let me know
-how you get on.
+Thank you.
