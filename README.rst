@@ -36,7 +36,7 @@ To get the latest version from GitHub
 
 ::
 
-    pip install -e git+git://github.com/fmalina/upload.git#egg=upload
+    pip3 install -e git+git://github.com/fmalina/upload.git#egg=upload
 
 Add ``upload`` to your ``INSTALLED_APPS``
 
