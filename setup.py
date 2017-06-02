@@ -1,10 +1,9 @@
-# -*- encoding: utf-8 -*-
 from setuptools import setup, find_packages
-import upload as app
+import upload
 
 setup(
     name="upload",
-    version=app.__version__,
+    version=upload.__version__,
     description='HTML5 Upload library with django backend and image\
     manipulation tools',
     long_description=open('README.rst').read(),

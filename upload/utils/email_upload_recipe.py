@@ -25,8 +25,8 @@ def email_upload(msg):
         to:(upload email)
         ...label "Process/Uploads"
     """
-    alt_blacklist = '.jpg .jpeg .png img image photo screenshot - _ ' +\
-                    '0 1 2 3 4 5 6 7 8 9'.split()
+    alt_blacklist = '.jpg .jpeg .png img image photo screenshot - _ \
+                    0 1 2 3 4 5 6 7 8 9'.split()
     if not msg.is_multipart():
         return 'No attachement.'
     try:
