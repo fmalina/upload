@@ -131,7 +131,7 @@ on your collection model such as:
             return True
         return False
 
-The above ensures that a collection is only editable by its user.
+The above ensures that a collection is only editable by its user and staff.
 
 Contribute
 ----------
