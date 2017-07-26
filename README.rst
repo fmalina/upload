@@ -123,4 +123,25 @@ Contribute
 ----------
 File issues. Fork and send pull requests. Tell developers implementing uploads.
 
-Thank you.
+
+Dual Licensing
+--------------
+
+Commercial license
+~~~~~~~~~~~~~~~~~~
+If you want to use Upload to develop and run commercial projects and applications, the Commercial license is the appropriate license. With this option, your source code is kept proprietary.
+
+Once purchased, you are granted a commercial BSD style license and all set to use Upload in your business.
+
+`Small Team License (£350) <https://fmalina.github.io/pay.html?amount=350&msg=Upload Team license>`_
+Small Team License for up to 8 developers
+
+`Organization License (£1200) <https://fmalina.github.io/pay.html?amount=1200&msg=Upload Organisation License>`_
+Commercial Organization License for Unlimited developers
+
+Open source license
+~~~~~~~~~~~~~~~~~~~
+If you are creating an open source application under a license compatible with the GNU GPL license v3, you may use Upload under the terms of the GPLv3.
+
+
+
