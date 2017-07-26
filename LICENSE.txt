@@ -622,8 +622,8 @@ copy of the Program in return for a fee.
 
 
 
-                           ================
-                            TEXTING CENTRE
+                           ===============
+                            DJANGO UPLOAD
 
 
     Copyright (C) 2014-17  F. Malina
