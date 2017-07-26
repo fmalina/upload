@@ -119,6 +119,20 @@ Therefore a profile picture upload link might look like so:
 An important view to reuse or use as inspiration in a custom integration is
 ``views_post.FilesEditView``.
 
+Access control
+~~~~~~~~~~~~~~
+You can control editing access by implementing ``is_editable_by`` method
+on your collection model such as:
+
+::
+
+    def is_editable_by(self, user):
+        if user.pk == self.user_id or user.is_staff:
+            return True
+        return False
+
+The above ensures that a collection is only editable by its user and staff.
+
 Contribute
 ----------
 File issues. Fork and send pull requests. Tell developers implementing uploads.
