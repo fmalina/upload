@@ -156,6 +156,3 @@ Commercial Organization License for Unlimited developers
 Open source license
 ~~~~~~~~~~~~~~~~~~~
 If you are creating an open source application under a license compatible with the GNU GPL license v3, you may use Upload under the terms of the GPLv3.
-
-
-
