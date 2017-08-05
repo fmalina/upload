@@ -119,6 +119,21 @@ Therefore a profile picture upload link might look like so:
 An important view to reuse or use as inspiration in a custom integration is
 ``views_post.FilesEditView``.
 
+Example settings
+~~~~~~~~~~~~~~~~
+
+::
+
+    import os
+    
+    APP_ROOT = os.path.abspath(
+        os.path.join(os.path.dirname(__file__), '..'))
+
+    STATIC_URL = '/static/'
+    MEDIA_URL = '/media/'
+    STATIC_ROOT = APP_ROOT + STATIC_URL
+    MEDIA_ROOT = STATIC_ROOT + 'media/'
+
 Access control
 ~~~~~~~~~~~~~~
 You can control editing access by implementing ``is_editable_by`` method
