@@ -14,7 +14,7 @@ Col = get_collection_model()
 class ColForm(ModelForm):
     class Meta:
         model = Col
-        fields = []
+        exclude = ['user']
 
 
 class FilesEditView(DetailView):
