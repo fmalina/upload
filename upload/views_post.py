@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.views.generic import DetailView
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.contrib.contenttypes.forms import generic_inlineformset_factory
 from django.forms.models import inlineformset_factory
 from django.forms import ModelForm
