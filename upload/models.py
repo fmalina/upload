@@ -14,7 +14,7 @@ class File(models.Model):
     and it's short text alternative.
     """
     col = models.ForeignKey(app_settings.UPLOAD_COLLECTION_MODEL,
-                            blank=True, null=True)
+                            blank=True, null=True, on_delete=models.SET_NULL)
     no = models.IntegerField('legacy #',
                              blank=True, null=True, editable=False)
     pos = models.IntegerField('order position', blank=True, null=True)
@@ -27,7 +27,8 @@ class File(models.Model):
     # generic foreign key allows to associate uploads with any content object
     content_object = GenericForeignKey()
     # nullable to support XHR uploads before collection instance is saved
-    content_type = models.ForeignKey(ContentType, blank=True, null=True)
+    content_type = models.ForeignKey(ContentType, blank=True, null=True,
+                                     on_delete=models.PROTECT)
     object_id = models.PositiveIntegerField(blank=True, null=True)
 
 
@@ -68,7 +69,7 @@ class Collection(models.Model):
     One can therefore attach uploads to any one model
     such as Article, Album, Gallery, Pics, Photos, FilesFolder.
     """
-    user = models.ForeignKey(settings.AUTH_USER_MODEL)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
     def is_editable_by(self, user):
         """Permission check that each collection_model has to implement.
