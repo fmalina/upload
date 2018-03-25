@@ -2,6 +2,7 @@
 
 from django.db import migrations, models
 import django.db.models.deletion
+from upload import app_settings
 
 
 class Migration(migrations.Migration):
@@ -14,11 +15,14 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='file',
             name='col',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, to='upload.Collection'),
+            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL,
+                                    to=app_settings.UPLOAD_COLLECTION_MODEL),
         ),
         migrations.AlterField(
             model_name='file',
             name='content_type',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.PROTECT, to='contenttypes.ContentType'),
+            field=models.ForeignKey(blank=True, null=True,
+                                    on_delete=django.db.models.deletion.PROTECT,
+                                    to='contenttypes.ContentType'),
         ),
     ]
