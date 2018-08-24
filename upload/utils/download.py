@@ -33,3 +33,17 @@ def get_missing_file(file, url):
             f = open(path, 'wb')
             f.write(data)
             f.close()
+
+
+def add_files(obj, urls_alts):
+    """Add files to object from a list of URLs
+    urls_alts = ((url, alt), (url2, alt2))
+
+    Iterates over the datastructure, creates file objects,
+    downloads missing files.
+    """
+    for url, alt in urls_alts:
+        fn = url.split('/')[-1]
+        file = File(alt=alt, col=obj, fn=fn)
+        file.save()
+        get_missing_file(file, url)
