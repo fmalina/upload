@@ -10,12 +10,9 @@
 .upload__tools__bg{opacity:.4;background:#fff;height:35px}
 .upload__tools,
 .upload__tools__bg{position:absolute;top:140px;left:0;width:182px}
-.upload__hint__icon{position:relative;padding-right:7px;opacity:.2;float:left}
-.upload__tools span,
-.upload__hint__icon{display:inline-block;width:24px;height:24px;
+.upload__tools span{display:inline-block;width:24px;height:24px;
 	background-image:url(./img/image-tools.png);
 	background-repeat:no-repeat;}
-.upload__hint__icon,
 .upload__tools__cover{background-position:-34px 0}
 .upload__tools__rotate__270{background-position:0 0}
 .upload__tools__rotate__90{background-position:-68px 0}
@@ -27,7 +24,6 @@
 .upload__tools__cover{position:relative}
 .upload__tools__crop{position:absolute;right:10px;top:0}
 .upload__tools__main{display:inline;opacity:1 !important}
-.upload__hint{clear:both;padding:10px 0}
 
 .upload__image{float:left;position:relative;
 	width:192px;height:215px;cursor:move}
@@ -51,7 +47,6 @@
 	.upload{margin-left:0}
 	.upload li{float:none}
 	.upload__tools{left:10px}
-	.upload__hint,
 	.upload__droparea{padding:10px}
 }
 
