@@ -2,12 +2,6 @@
 <div id="up" class="upload">
 	<div id="droparea" class="upload__droparea">
 		<div class="upload__droparea__label">
-			<img src="{% static 'upload/img/upload-image.png' %}"
-				width="32" height="32"
-				alt="" style="position:relative;left:15px">
-			<img src="{% static 'upload/img/upload-arrow.png' %}"
-				width="24" height="24"
-				alt="" style="position:relative;left:-36px;top:10px">
 			Drop your photos <!--item--> here<br>
 			<small>or if you prefer</small>
 		</div>
@@ -40,8 +34,8 @@
 </div>
 
 <p class="upload__hint clear">
-	<span class="script"><i class="upload__hint__icon"></i>
-		Uploaded? Pick the best shot to represent your posting.
+	<span class="script">
+		Uploaded? Pick the best shot to represent your posting.<br>
 	</span>
 	{% if upload_imap_enabled %}
 		Trouble uploading? Email photos to
