@@ -1,4 +1,5 @@
 from upload.models import File, make_dir
+from upload.forms import save_sizes
 import urllib.request
 import urllib.error
 import urllib.parse
@@ -47,3 +48,8 @@ def add_files(obj, urls_alts):
         file = File(alt=alt, col=obj, fn=fn)
         file.save()
         get_missing_file(file, url)
+        try:
+            save_sizes(file)
+        except IOError:
+            os.remove(file.path())
+            file.delete()
