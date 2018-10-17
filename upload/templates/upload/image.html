@@ -5,7 +5,7 @@
     <div class="upload__image__wrap">
         <span class="upload__progress_bar"><i></i></span>
         {% thumbnail i.path 180x180 crop=col.crop as thumb %}
-        <img class="upload__image__thumb" src="{{ thumb.url|fixurl }}">
+        <img class="upload__image__thumb" src="{{ thumb.url|fixurl }}?{{ i.short_hash }}">
     </div>
     <div class="upload__tools__bg"></div>
     {% with pk=i.id.value|default_if_none:0 %}
