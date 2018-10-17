@@ -23,6 +23,7 @@ class File(models.Model):
     alt = models.CharField(max_length=60, blank=True)
     fn = models.CharField('original filename', max_length=60,
                           blank=True, editable=False)
+    hash = models.CharField(max_length=40, blank=True)
 
     # generic foreign key allows to associate uploads with any content object
     content_object = GenericForeignKey()
@@ -30,7 +31,6 @@ class File(models.Model):
     content_type = models.ForeignKey(ContentType, blank=True, null=True,
                                      on_delete=models.PROTECT)
     object_id = models.PositiveIntegerField(blank=True, null=True)
-
 
     def base_path(self):
         folder = 'tmp'
@@ -44,7 +44,11 @@ class File(models.Model):
         return app_settings.UPLOAD_ROOT + self.base_path()
 
     def url(self):
-        return settings.MEDIA_URL + self.base_path()
+        return settings.MEDIA_URL + self.base_path() +\
+               '?' + self.short_hash()
+
+    def short_hash(self):
+        return self.hash[:6]
 
     def delete(self, *args, **kwargs):
         path = self.path()

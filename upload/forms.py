@@ -5,6 +5,7 @@ from upload import app_settings
 from upload.utils.imaging import autocrop
 from PIL import Image, ImageOps
 from PIL.ExifTags import TAGS
+import hashlib
 import os
 
 # soft rotation and flip codes
@@ -35,6 +36,9 @@ class FileForm(forms.ModelForm):
 
     def path(self):
         return self.instance.path()
+
+    def short_hash(self):
+        return self.instance.short_hash()
 
     def save(self, col, request):
         if self.is_valid():
@@ -71,6 +75,7 @@ class FileForm(forms.ModelForm):
 def save_sizes(f):
     im = Image.open(f.path())
     f.w, f.h = im.size
+    f.hash = hashlib.sha1(im.tobytes()).hexdigest()
     f.save()
 
 
