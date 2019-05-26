@@ -6,6 +6,7 @@ from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from django.shortcuts import get_object_or_404
 from upload import app_settings
+from datetime import datetime
 import os.path
 import os
 
@@ -32,6 +33,9 @@ class File(models.Model):
     content_type = models.ForeignKey(ContentType, blank=True, null=True,
                                      on_delete=models.PROTECT)
     object_id = models.PositiveIntegerField(blank=True, null=True)
+
+    updated_at = models.DateTimeField(default=datetime.now, editable=False)
+    created_at = models.DateTimeField(default=datetime.now, editable=False)
 
     def base_path(self):
         folder = 'tmp'
@@ -61,6 +65,10 @@ class File(models.Model):
 
     def __str__(self):
         return str(self.pk)
+
+    def save(self, *args, **kwargs):
+        self.updated_at = datetime.now()
+        super(File, self).save(*args, **kwargs)
 
     def get_absolute_url(self):
         return self.url()
