@@ -63,12 +63,12 @@ function close_window(){
             <a href="/" class="home-link">Home &rarr;</a>
     </form>
     <div class="image-decorator">
-        <img id="crop-me" src="{{ img.url }}?{% now "U" %}" alt="">
+        <img id="crop-me" src="{{ img.url }}?{% now 'U' %}" alt="">
     </div>
     {% thumbnail img.path 180x180 crop=crop as thumb %}
     <p>Thumbnail: <br>
         <img height="50" width="50"
-            src="{{ thumb.url|fixurl }}?{% now "U" %}" alt="">
+            src="{{ thumb.url|fixurl }}?{% now 'U' %}" alt="">
 </div>
 </body>
 </html>
