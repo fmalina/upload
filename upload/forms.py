@@ -1,4 +1,3 @@
-from django.conf import settings
 from django import forms
 from upload.models import File, make_dir
 from upload import app_settings
@@ -73,7 +72,10 @@ class FileForm(forms.ModelForm):
 
 
 def save_sizes(f):
-    im = Image.open(f.path())
+    try:
+        im = Image.open(f.path())
+    except FileNotFoundError:
+        return
     f.w, f.h = im.size
     f.hash = hashlib.sha1(im.tobytes()).hexdigest()
     f.save()
