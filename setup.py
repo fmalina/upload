@@ -11,7 +11,7 @@ setup(
     platforms=['OS Independent'],
     keywords='upload, photos, files, django, app, crop, gallery',
     author='fmalina',
-    author_email='fmalina@gmail.com',
+    author_email='francis@vizualbod.com',
     url="https://github.com/fmalina/upload",
     packages=find_packages(),
     include_package_data=True,
