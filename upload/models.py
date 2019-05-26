@@ -1,6 +1,7 @@
 from django.db import models
 from django.apps import apps
 from django.conf import settings
+from django.core.exceptions import ImproperlyConfigured
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from django.shortcuts import get_object_or_404
@@ -110,7 +111,7 @@ def get_collection_model():
     if collection_model is None:
         raise ImproperlyConfigured("UPLOAD_COLLECTION_MODEL refers to"
                                    " model '%s' that has not been installed"
-                                   % UPLOAD_COLLECTION_MODEL)
+                                   % app_settings.UPLOAD_COLLECTION_MODEL)
     return collection_model
 
 
@@ -119,7 +120,7 @@ def get_content_object(app_label, model, object_id):
     """
     if app_label and model and object_id:
         content_type = get_object_or_404(ContentType, app_label=app_label,
-                                                      model=model)
+                                         model=model)
         return content_type.get_object_for_this_type(pk=object_id)
     return
 

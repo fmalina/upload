@@ -3,7 +3,7 @@ from django import forms
 from upload.models import File, make_dir
 from upload import app_settings
 from upload.utils.imaging import autocrop
-from PIL import Image, ImageOps
+from PIL import Image
 from PIL.ExifTags import TAGS
 import hashlib
 import os
