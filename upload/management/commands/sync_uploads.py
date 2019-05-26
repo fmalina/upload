@@ -14,6 +14,7 @@ from django.core.management.base import BaseCommand
 from django.conf import settings
 from upload.utils.spoonfeed import spoonfeed
 from upload.utils.download import get_missing_file
+from upload.models import File
 
 
 def get_missing_file_locally(file):
