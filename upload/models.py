@@ -42,8 +42,8 @@ class File(models.Model):
         if self.col_id:
             # ext3 subfolders limit workaround
             ext3_shard = int(self.col_id) // (32000-2)
-            folder = '%s/%s' % (ext3_shard, self.col_id)
-        return folder + '/%s.jpg' % self.pk
+            folder = f'{ext3_shard}/{self.col_id}'
+        return f'{folder}/{self.pk}.jpg'
 
     def path(self):
         return app_settings.UPLOAD_ROOT + self.base_path()
@@ -101,7 +101,7 @@ class Collection(models.Model):
         return 'smart'
 
     def get_absolute_url(self):
-        return '/%s' % self.pk
+        return f'/{self.pk}'
 
 
 def get_collection_model():
