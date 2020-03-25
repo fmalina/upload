@@ -27,7 +27,7 @@ class Command(BaseCommand):
         start = 0
         if args:
             start = int(args[0])
-        print("Syncing uploads from live to dev starting at PK:%s." % start)
+        print(f"Syncing uploads from live to dev starting at PK:{start}.")
         if settings.DEBUG:
             spoonfeed(File.objects, get_missing_file_locally, start=start)
         else:
