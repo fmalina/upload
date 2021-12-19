@@ -5,6 +5,7 @@ from django.core.exceptions import ImproperlyConfigured
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from django.shortcuts import get_object_or_404
+from django.utils import timezone
 from upload import app_settings
 from datetime import datetime
 import os.path
@@ -34,8 +35,8 @@ class File(models.Model):
                                      on_delete=models.PROTECT)
     object_id = models.PositiveIntegerField(blank=True, null=True)
 
-    updated_at = models.DateTimeField(default=datetime.now, editable=False)
-    created_at = models.DateTimeField(default=datetime.now, editable=False)
+    updated_at = models.DateTimeField(default=timezone.now, editable=False)
+    created_at = models.DateTimeField(default=timezone.now, editable=False)
 
     def base_path(self):
         folder = 'tmp'
