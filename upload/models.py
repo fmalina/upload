@@ -46,7 +46,8 @@ class File(models.Model):
         return f'{folder}/{self.pk}.jpg'
 
     def path(self):
-        return app_settings.UPLOAD_ROOT + self.base_path()
+        if self.pk:
+            return app_settings.UPLOAD_ROOT + self.base_path()
 
     def url(self):
         return settings.MEDIA_URL + self.base_path() +\
