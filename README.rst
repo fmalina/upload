@@ -5,8 +5,6 @@ HTML5 upload with photo rotate/crop tools and Django backend
     :target: https://travis-ci.org/fmalina/django-upload
 
 A reusable Django app to work with photo and file uploads.
-Extracted from FlatmateRooms photo upload feature
-https://www.FlatmateRooms.co.uk/post (please don't save if testing)
 
 - contains native JavaScript multifile drag and drop upload UI with instant thumbnails and progress bars, see `upload/static/upload.js <https://github.com/fmalina/upload/blob/master/upload/static/upload/upload.js>`_
 - python/PIL backend for upload, cropping, autocrop and rotation of photos
@@ -162,10 +160,10 @@ If you want to use Upload to develop and run commercial projects and application
 
 Once purchased, you are granted a commercial BSD style license and all set to use Upload in your business.
 
-`Small Team License (£350) <https://fmalina.github.io/pay.html?amount=350&msg=Upload_Team_License>`_
+`Small Team License (£350) <https://unilexicon.com/fm/pay.html?amount=350&msg=Upload_Team_License>`_
 Small Team License for up to 8 developers
 
-`Organization License (£1200) <https://fmalina.github.io/pay.html?amount=1200&msg=Upload_Organisation_License>`_
+`Organization License (£1200) <https://unilexicon.com/fm/pay.html?amount=1200&msg=Upload_Organisation_License>`_
 Commercial Organization License for Unlimited developers
 
 Open source license
