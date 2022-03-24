@@ -1,8 +1,6 @@
 from django.db import models
-from django.apps import apps
 from django.conf import settings
-from django.core.exceptions import ImproperlyConfigured
-from django.contrib.contenttypes.fields import GenericForeignKey
+from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
 from django.contrib.contenttypes.models import ContentType
 from django.shortcuts import get_object_or_404
 from upload import app_settings
@@ -12,11 +10,7 @@ import os
 
 
 class File(models.Model):
-    """ Single file, its original filename, collection, order position in it
-    and it's short text alternative.
-    """
-    col = models.ForeignKey(app_settings.UPLOAD_COLLECTION_MODEL,
-                            blank=True, null=True, on_delete=models.SET_NULL)
+    """with original filename, collection GFK, order and alt text"""
     no = models.IntegerField('legacy #',
                              blank=True, null=True, editable=False)
     pos = models.IntegerField('order position', blank=True, null=True)
@@ -39,10 +33,10 @@ class File(models.Model):
 
     def base_path(self):
         folder = 'tmp'
-        if self.col_id:
-            # ext3 subfolders limit workaround
-            ext3_shard = int(self.col_id) // (32000-2)
-            folder = f'{ext3_shard}/{self.col_id}'
+        if self.object_id:
+            # ext3 sub-folders limit workaround
+            ext3_shard = int(self.object_id) // (32000-2)
+            folder = f'{ext3_shard}/{self.object_id}'
         return f'{folder}/{self.pk}.jpg'
 
     def path(self):
@@ -74,15 +68,14 @@ class File(models.Model):
         return self.url()
 
     class Meta:
-        ordering = ['col', 'pos']
+        ordering = ['content_type', 'object_id', 'pos']
 
 
 class Collection(models.Model):
-    """Swappable using collection_model setting.
-    One can therefore attach uploads to any one model
-    such as Article, Album, Gallery, Pics, Photos, FilesFolder.
-    """
+    """Test collection model. One can attach uploads to any model using GFK
+    but implementing following models on that model may be necessary"""
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    file_set = GenericRelation(File)
 
     def is_editable_by(self, user):
         """Permission check that each collection_model has to implement.
@@ -95,8 +88,8 @@ class Collection(models.Model):
     def crop(self):
         """Thumbnail cropping rules each collection_model needs in place.
         One can define conditional rules based on type of collection.
-        E.g.: .crop() can return "smart" for landscapes or ",0" for mugshots.
-        See cropping options docs of the thumbnailing app.
+        E.g.: .crop() can return "smart" for landscapes or ",0" for profile pics.
+        See cropping options docs of the thumbnail app.
         """
         return 'smart'
 
@@ -104,28 +97,8 @@ class Collection(models.Model):
         return f'/{self.pk}'
 
 
-def get_collection_model():
-    """
-    Support for custom collection model
-    with developer friendly validation.
-    """
-    try:
-        app_label, model_name = app_settings.UPLOAD_COLLECTION_MODEL.split('.')
-    except ValueError:
-        raise ImproperlyConfigured("UPLOAD_COLLECTION_MODEL must be of the"
-                                   " form 'app_label.model_name'")
-    collection_model = apps.get_model(app_label=app_label,
-                                      model_name=model_name)
-    if collection_model is None:
-        raise ImproperlyConfigured("UPLOAD_COLLECTION_MODEL refers to"
-                                   " model '%s' that has not been installed"
-                                   % app_settings.UPLOAD_COLLECTION_MODEL)
-    return collection_model
-
-
 def get_content_object(app_label, model, object_id):
-    """For use in views
-    """
+    """For use in views"""
     if app_label and model and object_id:
         content_type = get_object_or_404(ContentType, app_label=app_label,
                                          model=model)

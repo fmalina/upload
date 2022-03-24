@@ -2,76 +2,65 @@ from django.shortcuts import render, redirect
 from django.views.generic import DetailView
 from django.urls import reverse
 from django.contrib.contenttypes.forms import generic_inlineformset_factory
-from django.forms.models import inlineformset_factory
 from django.forms import ModelForm
 from upload.forms import FileForm
-from upload.models import File, get_collection_model, get_content_object
+from upload.models import File, Collection, get_content_object
 from upload import app_settings
-
-Col = get_collection_model()
 
 
 class ColForm(ModelForm):
     class Meta:
-        model = Col
+        model = Collection
         fields = []
 
 
 class FilesEditView(DetailView):
-    model = Col
+    model = Collection
     template_name = "upload/post.html"
     col_form = ColForm
 
-    def file_set(self, generic=False):
-        if generic:
-            return generic_inlineformset_factory(File, FileForm)
-        else:
-            return inlineformset_factory(self.model, File, FileForm)
+    def file_set(self):
+        return generic_inlineformset_factory(File, FileForm)
 
-    def post(self, request, pk=None, app_label=None, model=None, object_id=None):
-        col = self.get_object() if pk else None
+    def post(self, request, app_label=None, model=None, object_id=None):
         obj = get_content_object(app_label, model, object_id)
 
         data = [request.POST]
         if request.FILES:
             data.append(request.FILES)
 
-        form = self.col_form(*data, instance=col)
-        files = self.file_set(generic=bool(obj))(*data, instance=obj or col)
+        form = self.col_form(*data, instance=obj)
+        files = self.file_set()(*data, instance=obj)
 
         if form.is_valid():
             if not obj:
-                col = form.save(commit=False)
-                col.user = request.user
-                col.save()
+                obj = form.save(commit=False)
+                obj.user = request.user
+                obj.save()
             for file_form in files.forms:
-                f = file_form.save(col, request)
+                f = file_form.save(obj, request)
                 if file_form.cleaned_data.get('DELETE', False):
                     f.delete()
                 elif f:
-                    f.content_object = obj or col
+                    f.content_object = obj
                     f.save()
-            return redirect(obj or col)
+            return redirect(obj)
         return
 
-    def get(self, request, pk=None, app_label=None, model=None, object_id=None):
-        col = self.get_object() if pk else None
+    def get(self, request, app_label=None, model=None, object_id=None):
         obj = get_content_object(app_label, model, object_id)
 
-        form = self.col_form(instance=col)
-        files = self.file_set(generic=bool(obj))(instance=obj or col)
+        form = self.col_form(instance=obj)
+        files = self.file_set()(instance=obj)
 
-        if not col and not obj:
+        if not obj:
             url = reverse('xhr_up')
-        elif col:
-            url = reverse('xhr_up_col', kwargs={'pk': col.pk})
         elif obj:
             url = reverse('xhr_up_gfk', kwargs={'app_label': app_label,
                                                 'model': model,
                                                 'object_id': object_id})
 
         return render(request, self.template_name, {
-            'col': col,
             'form': form,
             'images': files,
             'instance': obj,

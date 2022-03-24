@@ -27,7 +27,7 @@ class FileForm(forms.ModelForm):
 
     class Meta:
         model = File
-        exclude = ('col', 'content_type', 'object_id')
+        exclude = ('content_type', 'object_id')
         widgets = {'alt': forms.TextInput({'placeholder': 'Enter caption'})}
 
     def url(self):
@@ -39,7 +39,7 @@ class FileForm(forms.ModelForm):
     def short_hash(self):
         return self.instance.short_hash()
 
-    def save(self, col, request):
+    def save(self, content_object, request):
         if self.is_valid():
             file_label = [x.id_for_label for x in self.visible_fields()
                           if x.id_for_label.endswith('file_data')][0]
@@ -51,7 +51,7 @@ class FileForm(forms.ModelForm):
                 pos = 1
             if f:
                 src = f.path()
-                f.col = col
+                f.content_object = content_object
                 dst = f.path()
                 f.alt = alt
                 f.pos = pos
@@ -62,7 +62,7 @@ class FileForm(forms.ModelForm):
                     except FileNotFoundError:
                         pass
             elif file_data:
-                f = File(col=col, alt=alt, fn=file_data.name[:60])
+                f = File(content_object=content_object, alt=alt, fn=file_data.name[:60])
                 f.save()
                 y = handle_file(file_data, f)
                 if not y and f:

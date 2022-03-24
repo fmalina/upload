@@ -9,7 +9,9 @@ import os.path
 
 
 def download(url, file):
-    """Handle downloading of files from any URL, delete file recerds when 404.
+    """
+    Handle downloading files from any URL,
+    delete record when not found
     """
     try:
         print(url)
@@ -24,10 +26,9 @@ def download(url, file):
 
 
 def get_missing_file(file, url):
-    """Check file exists, download if not.
-    """
+    """Check file exists, download if not"""
     path = file.path()
-    if file.col_id and not os.path.exists(path):
+    if file.object_id and not os.path.exists(path):
         make_dir(path)
         data = download(url, file)
         if data:
@@ -37,7 +38,8 @@ def get_missing_file(file, url):
 
 
 def add_files(obj, urls_alts):
-    """Add files to object from a list of URLs
+    """
+    Add files to object from a list of URLs
     urls_alts = ((url, alt), (url2, alt2))
 
     Iterates over the datastructure, creates file objects,

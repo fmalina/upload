@@ -5,6 +5,6 @@
 {% endblock %}
 {% block content %}
     <h1>Album #{{ col.pk }}</h1>
-    <p><a href="{% url 'upload_col_edit' col.pk %}">edit</a></p>
+    <p><a href="{% url 'upload_edit' 'upload' 'collection' obj.pk %}">edit</a></p>
     {% include "upload/photos/gallery.html" %}
 {% endblock %}

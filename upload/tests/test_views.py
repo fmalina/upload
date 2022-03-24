@@ -1,9 +1,7 @@
-from django.shortcuts import get_object_or_404, render, redirect
+from django.shortcuts import get_object_or_404, render
 from django.contrib.auth import authenticate, login
-from upload.models import File, ContentType, get_collection_model
+from upload.models import File, Collection, ContentType
 from upload.tests.test_models import create_user
-
-Col = get_collection_model()
 
 
 def index(request):
@@ -17,14 +15,14 @@ def index(request):
                                    object_id=u.id).first()
     return render(request, 'index.html', {
         'img': user_img,
-        'list': Col.objects.all()
+        'list': Collection.objects.all()
     })
 
 
 def album(request, pk):
-    col = get_object_or_404(Col, pk=pk)
+    obj = get_object_or_404(Collection, pk=pk)
     return render(request, 'upload/photos/album.html', {
-        'photos': col.file_set.all(),
-        'col': col,
+        'photos': obj.file_set.all(),
+        'obj': obj,
         'size': '180x180'
     })

@@ -1,8 +1,6 @@
 from django.test import TestCase
 from django.contrib.auth.models import User
-from upload.models import File, get_collection_model
-
-Col = get_collection_model()
+from upload.models import File, Collection
 
 
 def create_user():
@@ -16,8 +14,8 @@ def create_user():
 class FileTestCase(TestCase):
     def setUp(self):
         u = create_user()
-        c = Col.objects.create(user=u)
-        f = File(alt='Frank', col=c)
+        c = Collection.objects.create(user=u)
+        f = File(alt='Frank', content_object=c)
         f.save()
 
     def test_model(self):

@@ -1,13 +1,11 @@
-from upload.models import File, get_collection_model
+from upload.models import File, Collection
 from upload.forms import handle_file
 # https://github.com/fmalina/emails
 from emails import send
 from emails.imap_recipes import EMAIL_RE, get_user
 
-Col = get_collection_model()
 
-
-def email_upload(msg):
+def email_upload(msg, col_model=Collection):
     """
     Support uploads by email
     ------------------------
@@ -36,7 +34,7 @@ def email_upload(msg):
     user = get_user(sender)
     if not user:
         return 'Sender is not a registered user.'
-    col = Col.objects.filter(user=user).last()
+    col = col_model.objects.filter(user=user).last()
     if not col:
         return 'User has no advert/photo collection.'
     for part in msg.walk():
@@ -54,8 +52,7 @@ def email_upload(msg):
         f.save()
         y = handle_file(data, f)
         if y:
-            send.email(user, 'Picture uploaded',
-                'uploaded', {'col': col, 'img': f})
+            send.email(user, 'Picture uploaded', 'uploaded', {'col': col, 'img': f})
             col.save()
         else:
             f.delete()

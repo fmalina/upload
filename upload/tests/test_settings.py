@@ -15,8 +15,9 @@ STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
 STATIC_ROOT = APP_ROOT + STATIC_URL
 MEDIA_ROOT = STATIC_ROOT + 'media/'
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 ABSOLUTE_URL_OVERRIDES = {
-    'auth.user': lambda u: '/', #  back to homepage after profile pic GFK test
+    'auth.user': lambda u: '/',  # back to homepage after profile pic GFK test
 }
 TEMPLATES = [
     {

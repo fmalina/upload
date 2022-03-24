@@ -5,23 +5,19 @@ HTML5 upload with photo rotate/crop tools and Django backend
     :target: https://travis-ci.org/fmalina/upload
 
 A reusable Django app to work with photo and file uploads.
-Extracted from FlatmateRooms photo upload feature
-https://www.FlatmateRooms.co.uk/post (please don't save if testing)
 
-- contains native JavaScript multifile drag and drop upload UI with instant thumbnails and progress bars, see `upload/static/upload.js <https://github.com/fmalina/upload/blob/master/upload/static/upload/upload.js>`_
+- contains vanilla JS multifile drag and drop upload UI with instant thumbnails and progress bars,
+see `upload/static/upload.js <upload/upload.js>`_
 - python/PIL backend for upload, cropping, autocrop and rotation of photos
 - seamless integration into Django projects
 - image cropping UI (uses jQuery)
 
 Thumbnails are generated using python PIL/Pillow using easy-thumbnails or
-compatible thumbnailing application such as sorl-thumbnails.
-
-Uploaded files are grouped into sortable collections, the collection model
-is swappable via settings, so uploaded files can be grouped to an Album, Page,
-Gallery, Listing etc.
+compatible thumbnail app such as sorl-thumbnails.
 
 Generic foreign key allows to associate uploads with any content object (user
-profile, staff profile, message) while also supporting swappable collections.
+profile, staff profile, message, album, page, gallery, listing).
+This way uploaded files can be grouped into collections too.
 
 upload.js builds on the following HTML5 demos:
 http://html5demos.com/dnd-upload
@@ -48,12 +44,7 @@ Add ``upload`` to your ``INSTALLED_APPS``
     )
 
 Configure your settings to suit, see upload/app_settings.py.
-You can use the collection model provided or plug your own using
-settings.py:
-
-::
-
-    UPLOAD_COLLECTION_MODEL = 'yourcastleapp.Castle'
+You can use the collection model provided.
 
 Add the ``upload`` URLs to your ``urls.py``
 
@@ -98,23 +89,17 @@ Integration
 ~~~~~~~~~~~
 Simple integration works out of the box.
 
-To upload files to your collection from your editing interface, link:
-
-::
-
-    <a href="{% url 'upload_col_edit' pk=collection.pk %}">Upload</a>
-
 To upload files for any model taking advantage of generic foreign key, link:
 
 ::
 
-    <a href="{% url 'upload_gfk_edit' app_label model(lower) object_id %}">
+    <a href="{% url 'upload_edit' app_label model(lower) object_id %}">Upload</a>
 
-Therefore a profile picture upload link might look like so:
+So a profile picture upload link might look like:
 
 ::
 
-    <a href="{% url 'upload_gfk_edit' 'auth' 'user' request.user.pk %}">..</a>
+    <a href="{% url 'upload_edit' 'auth' 'user' request.user.pk %}">Upload</a>
 
 An important view to reuse or use as inspiration in a custom integration is
 ``views_post.FilesEditView``.
@@ -162,10 +147,10 @@ If you want to use Upload to develop and run commercial projects and application
 
 Once purchased, you are granted a commercial BSD style license and all set to use Upload in your business.
 
-`Small Team License (£350) <https://fmalina.github.io/pay.html?amount=350&msg=Upload_Team_License>`_
+`Small Team License (£350) <https://unilexicon.com/fm/pay.html?amount=350&msg=Upload_Team_License>`_
 Small Team License for up to 8 developers
 
-`Organization License (£1200) <https://fmalina.github.io/pay.html?amount=1200&msg=Upload_Organisation_License>`_
+`Organization License (£1200) <https://unilexicon.com/fm/pay.html?amount=1200&msg=Upload_Organisation_License>`_
 Commercial Organization License for Unlimited developers
 
 Open source license

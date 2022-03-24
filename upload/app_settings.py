@@ -1,8 +1,5 @@
 from django.conf import settings
 
-# custom model that collects uploaded albums, file collections
-UPLOAD_COLLECTION_MODEL = getattr(settings, 'UPLOAD_COLLECTION_MODEL',
-                                            'upload.Collection')
 # root path where files get uploaded on the server
 UPLOAD_ROOT = getattr(settings, 'UPLOAD_ROOT', settings.MEDIA_ROOT)
 

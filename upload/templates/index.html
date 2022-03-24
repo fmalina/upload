@@ -8,5 +8,5 @@
         <li><a href="{{ col.get_absolute_url }}">album #{{ col.pk }}</a></li>
     {% endfor %}
     </ul>
-    <a href="{% url 'upload_col' %}">+ upload album</a>
+    <a href="{% url 'upload' 'upload' 'collection' %}">+ upload album</a>
 {% endblock %}
