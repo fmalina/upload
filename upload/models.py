@@ -72,13 +72,16 @@ class File(models.Model):
 
 
 class Collection(models.Model):
-    """Test collection model. One can attach uploads to any model using GFK
-    but implementing following models on that model may be necessary"""
+    """
+    Test collection model. One can attach uploads to any model using GFK
+    but implementing following methods on that model may be necessary
+    """
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     file_set = GenericRelation(File)
 
     def is_editable_by(self, user):
-        """Permission check that each collection_model has to implement.
+        """
+        Permission check that each collection_model has to implement.
         Here only collection owner or trusted staff users can upload and edit.
         """
         if user.pk == self.user_id or user.is_staff:
@@ -86,7 +89,8 @@ class Collection(models.Model):
         return False
 
     def crop(self):
-        """Thumbnail cropping rules each collection_model needs in place.
+        """
+        Thumbnail cropping rules each collection_model needs in place.
         One can define conditional rules based on type of collection.
         E.g.: .crop() can return "smart" for landscapes or ",0" for profile pics.
         See cropping options docs of the thumbnail app.

@@ -1,5 +1,6 @@
 def spoonfeed(qs, func, chunk=1000, start=0):
-    """ Chunk up a large queryset and run func on each item.
+    """
+    Chunk up a large queryset and run func on each item.
 
     Works with automatic primary key fields.
 

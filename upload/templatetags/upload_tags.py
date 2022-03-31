@@ -6,7 +6,6 @@ register = Library()
 
 @register.filter
 def fixurl(path):
-    """Fix common problems with easy_thumbnail generated thumbnail URLs
-    """
+    """Fix common problems with easy_thumbnail generated URLs"""
     return path.replace(settings.STATIC_ROOT, '/')\
                .replace('media/media', 'media')

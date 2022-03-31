@@ -2,7 +2,8 @@ from PIL import Image, ImageChops
 
 
 def autocrop(im, fuzz=0.1):
-    """Get the border colour from the top left pixel, using getpixel.
+    """
+    Get the border colour from the top left pixel, using getpixel.
     Subtracts a scalar from the differenced image, this is a quick way
     of saturating all values under 100, 100, 100 to zero to remove any fuzz
     resulting from compression.
