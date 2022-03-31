@@ -3,6 +3,7 @@ from django.conf import settings
 from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
 from django.contrib.contenttypes.models import ContentType
 from django.shortcuts import get_object_or_404
+from django.utils import timezone
 from upload import app_settings
 from datetime import datetime
 import os.path
@@ -28,8 +29,8 @@ class File(models.Model):
                                      on_delete=models.PROTECT)
     object_id = models.PositiveIntegerField(blank=True, null=True)
 
-    updated_at = models.DateTimeField(default=datetime.now, editable=False)
-    created_at = models.DateTimeField(default=datetime.now, editable=False)
+    updated_at = models.DateTimeField(default=timezone.now, editable=False)
+    created_at = models.DateTimeField(default=timezone.now, editable=False)
 
     def base_path(self):
         folder = 'tmp'
@@ -40,7 +41,8 @@ class File(models.Model):
         return f'{folder}/{self.pk}.jpg'
 
     def path(self):
-        return app_settings.UPLOAD_ROOT + self.base_path()
+        if self.pk:
+            return app_settings.UPLOAD_ROOT + self.base_path()
 
     def url(self):
         return settings.MEDIA_URL + self.base_path() +\
