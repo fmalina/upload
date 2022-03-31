@@ -45,7 +45,7 @@ def email_upload(msg, col_model=Collection):
         data = part.get_payload(decode=True)
         fn = part.get_filename()
         fn = fn[:60] if fn else ''
-        f = File(col=col, fn=fn)
+        f = File(content_object=col, fn=fn)
         f.alt = f.fn.lower()
         for r in alt_blacklist:
             f.alt = f.alt.replace(r, '')

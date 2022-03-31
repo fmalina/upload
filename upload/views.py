@@ -18,7 +18,7 @@ def upload(request, app_label=None, model=None, object_id=None):
     data = request.FILES.get('file')
     if data:
         f = File(fn=data.name[:60])
-        obj = get_content_object(app_label, model, object_id)
+        c_type, obj = get_content_object(app_label, model, object_id)
         if not is_permitted(request.user, obj):
             return HttpResponse('not permitted')
         f.content_object = obj
