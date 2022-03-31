@@ -19,7 +19,8 @@ def load_profile_image(account):
             return
 
     if account.provider == 'facebook':
-        url = FB_API + '%s/picture?height=500' % account.extra_data['id']
+        account_id = account.extra_data['id']
+        url = f"{FB_API}{account_id}/picture?height=500"
 
     f = File(fn='', alt='me', pos=99, col=None)
     f.save()

@@ -18,12 +18,12 @@ def email_upload(msg, col_model=Collection):
     Confirmation of successful upload sent just in case the email was spoofed.
     As this is not an iOS app, uploads will also work for devices such as
         Nokia S40 and S60 devices.
-    
+
     Gmail filter:
         to:(upload email)
         ...label "Process/Uploads"
     """
-    alt_blacklist = '.jpg .jpeg .png img image photo screenshot - _ \
+    alt_stopwords = '.jpg .jpeg .png img image photo screenshot - _ \
                     0 1 2 3 4 5 6 7 8 9'.split()
     if not msg.is_multipart():
         return 'No attachement.'
@@ -36,7 +36,7 @@ def email_upload(msg, col_model=Collection):
         return 'Sender is not a registered user.'
     col = col_model.objects.filter(user=user).last()
     if not col:
-        return 'User has no advert/photo collection.'
+        return 'User has no listing/photo collection.'
     for part in msg.walk():
         if part.get_content_maintype() == 'multipart':
             continue
@@ -47,7 +47,7 @@ def email_upload(msg, col_model=Collection):
         fn = fn[:60] if fn else ''
         f = File(content_object=col, fn=fn)
         f.alt = f.fn.lower()
-        for r in alt_blacklist:
+        for r in alt_stopwords:
             f.alt = f.alt.replace(r, '')
         f.save()
         y = handle_file(data, f)

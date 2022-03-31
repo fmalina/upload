@@ -18,7 +18,7 @@ from upload.models import File
 
 
 def get_missing_file_locally(file):
-    url = 'https://' + settings.DOMAIN + file.url()
+    url = f'https://{settings.DOMAIN}{file.url()}'
     get_missing_file(file, url)
 
 

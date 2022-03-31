@@ -108,7 +108,8 @@ var Up = {
 			if(Up.tests.formdata){
 				var data = new FormData();
 				var token = 'csrfmiddlewaretoken';
-				data.append(token, 					document.forms.namedItem('upload_form')[token].value);
+				var csrf_val = document.forms.namedItem('upload_form')[token].value;
+				data.append(token, csrf_val);
 				data.append('file', files[i]);
 				qs[i] = Up.post(i, data);
 			}
