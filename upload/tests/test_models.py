@@ -22,4 +22,4 @@ class FileTestCase(TestCase):
         f = File.objects.first()
         self.assertEqual(f.pk, 1)
         self.assertEqual(f.alt, 'Frank')
-        self.assertTrue(f.path().endswith('upload/static/media/0/1/1.jpg'))
+        self.assertTrue(f.path().endswith('static/media/0/1/1.jpg'))
