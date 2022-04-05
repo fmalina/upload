@@ -1,3 +1,6 @@
+from tqdm import tqdm
+
+
 def spoonfeed(qs, func, chunk=1000, start=0):
     """
     Chunk up a large queryset and run func on each item.
@@ -10,9 +13,12 @@ def spoonfeed(qs, func, chunk=1000, start=0):
     >>> spoonfeed(Spam.objects.all(), nom_nom)
     """
     end = qs.order_by('pk').last()
+    progressbar = tqdm(total=qs.count())
     if not end:
         return
     while start < end.pk:
         for o in qs.filter(pk__gt=start, pk__lte=start+chunk):
             func(o)
+            progressbar.update(1)
         start += chunk
+    progressbar.close()
