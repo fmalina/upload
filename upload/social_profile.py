@@ -22,7 +22,7 @@ def load_profile_image(account):
         account_id = account.extra_data['id']
         url = f"{FB_API}{account_id}/picture?height=500"
 
-    f = File(fn='', alt='me', pos=99, col=None)
+    f = File(fn='', alt='me', pos=99)
     f.save()
     get_missing_file(f, url)
     return f
