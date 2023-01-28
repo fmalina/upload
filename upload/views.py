@@ -9,6 +9,8 @@ from PIL import Image
 
 
 def is_permitted(user, obj):
+    if obj is None:
+        return True
     if obj and hasattr(obj, 'is_editable_by') and obj.is_editable_by(user):
         return True
     return False
