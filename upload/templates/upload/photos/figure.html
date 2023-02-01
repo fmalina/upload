@@ -1,10 +1,8 @@
 {% load thumbnail %}
-{% load upload_tags %}
 <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
 	<a href="{{ img.url }}?{{ img.short_hash }}" itemprop="contentUrl" data-size="{{ img.w }}x{{ img.h }}">
-		{% thumbnail img.path size crop=col.crop as t %}
-		<img src="{{ t.url|fixurl }}?{{ img.short_hash }}" itemprop="thumbnail"
-			width="{{ t.width }}" height="{{ t.height }}" alt="{{ img.alt }}" />
+		{% thumbnail img.path size crop=col.crop as thumb %}
+		<img src="{{ thumb }}?{{ img.short_hash }}" itemprop="thumbnail" alt="{{ img.alt }}" />
 	</a>{% if img.alt %}
 	<figcaption itemprop="caption description">{{ img.alt }}</figcaption>
 	{% endif %}

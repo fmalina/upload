@@ -1,1 +1,1 @@
-{% load thumbnail upload_tags %}{% thumbnail path 180x180 crop=crop as t %}{'id':{{ id }},'url':'{{ t.url|fixurl }}'}
+{% load thumbnail %}{% thumbnail path 'medium' crop=crop as thumb %}{'id':{{ id }},'url':'{{ thumb }}'}

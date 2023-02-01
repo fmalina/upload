@@ -63,10 +63,7 @@ def edit(request, pk, angle=0):
             '270': Image.ROTATE_270
         }[angle]).save(p)
         save_sizes(f)
-        return render(request, 'upload/reload-thumbnails.html', {
-            'img': f,
-            'crop': crop
-        })
+        return HttpResponse('rotated')
     else:  # or handle cropping
         form = CropForm(request.POST or None)
         if form.is_valid():

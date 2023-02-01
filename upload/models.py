@@ -94,8 +94,7 @@ class Collection(models.Model):
         """
         Thumbnail cropping rules each collection_model needs in place.
         One can define conditional rules based on type of collection.
-        E.g.: .crop() can return "smart" for landscapes or ",0" for profile pics.
-        See cropping options docs of the thumbnail app.
+        E.g.: .crop() can return "smart/center" for landscapes or "north" for profile pics
         """
         return 'smart'
 

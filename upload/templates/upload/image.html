@@ -1,11 +1,9 @@
 {% load thumbnail %}
-{% load upload_tags %}
 <div class="upload__image">
-    {% if i.path %}{% thumbnail i.path 180x180 crop=col.crop as thumb %}{% endif %}
     <div class="upload__image__wrap">
         <span class="upload__progress_bar"><i></i></span>
-        {% if i.path %}{% thumbnail i.path 180x180 crop=col.crop as thumb %}{% endif %}
-        <img class="upload__image__thumb" src="{{ thumb.url|fixurl }}?{{ i.short_hash }}">
+        {% if i.path %}{% thumbnail i.path 'medium' crop='center' as thumb %}{% endif %}
+        <img class="upload__image__thumb" src="{{ thumb }}?{{ i.short_hash }}">
     </div>
     <div class="upload__tools__bg"></div>
     {% with pk=i.id.value|default_if_none:0 %}

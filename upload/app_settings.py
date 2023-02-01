@@ -12,3 +12,9 @@ UPLOAD_FILL_ALPHA = getattr(settings, 'UPLOAD_FILL_ALPHA', (255, 255, 255))
 # email upload features
 UPLOAD_IMAP_ENABLED = getattr(settings, 'UPLOAD_IMAP_ENABLED', False)
 UPLOAD_IMAP_EMAIL = getattr(settings, 'UPLOAD_IMAP_EMAIL', 'upload@example.com')
+UPLOAD_THUMB_SIZES = getattr(settings, 'UPLOAD_THUMB_SIZES', {
+    "tiny": "50x50",
+    "small": "100x100",
+    "medium": "200x200",
+    "large": "400x400",
+})

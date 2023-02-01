@@ -1,6 +1,5 @@
 {% load thumbnail %}
 {% load static %}
-{% load upload_tags %}
 <!DOCTYPE HTML>
 <html>
 <head>
@@ -65,10 +64,9 @@ function close_window(){
     <div class="image-decorator">
         <img id="crop-me" src="{{ img.url }}?{% now 'U' %}" alt="">
     </div>
-    {% thumbnail img.path 180x180 crop=crop as thumb %}
+    {% thumbnail img.path 'medium' crop=crop as thumb %}
     <p>Thumbnail: <br>
-        <img height="50" width="50"
-            src="{{ thumb.url|fixurl }}?{% now 'U' %}" alt="">
+        <img height="50" width="50" src="{{ thumb }}?{% now 'U' %}" alt="">
 </div>
 </body>
 </html>

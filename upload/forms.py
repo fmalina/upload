@@ -2,9 +2,12 @@ from django import forms
 from upload.models import File, make_dir
 from upload import app_settings
 from upload.utils.imaging import autocrop
+from upload.templatetags.thumbnail import thumbnail
 from PIL import Image
 from PIL.ExifTags import TAGS
 import hashlib
+import pathlib
+import glob
 import os
 
 # soft rotation and flip codes
@@ -72,6 +75,16 @@ class FileForm(forms.ModelForm):
 
 
 def save_sizes(f):
+    def delete_thumbnails(p):
+        p = pathlib.Path(p)
+        thumbs = str(p.with_stem(p.stem + '*thumb*'))
+        for thumb in glob.glob(thumbs):
+            os.remove(thumb)
+
+    def create_thumbnails(p):
+        for size_name, size in app_settings.UPLOAD_THUMB_SIZES.items():
+            thumbnail(p, size_name)
+
     try:
         im = Image.open(f.path())
     except FileNotFoundError:
@@ -79,6 +92,8 @@ def save_sizes(f):
     f.w, f.h = im.size
     f.hash = hashlib.sha1(im.tobytes()).hexdigest()
     f.save()
+    delete_thumbnails(f.path())
+    create_thumbnails(f.path())
 
 
 def handle_file(data, file_obj):
