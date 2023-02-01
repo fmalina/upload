@@ -9,6 +9,8 @@ register = template.Library()
 
 @register.simple_tag
 def thumbnail(path, size_name='medium', crop='center'):
+    if not path:
+        return
     size = app_settings.UPLOAD_THUMB_SIZES[size_name]
     new_path = path.replace('.', f'-thumb-{size_name}-{crop}.')
     if not os.path.exists(new_path):
