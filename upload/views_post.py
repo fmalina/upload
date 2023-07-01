@@ -15,6 +15,7 @@ def get_object_form(c_type):
     class _ObjectForm(ModelForm):
         class Meta:
             model = model_class
+            fields = []
             exclude = ['user']
     return _ObjectForm
 
