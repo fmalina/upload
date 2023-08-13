@@ -47,7 +47,7 @@ def add_files(obj, urls_alts):
     """
     for url, alt in urls_alts:
         fn = url.split('/')[-1]
-        file = File(alt=alt, col=obj, fn=fn)
+        file = File(alt=alt, content_object=obj, fn=fn)
         file.save()
         get_missing_file(file, url)
         try:
