@@ -2,9 +2,8 @@
 
 Reusable web app to work with file and photo uploads.
 
-- contains vanilla JS multifile drag and drop upload UI with instant
-thumbnails and progress bars, using the W3C File API see
-[upload/static/upload.js](upload/upload.js)
+- contains JS multifile drag and drop upload UI with instant
+thumbnails and progress bars [upload/static/upload.js](upload/upload.js)
 - python/PIL backend for upload, cropping, autocrop and rotation of photos
 - seamless integration into Django projects
 - image cropping UI (uses jQuery)
