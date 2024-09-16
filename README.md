@@ -1,4 +1,4 @@
-# HTML5 upload with photo rotate/crop tools and Django backend
+# Upload with photo rotate/crop tools and python backend
 
 A reusable Django app to work with photo and file uploads.
 
@@ -15,10 +15,7 @@ Generic foreign key allows to associate uploads with any content object
 (user profile, staff profile, message, album, page, gallery, listing).
 This way uploaded files can be grouped into collections too.
 
-upload.js builds on the following HTML5 demos:
-<http://html5demos.com/dnd-upload> <http://html5demos.com/file-api>
-upload.js uses the W3C File API
-<https://dev.opera.com/articles/w3c-file-api/>
+upload.js built in Drag and drop, automatic upload usin the W3C File API.
 
 ## Installation (into a Django project)
 
