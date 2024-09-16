@@ -52,7 +52,6 @@ MIDDLEWARE = (
 ROOT_URLCONF = 'upload.tests.test_urls'
 INSTALLED_APPS = (
     'upload',
-    'easy_thumbnails',
     'django.contrib.staticfiles',
 
     # auth (for user uploaded collections)
