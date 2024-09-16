@@ -8,8 +8,7 @@ thumbnails and progress bars [upload/static/upload.js](upload/upload.js)
 - seamless integration into Django projects
 - image cropping UI (uses jQuery)
 
-Thumbnails are generated using python PIL/Pillow using easy-thumbnails
-or compatible thumbnail app such as sorl-thumbnails.
+Thumbnails are generated using imagemagick.
 
 Generic foreign key allows to associate uploads with any content object
 (user profile, staff profile, message, album, page, gallery, listing).
