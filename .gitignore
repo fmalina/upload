@@ -1,6 +1,4 @@
 __pycache__
-*.pyc
 upload.db
-upload/static/media/tmp
-upload/static/media/0
+upload/static/media/*
 .idea
