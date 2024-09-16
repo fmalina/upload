@@ -1,12 +1,13 @@
 # Upload with photo rotate/crop tools and python backend
 
-A reusable Django app to work with photo and file uploads.
+Reusable web app to work with file and photo uploads.
 
-\- contains vanilla JS multifile drag and drop upload UI with instant
-thumbnails and progress bars, see
-[upload/static/upload.js](upload/upload.js) - python/PIL backend for
-upload, cropping, autocrop and rotation of photos - seamless integration
-into Django projects - image cropping UI (uses jQuery)
+- contains vanilla JS multifile drag and drop upload UI with instant
+thumbnails and progress bars, using the W3C File API see
+[upload/static/upload.js](upload/upload.js)
+- python/PIL backend for upload, cropping, autocrop and rotation of photos
+- seamless integration into Django projects
+- image cropping UI (uses jQuery)
 
 Thumbnails are generated using python PIL/Pillow using easy-thumbnails
 or compatible thumbnail app such as sorl-thumbnails.
@@ -15,7 +16,6 @@ Generic foreign key allows to associate uploads with any content object
 (user profile, staff profile, message, album, page, gallery, listing).
 This way uploaded files can be grouped into collections too.
 
-upload.js built in Drag and drop, automatic upload usin the W3C File API.
 
 ## Installation (into a Django project)
 
