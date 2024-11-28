@@ -1,10 +1,6 @@
-[build-system]
-requires = ["setuptools", "wheel"]
-build-backend = "setuptools.build_meta"
-
 [project]
 name = "upload"
-version = "2.1.0"  # Replace with your actual version number
+version = "2.1.0"
 description = "HTML5 Upload library with Django backend and image manipulation tools"
 readme = "README.md"
 license = { text = "BSD License" }
@@ -34,3 +30,7 @@ include-package-data = true
 
 [tool.setuptools.package-data]
 "upload" = ["templates/*", "static/*"]
+
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
