@@ -19,7 +19,7 @@ This way uploaded files can be grouped into collections too.
 
 To get the latest version from GitHub
 ```bash
-pip3 install -e git+git://github.com/fmalina/upload.git#egg=upload
+pip3 install -e git+https://github.com/fmalina/upload.git#egg=upload
 ```
 Add `upload` to your `INSTALLED_APPS`
 ```python
